@@ -1,7 +1,7 @@
 %privilegiar sempre o meio de entrega mais ecológico
 %meios de transporte: bicicletas, motos e carros
 
-estafeta([encomenda(Peso, Volume, transporte(Transporte), Prazo, rua(Rua,freguesia(Freguesia)), cliente(Cliente), Dia, Entregue), Classificacao]).
+estafeta([encomenda(Peso, Volume, transporte(Transporte), Prazo, rua(Rua,freguesia(Freguesia)), cliente(Cliente), Dia, Entregue, Classificacao)]).
 %cliente([encomenda(estafeta(Estafeta),Peso, Volume, transporte(Transporte), Prazo, rua(Rua,freguesia(Freguesia)), cliente(Cliente), Dia, Entregue)]).
 %preco(encomenda(estafeta(Estafeta),Peso, Volume, transporte(Transporte), Prazo, rua(Rua,freguesia(Freguesia)), cliente(Cliente), Dia, Entregue)).
 
@@ -56,7 +56,7 @@ uma_encomenda_por_estafeta(estafeta(LEncomendaE),[HEncomenda|TEncomenda],Cliente
     pertence(HEncomenda,LEncomendaE),
     uma_encomenda_por_estafeta(estafeta(LEncomendaE),TEncomenda,Cliente).
 
-cliente(encomenda(_,_,_,_,_,Cliente,_,_),Cliente).
+cliente(encomenda(_,_,_,_,_,Cliente,_,_,_),Cliente).
 
 estafetas_entregaram3(LEstafeta,[]).
 estafetas_entregaram3(LEstafeta,[HEncomenda|TEncomenda]) :-
@@ -78,7 +78,7 @@ pertence( X,[Y|L] ) :-
 %identificar os clientes servidos por um determinado estafeta;
 
 clientes_servidos([],estafeta([])).
-clientes_servidos(LCliente,estafeta([encomenda(_,_,_,_,_,C,_,_)|Tencomenda])) :-
+clientes_servidos(LCliente,estafeta([encomenda(_,_,_,_,_,C,_,_,_)|Tencomenda])) :-
     pertence(C,LCliente),
     clientes_servidos(LCliente,estafeta(Tencomenda)).
 
@@ -86,10 +86,14 @@ clientes_servidos(LCliente,estafeta([encomenda(_,_,_,_,_,C,_,_)|Tencomenda])) :-
 %calcular o valor faturado pela Green Distribution num determinado dia;
 
 faturado(0,Dia,[]).
-faturado(Valor,Dia,[HEstafeta|TEstafeta]) :-
-    faturado(Valor,Dia,TEstafeta),
-    faturado_estafeta(Valor1,Dia,HEstafeta),
-    Valor is Valor1.
+faturado(Valor,Dia,[estafeta(LEncomenda)|TEstafeta]) :-
+    faturado(Valor2,Dia,TEstafeta),
+    faturado_estafeta(Valor1,Dia,LEncomenda),
+    Valor is Valor1 + Valor2.
+
+faturado_estafeta(0,Dia,[]).
+faturado_estafeta(Valor,Dia,[encomenda(Peso, Volume, transporte(Transporte), Prazo,_,_,Dia,_,_)|TEncomenda]) :-
+    faturado_estafeta()
 %%%FALTA ACABAR
 
 %------------------------------------------------------------------------------------------------------------------------------------------------
@@ -116,9 +120,9 @@ faturado(Valor,Dia,[HEstafeta|TEstafeta]) :-
 %calcular o peso total transportado por estafeta num determinado dia.
 
 peso_total(0, []).
-peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,Dia,_)|Tencomenda])) :-
+peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,Dia,_,_)|Tencomenda])) :-
     peso_total(Peso1, estafeta(Tencomenda)),
     Peso is Peso1 + P.
-peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,D,_)|Tencomenda])) :-
+peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,D,_,_)|Tencomenda])) :-
     Dia \= D,
     peso_total(Peso, estafeta(Tencomenda)).
