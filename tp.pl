@@ -1,6 +1,6 @@
 %classificação (-1) significa que não foi entregue
 %o prazo de entrega é em horas
-estafeta([encomenda_entregue(Peso, Volume, Transporte, Prazo, rua(Rua,Freguesia), cliente(Cliente), tempo(Dia,Hora), Classificacao)]).
+estafeta(Nome,[encomenda(Peso, Volume, Transporte, Prazo, rua(Rua,Freguesia), cliente(Cliente), tempo(Dia,Hora), Classificacao)]).
 
 velocidade(bicicleta, 10).
 velocidade(mota, 35).
@@ -16,9 +16,6 @@ ecologicidade(carro, 0).
 
 %aqui vai estar o conjunto de freguesias e, dentro de cada freguesia, as suas ruas
 
-%encomenda_mais_ecologica(E1(_,_,),E2) :-
-
-
 
 %------------------------------------------------------------------------------------------------------------------------------------------------
 %identificar o estafeta que utilizou mais vezes um meio de transporte mais ecológico;
@@ -30,10 +27,13 @@ estafeta_mais_ecologico(Estafeta,LEstafeta) :-
     pertence(Estafeta,LEstafeta),
     estafeta_mais_ecologico2(Estafeta,LEstafeta).
 
-estafeta_mais_ecologico2(estafeta(LEncomenda1),[estafeta(LEncomenda2)|TEstafeta]) :-
+estafeta_mais_ecologico2(estafeta(_,LEncomenda1),[estafeta(_,LEncomenda2)]) :-
+    mais_ecologico(N,LEncomenda1,LEncomenda2),
+    N >= 0.
+estafeta_mais_ecologico2(estafeta(_,LEncomenda1),[estafeta(_,LEncomenda2)|TEstafeta]) :-
     mais_ecologico(N,LEncomenda1,LEncomenda2),
     N >= 0,
-    estafeta_mais_ecologico2(estafeta(LEncomenda1),TEstafeta).
+    estafeta_mais_ecologico2(estafeta(_,LEncomenda1),TEstafeta).
 
 mais_ecologico(0,[],[]).
 mais_ecologico(N,[encomenda(_,_,tr1,_,_,_,_,_)|TEncomenda],[]) :-
@@ -79,9 +79,8 @@ estafetas_entregaram3(LEstafeta,[]).
 estafetas_entregaram3(LEstafeta,[HEncomenda|TEncomenda]) :-
     um_estafeta_por_encomenda(LEstafeta,HEncomenda),
     estafetas_entregaram3(LEstafeta,TEncomenda).
-
-um_estafeta_por_encomenda([],Encomenda) :- false.
-um_estafeta_por_encomenda([estafeta(LEncomendaE)|TEstafeta],Encomenda) :-
+    
+um_estafeta_por_encomenda([estafeta(_,LEncomendaE)|TEstafeta],Encomenda) :-
     pertence(Encomenda,LEncomendaE).
 um_estafeta_por_encomenda([HEstafeta|TEstafeta],Encomenda) :-
     um_estafeta_por_encomenda(TEstafeta,Encomenda).
@@ -97,7 +96,7 @@ pertence( X,[Y|L] ) :-
 % todos os clientes da lista de encomendas têm de estar na lista de clientes
 % todos os clientes da lista de clientes têm de estar na lista de encomendas
 
-clientes_servidos(LCliente,estafeta(LEncomenda)) :-
+clientes_servidos(LCliente,estafeta(_,LEncomenda)) :-
     clientes_servidos1(LCliente,LEncomenda),
     clientes_servidos2(LCliente,LEncomenda).
 
@@ -112,7 +111,8 @@ clientes_servidos2([HCliente|TCliente],LEncomenda) :-
     clientes_servidos2(TCliente,LEncomenda).
 
 pertence_lista_encomendas(Cliente,[encomenda(_,_,_,_,_,Cliente,_,_)|Tencomenda]).
-pertence_lista_encomendas(Cliente,[encomenda(_,_,_,_,_,Cliente,_,_)|Tencomenda]) :-
+pertence_lista_encomendas(Cliente,[encomenda(_,_,_,_,_,C,_,_)|Tencomenda]) :-
+    Cliente \= C,
     pertence_lista_encomendas(Cliente,TEncomenda).
 
 %------------------------------------------------------------------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ zona_maior_entrega_freguesia(rua(_,N),[rua(_,N2)|TRua]) :-
 %------------------------------------------------------------------------------------------------------------------------------------------------
 %calcular a classificação média de satisfação de cliente para um determinado estafeta;
 
-satisfação(Media,Cliente,estafeta(LEncomenda)) :-
+satisfação(Media,Cliente,estafeta(_,LEncomenda)) :-
     satisfacao_aux(Media,N,Cliente,LEncomenda),
     numero_encomendas(N,Cliente,LEncomenda).
 
@@ -244,7 +244,7 @@ pertence_tempo(tempo(DiaI,HoraI),tempo(DiaF,HoraF),tempo(DiaF,Hora)) :-
 %identificar o número total de entregas pelos estafetas, num determinado intervalo de tempo;
 
 entregas_totais(0,_,_,[]).
-entregas_totais(Valor,Inicio,Fim,[estafeta(LEncomenda)|TEstafeta]) :-
+entregas_totais(Valor,Inicio,Fim,[estafeta(_,LEncomenda)|TEstafeta]) :-
     entregas_totais_estafeta(Valor1,Inicio,Fim,LEncomenda),
     entregas_totais(Valor2,Inicio,Fim,TEstafeta),
     Valor is Valor1 + Valor2.
@@ -293,9 +293,9 @@ entregues_ou_nao_estafeta(Entregues,NaoEntregues,Inicio,Fim,[encomenda(_,_,_,_,_
 %calcular o peso total transportado por estafeta num determinado dia.
 
 peso_total(0, []).
-peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,tempo(Dia,_),_)|Tencomenda])) :-
-    peso_total(Peso1, estafeta(Tencomenda)),
+peso_total(Peso, Dia, estafeta(_,[encomenda(P,_,_,_,_,_,tempo(Dia,_),_)|Tencomenda])) :-
+    peso_total(Peso1, estafeta(_,Tencomenda)),
     Peso is Peso1 + P.
-peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,tempo(D,_),_)|Tencomenda])) :-
+peso_total(Peso, Dia, estafeta(_,[encomenda(P,_,_,_,_,_,tempo(D,_),_)|Tencomenda])) :-
     Dia \= D,
-    peso_total(Peso, estafeta(Tencomenda)).
+    peso_total(Peso, estafeta(_,Tencomenda)).
