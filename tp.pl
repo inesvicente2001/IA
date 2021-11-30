@@ -1,6 +1,6 @@
 %classificação (-1) significa que não foi entregue
 %o prazo de entrega é em horas
-%estafeta([encomenda_entregue(Peso, Volume, Transporte, Prazo, rua(Rua,Freguesia), cliente(Cliente), tempo(Dia,Hora), Classificacao)]).
+estafeta([encomenda(Peso, Volume, Transporte, Prazo, rua(Rua,Freguesia), Cliente, tempo(Dia,Hora), Classificacao)]).
 
 velocidade(bicicleta, 10).
 velocidade(mota, 35).
@@ -61,12 +61,12 @@ estafetas_entregaram(LEstafeta,LEncomenda,Cliente) :-
     estafetas_entregaram2(LEstafeta,LEncomenda,Cliente),
     estafetas_entregaram3(LEstafeta,LEncomenda).
 
-%estafetas_entregaram2([],[],Cliente).
+estafetas_entregaram2([],[],_).
 estafetas_entregaram2([HEstafeta|TEstafeta],LEncomenda,Cliente) :-
     uma_encomenda_por_estafeta(LEncomenda,HEstafeta,Cliente),
     estafetas_entregaram2(TEstafeta,LEncomenda,Cliente).
 
-%uma_encomenda_por_estafeta(LEncomenda,[],Cliente).
+uma_encomenda_por_estafeta(LEncomenda,[],_).
 uma_encomenda_por_estafeta(LEncomendaE,[HEncomenda|TEncomenda],Cliente) :-
     cliente(HEncomenda,Cliente),
     pertence(HEncomenda,LEncomendaE),
@@ -86,7 +86,7 @@ um_estafeta_por_encomenda([estafeta(LEncomendaE)|TEstafeta],Encomenda) :-
     \+ (pertence(Encomenda,LEncomendaE)),
     um_estafeta_por_encomenda(TEstafeta,Encomenda).
 
-%pertence( X,[X|L] ).
+pertence( X,[X|_] ).
 pertence( X,[Y|L] ) :-
     X \= Y,
     pertence( X,L ).
@@ -119,7 +119,7 @@ pertence_lista_encomendas(Cliente,[encomenda(_,_,_,_,_,C,_,_)|TEncomenda]) :-
 %------------------------------------------------------------------------------------------------------------------------------------------------
 %calcular o valor faturado pela Green Distribution num determinado dia;
 
-%faturado(0,Dia,[]).
+faturado(0,_,[]).
 faturado(Valor,Dia,[estafeta(LEncomenda)|TEstafeta]) :-
     faturado(Valor1,Dia,TEstafeta),
     faturado_estafeta(Valor2,Dia,LEncomenda),
@@ -127,7 +127,7 @@ faturado(Valor,Dia,[estafeta(LEncomenda)|TEstafeta]) :-
 
 %O preço do serviço de entrega deverá ter em conta para além da encomenda, pelo menos, o prazo de entrega e meio de transporte utlizado.
 
-%faturado_estafeta(0,Dia,[]).
+faturado_estafeta(0,_,[]).
 faturado_estafeta(Valor,Dia,[encomenda(_,_,_,_,_,_,tempo(Dia,_),_)|TEncomenda]) :-
     faturado_estafeta(Valor1,Dia,TEncomenda),
     preco_encomenda(Valor2,encomenda(_,_,_,_,_,_,tempo(Dia,_),_)),
@@ -147,7 +147,7 @@ preco_encomenda(Valor,encomenda(Peso, Volume, mota, Prazo,_,_,_,_)) :-
     Valor = (15 * Peso * Volume) / Prazo.
 preco_encomenda(Valor,encomenda(Peso, Volume, bicicleta, Prazo,_,_,_,_)) :-
     Valor = (10 * Peso * Volume) / Prazo.
-%preco_encomenda(0,encomenda(Peso, Volume, carro, Prazo,_,_,_,(-1))).
+preco_encomenda(0,encomenda(_,_,_,_,_,_,_,(-1))).
 %%%REVER VALORES PARA VER SE FAZEM SENTIDO
 
 %------------------------------------------------------------------------------------------------------------------------------------------------
@@ -177,14 +177,14 @@ satisfação(Media,Cliente,estafeta(LEncomenda)) :-
     satisfacao_aux(Media,N,Cliente,LEncomenda),
     numero_encomendas(N,Cliente,LEncomenda).
 
-%satisfacao_aux(0,0,Cliente,[]).
+satisfacao_aux(0,0,_,[]).
 satisfacao_aux(Media,N,Cliente,[encomenda(_,_,_,_,_,Cliente,_,Classificacao)|TEncomenda]) :-
     satisfacao_aux(Media1,N1,Cliente,TEncomenda),
     N is N1 + 1,
     Media is ((Media1 * N1 + Classificacao)/N).
-%satisfacao_aux(Media,N,Cliente,[encomenda(_,_,_,_,_,C,_,Classificacao)|TEncomenda]) :-
-%    Cliente \= C,
-%    satisfacao_aux(Media,N,Cliente,TEncomenda).
+satisfacao_aux(Media,N,Cliente,[encomenda(_,_,_,_,_,C,_,_)|TEncomenda]) :-
+    Cliente \= C,
+    satisfacao_aux(Media,N,Cliente,TEncomenda).
 
 numero_encomendas(0,_,[]).
 numero_encomendas(N,Cliente,[encomenda(_,_,_,_,_,C,_,_)|TEncomenda]) :-
@@ -294,9 +294,9 @@ entregues_ou_nao_estafeta(Entregues,NaoEntregues,Inicio,Fim,[encomenda(_,_,_,_,_
 %calcular o peso total transportado por estafeta num determinado dia.
 
 peso_total(0, []).
-peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,tempo(Dia,_),_)|Tencomenda])) :-
-    peso_total(Peso1, estafeta(Tencomenda)),
+peso_total(Peso, Dia, estafeta([encomenda(P,_,_,_,_,_,tempo(Dia,_),_)|TEncomenda])) :-
+    peso_total(Peso1, estafeta(TEncomenda)),
     Peso is Peso1 + P.
-peso_total(Peso, Dia, estafeta([encomenda(_,_,_,_,_,_,tempo(D,_),_)|Tencomenda])) :-
+peso_total(Peso, Dia, estafeta([encomenda(_,_,_,_,_,_,tempo(D,_),_)|TEncomenda])) :-
     Dia \= D,
-    peso_total(Peso, estafeta(Tencomenda)).
+    peso_total(Peso, estafeta(TEncomenda)).
