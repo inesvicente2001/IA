@@ -2,6 +2,84 @@
 %o prazo de entrega é em horas
 estafeta([encomenda(Peso, Volume, Transporte, Prazo, rua(Rua,Freguesia), Cliente, tempo(Dia,Hora), Classificacao)]).
 
+
+%clientes
+cliente(ines)
+cliente(jorge)
+cliente(miguel)
+cliente(tomas)
+cliente(marco)
+cliente(mariana)
+cliente(guilherme)
+cliente(diogo)
+cliente(goncalo)
+cliente(mariana)
+cliente(rita)
+cliente(passas)
+cliente(esperanca)
+
+
+%encomendas_entregues
+b1(encomenda(1, 1, bicicleta, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+b2(encomenda(1, 1, bicicleta, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+b3(encomenda(1, 1, bicicleta, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+m1(encomenda(1, 1, mota, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+m2(encomenda(1, 1, mota, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+m3(encomenda(1, 1, mota, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+c1(encomenda(1, 1, carro, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+c2(encomenda(1, 1, carro, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+c3(encomenda(1, 1, carro, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
+
+
+%teste query1
+e1(estafeta(joao, [b1,b2,b3])).
+e2(estafeta(pedro, [m1,m2,m3])).
+e3(estafeta(passas, [c1,c2,c3])).
+
+lestafetaq([e1, e2, e3]).
+
+velocidade(bicicleta, 10).
+velocidade(mota, 35).
+velocidade(carro, 25).
+
+capacidade(bicicleta, 5).
+capacidade(mota, 20).
+capacidade(carro, 100).
+
+ecologicidade(bicicleta, 2).
+ecologicidade(mota, 1).
+ecologicidade(carro, 0).
+
+%aqui vai estar o conjunto de freguesias e, dentro de cada freguesia, as suas ruas
+
+rua(capa, gualtar).
+rua(vicente, gualtar).
+rua(bouca, gualtar).
+rua(sol, gualtar).
+rua(fonte, gualtar).
+rua(presa, adaufe).
+rua(quintao, adaufe).
+rua(maias, adaufe).
+rua(canas, adaufe).
+rua(rochas, adaufe).
+rua(gatao, espinho).
+rua(paco, espinho).
+rua(clamor, espinho).
+rua(lameiros, espinho).
+rua(regadas, espinho).
+rua(costa, arcozelo).
+rua(aflitos, arcozelo).
+rua(presa, arcozelo).
+rua(jaca, arcozelo).
+rua(granja, arcozelo).
+rua(rio, burgaes).
+rua(alegria, burgaes).
+rua(bela, burgaes).
+rua(colonias, burgaes).
+rua(padassas, burgaes).
+velocidade(bicicleta, 10).
+velocidade(mota, 35).
+velocidade(carro, 25).
 velocidade(bicicleta, 10).
 velocidade(mota, 35).
 velocidade(carro, 25).
