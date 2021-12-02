@@ -1,19 +1,13 @@
 :- include('BaseConhecimento.pl').
 
-%----------------------------------------------QUERY1------------------------------------------------------------------------------%
-
-%query10
-
-% 1 - Testar com q1bic dia 1: 1 encomenda 
-% 2 - Testar com q1bic dia 5: 0 encomendas 
-
 ecologicidade(bicicleta, 2).
 ecologicidade(mota, 1).
 ecologicidade(carro, 0).
 
+%----------------------------------------------QUERY1------------------------------------------------------------------------------%
+
 maximo(X1/Y1, _/Y2, X1/Y1) :- Y1 >= Y2, !.
 maximo(_/Y1, X2/Y2, X2/Y2) :- Y2 > Y1, !.
-
 
 query1(Estafeta) :-
     findall(
@@ -36,14 +30,11 @@ query1(Estafeta) :-
 
 %----------------------------------------------QUERY2------------------------------------------------------------------------------%
 
-
-
 query2(LNomeEstafeta,LNomeEncomenda,Cliente) :-
     findall(
         Nome,
         (
             estafeta(Nome,Encomendas),
-            %estafetas_entregaram(estafeta(Nome,Encomendas),LNomeEncomenda,Cliente)
             findall(
                 Estafeta,
                 (
@@ -70,8 +61,6 @@ query3(Clientes, Nome) :-
         ClientesAux
     ),
     sort(ClientesAux, Clientes).
-    
-
 
 %----------------------------------------------QUERY4------------------------------------------------------------------------------%
 
@@ -94,6 +83,7 @@ preco_encomenda(Valor,Peso, Volume, mota, Prazo) :-
     Valor = (15 * Peso * Volume) / Prazo.
 preco_encomenda(Valor, Peso, Volume, bicicleta, Prazo) :-
     Valor = (10 * Peso * Volume) / Prazo.
+
 %----------------------------------------------QUERY5------------------------------------------------------------------------------%
 
 query5(ZonaMax,freguesia) :-
@@ -108,7 +98,6 @@ query5(ZonaMax,freguesia) :-
     flatten(LEncomendas, Flatten),
     aggregate(max(C,E),aggregate(count,member(E,Flatten),C),max(_, ZonaMax)).
 
-
 query5(ZonaMax,rua) :-
     findall(
         Rua,
@@ -121,32 +110,6 @@ query5(ZonaMax,rua) :-
     flatten(LEncomendas, Flatten),
     aggregate(max(C,E),aggregate(count,member(E,Flatten),C),max(_, ZonaMax)).
     
-%query5(ZonaMax,freguesia) :-
-%    findall(
-%        Freguesia/ValorZona,
-%        (
-%            findall(
-%                Nome,
-%                (
-%                    findall(
-%                        Encomendas,
-%                        (
-%                            estafeta(_, Encomendas)
-%                        ),
-%                        LEncomendas
-%                    ),
-%                    flatten(LEncomendas, LEncomenda),
-%                    member(encomenda(Nome,_,_,_,_,rua(_,Freguesia),_,_,Class), LEncomenda),
-%                    Class \= (-1)
-%                ),
-%                Valores
-%            ),
-%            length(Valores, ValorZona)
-%        ),
-%        [H|T]
-%    ),
-%    foldl(maximo, T, H, ZonaMax).
-
 %----------------------------------------------QUERY6------------------------------------------------------------------------------%
 
 query6(Media, Nome) :-
@@ -163,11 +126,8 @@ query6(Media, Nome) :-
     Length > 0,
     Media is Sum/Length.
 
-
-
-    %fazer média da lista
-
 %----------------------------------------------QUERY7------------------------------------------------------------------------------%
+
 query7(NCarro,NMota,NBicicleta,Inicio,Fim) :-
     findall(
         Nome,
@@ -204,6 +164,7 @@ query7(NCarro,NMota,NBicicleta,Inicio,Fim) :-
     length(LEntregasBicicleta,NBicicleta).
 
 %----------------------------------------------QUERY8------------------------------------------------------------------------------%
+
 pertence_tempo(tempo(AnoI,_,_,_),tempo(AnoF,_,_,_),tempo(Ano,_,_,_)) :-
     Ano > AnoI,
     Ano < AnoF.
@@ -268,6 +229,7 @@ query8(NEntregas, Inicio, Fim):-
     length(Classificacoes, NEntregas).
 
 %----------------------------------------------QUERY9------------------------------------------------------------------------------%
+
 query9(NEntregasValida, NEntregasInvalidas, Inicio, Fim):-
     findall(
         Classificacao,
@@ -292,8 +254,6 @@ query9(NEntregasValida, NEntregasInvalidas, Inicio, Fim):-
     length(Classificacoes, NEntregasValida),
     length(Classificacoes2, NEntregasInvalidas).
     
-%query10
-
 %----------------------------------------------QUERY10-----------------------------------------------------------------------------%
 
 query10(Pesos,Ano,Mes,Dia) :-
@@ -329,4 +289,3 @@ query11(ClienteMax,Inicio,Fim) :-
     ),
     flatten(LEncomendas, Flatten),
     aggregate(max(C,E),aggregate(count,member(E,Flatten),C),max(_, ClienteMax)).
-    
