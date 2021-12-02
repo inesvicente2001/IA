@@ -1,5 +1,13 @@
 :- include('BaseConhecimento.pl').
 
+
+:- dynamic cliente/2.
+:- dynamic rua/2.
+:- dynamic tempo/4.
+:- dynamic encomenda/8.
+:- dynamic estafeta/2.
+
+
 ecologicidade(bicicleta, 2).
 ecologicidade(mota, 1).
 ecologicidade(carro, 0).
@@ -180,10 +188,10 @@ pertence_tempo(tempo(AnoI,Mes,Dia,HoraI),tempo(AnoF,_,_,_),tempo(AnoI,Mes,Dia,Ho
 pertence_tempo(tempo(AnoI,_,_,_),tempo(AnoF,MesF,_,_),tempo(AnoF,Mes,_,_)) :-
     AnoF > AnoI,
     Mes < MesF.
-pertence_tempo(tempo(AnoI,_,_,_),tempo(AnoF,Mes,DiaF,_),tempo(AnoI,Mes,Dia,_)) :-
+pertence_tempo(tempo(AnoI,_,_,_),tempo(AnoF,Mes,DiaF,_),tempo(AnoF,Mes,Dia,_)) :-
     AnoF > AnoI,
     Dia < DiaF.
-pertence_tempo(tempo(AnoI,_,_,_),tempo(AnoF,Mes,Dia,HoraF),tempo(AnoI,Mes,Dia,Hora)) :-
+pertence_tempo(tempo(AnoI,_,_,_),tempo(AnoF,Mes,Dia,HoraF),tempo(AnoF,Mes,Dia,Hora)) :-
     AnoF > AnoI,
     Hora =< HoraF.
 pertence_tempo(tempo(Ano,MesI,_,_),tempo(Ano,MesF,_,_),tempo(Ano,Mes,_,_)) :-
@@ -289,3 +297,27 @@ query11(ClienteMax,Inicio,Fim) :-
     ),
     flatten(LEncomendas, Flatten),
     aggregate(max(C,E),aggregate(count,member(E,Flatten),C),max(_, ClienteMax)).
+
+
+
+add_estafeta(L,Nome,Encomenda) :-
+    findall(
+        Name,
+        estafeta(Nome,_),
+        LNome
+    ),
+    member(Nome, LNome),
+    estafeta(Nome, Package),
+    append(Package, [Encomenda], NewList),
+    retract(estafeta(Nome, Package)),
+    assertz(estafeta(Nome, NewList)).
+
+
+add_estafeta(L,Nome,Encomenda) :-
+    findall(
+        Name,
+        estafeta(Nome,_),
+        LNome
+    ),
+    not(member(Nome, LNome)),
+    assertz(estafeta(Nome,[Encomenda])).
