@@ -3,22 +3,6 @@
 estafeta([encomenda(Peso, Volume, Transporte, Prazo, rua(Rua,Freguesia), Cliente, tempo(Dia,Hora), Classificacao)]).
 
 
-%clientes
-cliente(ines)
-cliente(jorge)
-cliente(miguel)
-cliente(tomas)
-cliente(marco)
-cliente(mariana)
-cliente(guilherme)
-cliente(diogo)
-cliente(goncalo)
-cliente(mariana)
-cliente(rita)
-cliente(passas)
-cliente(esperanca)
-
-
 %encomendas_entregues
 b1(encomenda(1, 1, bicicleta, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
 b2(encomenda(1, 1, bicicleta, 1, rua(capa, Gualtar), cliente(passas), tempo(2,1), 3)).
