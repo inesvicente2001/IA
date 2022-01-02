@@ -30,7 +30,7 @@ class Encomenda:
         self.nome = nome 
         self.peso = peso
         self.volume = volume
-        self.Transporte = transporte #n sei se isto fica aqui
+        self.transporte = transporte #n sei se isto fica aqui
         self.prazo = prazo
         self.cliente = cliente
         self.localizacao = ponto_chegada
@@ -58,9 +58,7 @@ def create_graph():
     g.vs["rua"] = ["Sol", "Barros", "Nova", "Presa", "Vilar", "fds", "desisto"] #7 ruas para 7 nodos
     g.vs["freguesia"] = ["Gualtar", "Gualtar", "Gualtar", "Gualtar", "Arcozelo", "Arcozelo", "Arcozelo"] #freguesias para os 7 nodos (precisa de ser 7 ao todo)
     g.es["distancia"] = [10, 14, 40, 32, 1, 6, 43, 98, 3] #distancia dos vertices
-    #g.vs["label_dist"] = [1] * 7  # criar uma lista de 7 elementos com tudo a 1
-    #g.es["width"] = [5] * 9
-    #g.es["color"] = ["red"] * 9    
+   
     g.save("teste.graphml")
     return g
     #figure(g, layout=layout, bbox=(1000, 1000), margin=20) #funcao para mostrar o grafo
@@ -104,7 +102,7 @@ def add_vertice(freguesia, new_vertice, vertices, distancias):
     prefs = create_prefs()
     print(prefs)
 
-    plot(g, **prefs)
+    #plot(g, **prefs)
         
 #plot(g, layout=layout, bbox=(300, 300), margin=20, target=ax) # matplotlib version
 #plot(g, layout=layout)
