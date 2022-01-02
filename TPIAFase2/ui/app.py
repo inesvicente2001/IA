@@ -1,6 +1,7 @@
 import tkinter as tk
 from PaginaInicial import *
 import GrafoUI
+import AdicionarRua
 import BaseConhecimento
 
 class App(tk.Tk):
