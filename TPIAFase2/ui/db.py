@@ -5,8 +5,8 @@ from igraph import *
 import pandas as pd
 import random
 
-ruas = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/DB/SantoTirsoStreetsFinal.csv")
-conexoes = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/DB/ConexoesRuas.csv")
+ruas = pd.read_csv("/home/jorge/Uni/3ano/1sem/IA/IA-TGFase1-GRUPO21/TPIAFase2/DB/SantoTirsoStreetsFinal.csv")
+conexoes = pd.read_csv("/home/jorge/Uni/3ano/1sem/IA/IA-TGFase1-GRUPO21/TPIAFase2/DB/ConexoesRuas.csv")
 
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
@@ -88,12 +88,14 @@ def create_prefs():
     prefs = {}
     prefs["layout"] = g.layout("kk")
     prefs["vertex_label"] = g.vs["rua"] #dizer que a label dos nodos vão ser o nome das ruas(a label é o nome que aparece em baixo dos vértices no grafo)
+    prefs["vertex_label_size"] = 7
     #prefs["vertex_color"] = [color_dict[freguesia] for freguesia in g.vs["freguesia"]] #Percorres as freguesias todas do grafo e as que forem "Gualtar" vão passar a "blue" e "Arcozelo" a "pink"
     prefs["edge_label"] = g.es["distancia"] #o label de cada aresta vai ser a distancia
-    prefs["edge_width"] = 3
+    prefs["edge_label_size"] = 7
+    prefs["edge_width"] = 1
     prefs["edge_color"] = "grey" 
     prefs["margin"] = 20
-    prefs["vertex_size"] = 20
+    prefs["vertex_size"] = 10
     return prefs
     
 
