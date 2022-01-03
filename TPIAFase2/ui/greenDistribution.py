@@ -4,8 +4,6 @@ from math import *
 from argparse import ArgumentParser
 from pyswip import Prolog
 
-
-
 class App(tk.Tk):
     def __init__(self):
         #PROLOG
