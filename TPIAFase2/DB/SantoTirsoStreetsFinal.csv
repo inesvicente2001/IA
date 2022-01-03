@@ -1,698 +1,120 @@
 ,rua,freguesia
-144,Rua Miguel Torga,Agrela
-218,Rua da Boloca,Agrela
-476,Rua do Caramulo,Agrela
-658,Travessa das Fontaínhas,Agrela
-651,Travessa da Telha,Agrela
-525,Rua do Padrão,Agrela
-570,Rua dos Campinhos,Agrela
-183,Rua Rufino Cavadas,Agrela
-175,Rua Professor Hermano Padrão,Agrela
-579,Rua dos Frinjos,Agrela
-582,Rua dos Mogos,Agrela
-165,Rua Padre Manuel Jesus Gomes,Agrela
-585,Rua dos Mulatinhos,Agrela
-150,Rua Mouros,Agrela
-80,Rua Central de Redundo,Agrela
-38,Praceta Palácio da Justiça,Agrela
-594,Rua dos Velhos,Agrela
-599,Travessa 2 da Rua José Luís Dias Barbosa,Agrela
-376,Rua de Gonçalves Zarco,Agrela
-85,Rua Dom Nuno Álvares Pereira,Agrela
-619,Travessa Rua A da Sobreira,Agrela
-359,Rua de Cence,Agrela
-605,Travessa 4 de Abril de 1955,Agrela
-259,Rua da Igreja,Agrela
-292,Rua da Quinta do Olival,Agrela
-690,Travessa do tapado,Agrela
-395,Rua de Nª Srª de Lurdes,Areias
-357,Rua de Cela,Areias
-201,Rua da Agra de Santa Maria,Areias
-559,Rua do Souto de Cima,Areias
-56,Rua Alto do Monte,Areias
-373,Rua de Francisco Moreira,Areias
-626,Travessa da Ameixoeira,Areias
-375,Rua de Friães de Cima,Areias
-167,Rua Pedro Dioga,Areias
-600,Travessa 2 da Rua de Agra de Moinhos,Areias
-317,Rua das Almas,Areias
-326,Rua das Cerejeiras,Areias
-74,Rua Bartolomeu Dias,Areias
-103,Rua Engenheiro Fernando da Silva Coelho,Areias
-489,Rua do Cruzeiro de Romão,Areias
-669,Travessa de Santo André,Areias
-666,Travessa de Rondães,Areias
-533,Rua do Preseiro,Areias
-8,Avenida Conde Vizela,Areias
-403,Rua de Saint-Peray,Areias
-686,Travessa do Salgueirinho,Areias
-677,Travessa do Campo Grande,Areias
-266,Rua da Misericórdia,Areias
-233,Rua da Encosta,Areias
-517,Rua do Monte Lombo,Burgães
-257,Rua da Granja,Burgães
-332,Rua das Fontaínhas,Burgães
-154,Rua Nascente do Rio Leça,Burgães
-147,Rua Montalvão Machado,Burgães
-426,Rua de São João,Burgães
-250,Rua da Fábrica,Burgães
-466,Rua do Bitareu,Burgães
-90,Rua Doutor Artur Guimarães,Burgães
-687,Travessa do Senhor dos Aflitos,Burgães
-280,Rua da Ponte Velha,Burgães
-291,Rua da Quinta do Couço,Burgães
-286,Rua da Quebrada,Burgães
-496,Rua do Espírito Santo,Burgães
-298,Rua da Ribeira,Burgães
-248,Rua da Formosa,Burgães
-636,Travessa da Fonte de Diniz,Burgães
-642,Travessa da Pousada,Burgães
-662,Travessa de Devessinha,Burgães
-315,Rua das Acácias,Burgães
-396,Rua de Passos,Burgães
-319,Rua das Andorinhas,Burgães
-203,Rua da Agrinha,Burgães
-202,Rua da Agra do Ginjo,Burgães
-229,Rua da Cruz,Burgães
-104,Rua Entre Estradas,Burgães
-176,Rua Professor Mário Figueiredo,Burgães
-474,Rua do Campo de Futebol,Burgães
-392,Rua de Mirães,Burgães
-385,Rua de Lavatães,Burgães
-646,Travessa da Quelha da Tiana,Burgães
-577,Rua dos Emigrantes,Burgães
-521,Rua do Olival,Burgães
-520,Rua do Mosteiro de Singeverga,Couto (S. Cristina e S. Miguel)
-105,Rua Escuteiros,Couto (S. Cristina e S. Miguel)
-106,Rua Eça de Queiroz,Couto (S. Cristina e S. Miguel)
-361,Rua de Clichy,Couto (S. Cristina e S. Miguel)
-473,Rua do Campo da Bola,Couto (S. Cristina e S. Miguel)
-550,Rua do Rioberto,Couto (S. Cristina e S. Miguel)
-534,Rua do Presinho,Couto (S. Cristina e S. Miguel)
-460,Rua do Bacêlo,Couto (S. Cristina e S. Miguel)
-162,Rua Nova de Poldrães,Couto (S. Cristina e S. Miguel)
-303,Rua da Tapada,Couto (S. Cristina e S. Miguel)
-133,Rua Lindinha Lucas,Couto (S. Cristina e S. Miguel)
-200,Rua da Agra,Couto (S. Cristina e S. Miguel)
-487,Rua do Convento,Couto (S. Cristina e S. Miguel)
-574,Rua dos Combatentes,Couto (S. Cristina e S. Miguel)
-237,Rua da Escola da Abelha,Couto (S. Cristina e S. Miguel)
-508,Rua do Juncal de Cima,Couto (S. Cristina e S. Miguel)
-146,Rua Monsenhor José Ferreira,Couto (S. Cristina e S. Miguel)
-523,Rua do Outeiro,Couto (S. Cristina e S. Miguel)
-516,Rua do Monte,Couto (S. Cristina e S. Miguel)
-232,Rua da Devessa,Couto (S. Cristina e S. Miguel)
-494,Rua do Eiró,Couto (S. Cristina e S. Miguel)
-429,Rua de São Lourenço,Couto (S. Cristina e S. Miguel)
-35,Ponte Romana de Negrelos,Couto (S. Cristina e S. Miguel)
-18,Calçada do Caramulo,Couto (S. Cristina e S. Miguel)
-54,Rua Almeida Garret,Couto (S. Cristina e S. Miguel)
-26,Largo da Laranjeira,Couto (S. Cristina e S. Miguel)
-24,Largo Dr. Braga da Cruz,Couto (S. Cristina e S. Miguel)
-449,Rua do Alto da Bandeira,Couto (S. Cristina e S. Miguel)
-428,Rua de São João de Deus,Couto (S. Cristina e S. Miguel)
-79,Rua Centenário,Couto (S. Cristina e S. Miguel)
-633,Travessa da Escola Secundária,Couto (S. Cristina e S. Miguel)
-28,Largo da Moutela,Couto (S. Cristina e S. Miguel)
-46,Rua 5 de Outubro,Couto (S. Cristina e S. Miguel)
-689,Travessa do Vau,Couto (S. Cristina e S. Miguel)
-171,Rua Presa de Guindes,Guimarei
-214,Rua da Bela Vista,Guimarei
-155,Rua Nossa Senhora da Guia,Guimarei
-53,Rua Alexandre Herculano,Guimarei
-510,Rua do Longal,Guimarei
-601,Travessa 2 da Rua de Aldares,Guimarei
-681,Travessa do Fial,Guimarei
-172,Rua Primeiro de Maio,Guimarei
-581,Rua dos Lameirões,Guimarei
-437,Rua de Valverde,Guimarei
-380,Rua de Joane,Guimarei
-486,Rua do Contim,Guimarei
-63,Rua António Abreu Machado,Guimarei
-59,Rua Amândio Machado Monteiro,Guimarei
-184,Rua Santo Honorato,Guimarei
-158,Rua Nossa Senhora de Valinhas,Guimarei
-406,Rua de Santa Eulália,Guimarei
-505,Rua do Infantário,Guimarei
-667,Travessa de Sandim,Guimarei
-1,Alameda Engenheiro João Mallen Júnior,Guimarei
-309,Rua da Veiga,Guimarei
-123,Rua Idalinda Machado da Silva,Guimarei
-455,Rua do Amieiro Galego,Guimarei
-401,Rua de Ringe,Guimarei
-453,Rua do Alto do Fogo,Guimarei
-452,Rua do Alto de Vilar,Guimarei
-134,Rua Luís Gonzaga Mendes Carvalho,Lama
-393,Rua de Nossa Senhora da Guia,Lama
-199,Rua Zulmira de Azevedo,Lama
-70,Rua Audiência,Lama
-194,Rua São Pedro,Lama
-193,Rua São Miguel,Lama
-341,Rua das Pombinhas,Lama
-283,Rua da Poupa,Lama
-308,Rua da Varziela,Lama
-363,Rua de Covas,Lama
-325,Rua das Carvalheiras,Lama
-573,Rua dos Castanheiros,Lama
-571,Rua dos Carvalhais,Lama
-673,Travessa do Alto do Monte,Lama
-99,Rua Doutor Manuel da Silva Mendes,Lama
-625,Travessa da Alegría,Lama
-531,Rua do Poço,Lama
-316,Rua das Agras,Lama
-261,Rua da Lage,Lama
-493,Rua do Doutor José Cardoso de Miranda,Lama
-499,Rua do Fontanário da Môrca,Lama
-83,Rua Dom Afonso Henriques,Lama
-424,Rua de São Gonçalo,Lama
-94,Rua Doutor Joaquim Ferreira,Lama
-485,Rua do Conde de São Bento,Lama
-223,Rua da Casa Nova,Lama
-587,Rua dos Pinocos,Lama
-274,Rua da Passarada,Lama
-149,Rua Mosteiro de Roriz,Lama
-674,Travessa do Barreiro,Lama
-336,Rua das Magnólias,Lama
-27,Largo da Menguela,Lama
+73,Rua Bandeira,Agrela
+45,Rua 25 de Abril,Agrela
+72,Rua B da Sobreira,Agrela
+35,Ponte Romana de Negrelos,Agrela
+26,Largo da Laranjeira,Agrela
+14,Calçada Devesa,Agrela
+108,Rua Fernão Lopes,Areias
+80,Rua Central de Redundo,Areias
+50,Rua Acampamento do Rego,Burgães
+21,Largo Carneiro Pacheco,Burgães
+111,Rua Fonte da Carvalheira,Burgães
+99,Rua Doutor Manuel da Silva Mendes,Burgães
+113,Rua Formosa,Burgães
+13,Calçada Alípio Gato,Burgães
+22,Largo Conde de São Bento,Couto (S. Cristina e S. Miguel)
+81,Rua Comendador António Maria Lopes,Couto (S. Cristina e S. Miguel)
+102,Rua Encosta Nascente,Couto (S. Cristina e S. Miguel)
+82,Rua Delfim Ferreira Souto,Couto (S. Cristina e S. Miguel)
+7,Avenida Comendador Silva Araújo,Couto (S. Cristina e S. Miguel)
+29,Largo da Tojela,Couto (S. Cristina e S. Miguel)
+109,Rua Ferreira de Castro,Guimarei
+36,Ponte da Pingela,Guimarei
+37,Ponte do Arquinho,Guimarei
+43,Praça de Bom Nome,Guimarei
+93,Rua Doutor Germano Pimenta,Guimarei
+25,Largo da Fábrica Rio Vizela,Guimarei
+12,Avenida de São Rosendo,Guimarei
+61,Rua Américo Martins Coelho,Guimarei
+104,Rua Entre Estradas,Lama
+67,Rua António Silva,Lama
+16,Calçada de Borreiros,Lama
+105,Rua Escuteiros,Lama
+62,Rua Antero de Quental,Lama
 34,Largo do Souto,Lama
-536,Rua do Professor Pires Fernandes,Lama
-230,Rua da Cruzinha,Lamelas
-42,Praça Vasco da Gama,Lamelas
-562,Rua do Tapado,Lamelas
-221,Rua da Carvoeira de Baixo,Lamelas
-255,Rua da Giesteira,Lamelas
-22,Largo Conde de São Bento,Lamelas
-15,Calçada da Ameixoeira,Lamelas
-484,Rua do Conde São Bento,Lamelas
-217,Rua da Boca,Lamelas
-427,Rua de São João de Brito,Lamelas
-657,Travessa das Flores,Lamelas
-668,Travessa de Santa Eulália,Lamelas
-186,Rua Seca da Costa,Lamelas
-81,Rua Comendador António Maria Lopes,Lamelas
-502,Rua do Frengo,Lamelas
-629,Travessa da Carreira,Lamelas
-89,Rua Doutor Alves e Castro,Lamelas
-130,Rua José Pedrosa Balsemão,Lamelas
-606,Travessa Alberto Pimentel,Lamelas
-77,Rua Casal D'Ufe,Lamelas
-459,Rua do Bacelo,Lamelas
-351,Rua de Bonjardim,Lamelas
-354,Rua de Camilo Castelo Branco,Lamelas
-355,Rua de Camões,Lamelas
-117,Rua Gil Eanes,Lamelas
-362,Rua de Cortinhas,Lamelas
-107,Rua Fernando Pinheiro da Rocha,Lamelas
-420,Rua de São Bento,Lamelas
-469,Rua do Bombeiro Voluntário,Lamelas
-632,Travessa da Devessa,Lamelas
-526,Rua do Parque Desportivo,Lamelas
-378,Rua de Guimarei,Lamelas
-72,Rua B da Sobreira,Lamelas
-169,Rua Pedro Nunes,Lamelas
-583,Rua dos Moinhos,Lamelas
-578,Rua dos Fontiscos,Lamelas
-73,Rua Bandeira,Lamelas
-431,Rua de São Pedro,Lamelas
-388,Rua de Lubazim,Lamelas
-32,Largo do Facho,Monte Córdova
-458,Rua do Areeiro,Monte Córdova
-31,Largo de Domingos Moreira,Monte Córdova
-29,Largo da Tojela,Monte Córdova
-290,Rua da Quinta D'Além,Monte Córdova
-419,Rua de São Bartolomeu,Monte Córdova
-691,Travessa dos Campinhos,Monte Córdova
-242,Rua da Feiteira,Monte Córdova
-470,Rua do Cabo,Monte Córdova
-634,Travessa da Fonte,Monte Córdova
-310,Rua da Via Romana,Monte Córdova
-92,Rua Doutor Francisco Sá Carneiro,Monte Córdova
-524,Rua do Padre Américo,Monte Córdova
-142,Rua Manuel de Sousa Ribeiro,Monte Córdova
-299,Rua da Ribeira do Pisão,Monte Córdova
-593,Rua dos Tulipeiros,Monte Córdova
-635,Travessa da Fonte de Censo,Monte Córdova
-592,Rua dos Sarnados,Monte Córdova
-45,Rua 25 de Abril,Monte Córdova
-322,Rua das Barreiras,Monte Córdova
-168,Rua Pedro Homem de Melo,Monte Córdova
-538,Rua do Pé da Serra,Monte Córdova
-251,Rua da Fábrica Flor do Campo,Palmeira
-451,Rua do Alto de Sobrado,Palmeira
-260,Rua da Indústria,Palmeira
-301,Rua da Sanguinha,Palmeira
-265,Rua da Mina,Palmeira
-488,Rua do Cruzeiro,Palmeira
-504,Rua do Infante Dom Henrique,Palmeira
-503,Rua do Giestal,Palmeira
-407,Rua de Santa Luzia,Palmeira
-497,Rua do Facho,Palmeira
-254,Rua da Gandra,Palmeira
-12,Avenida de São Rosendo,Palmeira
-475,Rua do Capitão,Palmeira
-206,Rua da Aldeia do Monte,Palmeira
-121,Rua Gurada,Palmeira
-339,Rua das Paredes,Palmeira
-358,Rua de Celanova,Palmeira
-288,Rua da Quelha da Presa,Palmeira
-113,Rua Formosa,Palmeira
-335,Rua das Laranjeiras,Palmeira
-164,Rua Padre Arnaldo,Palmeira
-472,Rua do Campo Grande,Palmeira
-304,Rua da Telha,Palmeira
-569,Rua dos 5 Caminhos,Palmeira
-568,Rua do Viso,Palmeira
-324,Rua das Caiadeiras,Palmeira
-566,Rua do Velal; Rua da Pousada,Palmeira
-368,Rua de Fagilde,Palmeira
-364,Rua de Covelo,Palmeira
-652,Travessa da Torna,Palmeira
-557,Rua do Sol,Palmeira
-556,Rua do Sobrado,Palmeira
-554,Rua do Senhor dos Aflitos,Palmeira
-663,Travessa de Guindes,Palmeira
-312,Rua da Vinha,Palmeira
-224,Rua da Cavadinha,Palmeira
-532,Rua do Poço do Muro,Palmeira
-530,Rua do Pombal,Palmeira
-529,Rua do Picoto,Palmeira
-446,Rua do Agrelo,Palmeira
-346,Rua das Tilias,Palmeira
-410,Rua de Santiago,Rebordões
-367,Rua de Dona Maria do Carmo Azevedo,Rebordões
-305,Rua da Torna,Rebordões
-338,Rua das Padassas,Rebordões
-337,Rua das Oliveiras,Rebordões
-365,Rua de Cubículo,Rebordões
-404,Rua de Sandim,Rebordões
-321,Rua das Balgas,Rebordões
-307,Rua da Urbanização da Junta,Rebordões
-468,Rua do Bom Nome,Rebordões
-382,Rua de José Cavadas,Rebordões
-412,Rua de Santo António,Rebordões
-84,Rua Dom Américo,Rebordões
-58,Rua Além-Rio,Rebordões
-152,Rua Mãe d'Água,Rebordões
-87,Rua Dona Eva Machado Guimarães,Rebordões
-514,Rua do Lubazim,Rebordões
-40,Praça Conde São Bento,Rebordões
-190,Rua Silva Araújo,Rebordões
-639,Travessa da Liberdade,Rebordões
-112,Rua Fonte de Quintão,Rebordões
-612,Travessa Engenheiro José Guimarães,Rebordões
-212,Rua da Barreira,Rebordões
-118,Rua Gomes Ferreira,Rebordões
-551,Rua do Romão,Rebordões
-270,Rua da Nossa Senhora da Conceição,Rebordões
-160,Rua Nova da Telheira,Rebordões
-192,Rua São Cristóvão,Refojos
-620,Travessa Rua de Valverde,Refojos
-372,Rua de Forjães,Refojos
-565,Rua do Vau,Refojos
-611,Travessa Doutor José Cardoso Miranda,Refojos
-590,Rua dos Pregos,Refojos
-135,Rua Luís Machado,Refojos
-604,Travessa 3 da Rua de Bougado,Refojos
-462,Rua do Bairro da Ponte,Refojos
-131,Rua João Bento Padilha,Refojos
-347,Rua das Tílias,Refojos
-353,Rua de Caldelas,Refojos
-610,Travessa Doutor Joaquim Ferreira,Refojos
-333,Rua das Fontes,Refojos
-151,Rua Mártir Tirso,Refojos
-414,Rua de Sendim,Refojos
-120,Rua Granjas,Refojos
-284,Rua da Presa da Ribeira,Refojos
-656,Travessa das Doceiras,Refojos
-391,Rua de Melgilde,Refojos
-542,Rua do Recontro do Outeiro,Refojos
-425,Rua de São José,Refojos
-296,Rua da República,Refojos
-544,Rua do Rego,Refojos
-14,Calçada Devesa,Refojos
-434,Rua de São Tiago,Refojos
-13,Calçada Alípio Gato,Refojos
-318,Rua das Alminhas,Refojos
-272,Rua da Parada,Refojos
-675,Travessa do Bitareu,Reguenga
-25,Largo da Fábrica Rio Vizela,Reguenga
-2,Alameda João Paulo II,Reguenga
-421,Rua de São Cristóvão,Reguenga
-659,Travessa das Rãs,Reguenga
-377,Rua de Gross Umstadt,Reguenga
-111,Rua Fonte da Carvalheira,Reguenga
-110,Rua Ferreira de Lemos,Reguenga
-44,Rua 21 de Julho,Reguenga
-653,Travessa das Agras,Reguenga
-615,Travessa Papa João XXIII,Reguenga
-447,Rua do Alcaide,Reguenga
-387,Rua de Leça,Reguenga
-93,Rua Doutor Germano Pimenta,Reguenga
-88,Rua Dona Maria da Conceição Ribeiro de Oliveira,Reguenga
-638,Travessa da Lage,Reguenga
-360,Rua de Cima,Reguenga
-108,Rua Fernão Lopes,Reguenga
-282,Rua da Portela,Reguenga
-506,Rua do Jornal Santo Tirso,Reguenga
-567,Rua do Vila,Reguenga
-178,Rua Professora Zulmira,Reguenga
-509,Rua do Leça,Reguenga
-456,Rua do Arco,Reguenga
-170,Rua Pedro Álvares Cabral,Reguenga
-207,Rua da Alegria,Reguenga
-588,Rua dos Pombais,Reguenga
-241,Rua da Fagilde,Reguenga
-327,Rua das Colónias,Reguenga
-148,Rua Mosteiro Santa Escolástica,Reguenga
-597,Travessa 1 da Rua de Agra de Moinhos,Reguenga
-277,Rua da Piedade,Reguenga
-126,Rua Jaime Sampayo,Reguenga
-547,Rua do Rio,Reguenga
-271,Rua da Nossa Senhora de Fátima,Reguenga
-50,Rua Acampamento do Rego,Riba de Ave
-239,Rua da Estrada Real,Riba de Ave
-234,Rua da Encosta das Ínsuas,Riba de Ave
-648,Travessa da Rua da Indústria,Riba de Ave
-247,Rua da Fontinha,Riba de Ave
-119,Rua Gordaz,Riba de Ave
-30,Largo da Tulha,Riba de Ave
-268,Rua da Mouteira,Riba de Ave
-278,Rua da Ponte,Riba de Ave
-10,Avenida da Igreja,Riba de Ave
-688,Travessa do Valongueiro,Riba de Ave
-418,Rua de Sousa Trepa,Riba de Ave
-498,Rua do Fictício,Riba de Ave
-511,Rua do Loteamento do Couço,Riba de Ave
-647,Travessa da Rua A das Portelas,Riba de Ave
-313,Rua da Visitação,Riba de Ave
-384,Rua de Lamelas de Baixo,Riba de Ave
-116,Rua General Humberto Delgado,Riba de Ave
-613,Travessa Gabriel Cardoso Miranda,Riba de Ave
-137,Rua Major de Diniz,Riba de Ave
-109,Rua Ferreira de Castro,Riba de Ave
-614,Travessa Luís Areal,Riba de Ave
-622,Travessa Senhora da Saúde 2,Riba de Ave
-645,Travessa da Póvoa,Riba de Ave
-370,Rua de Fernando Pessoa,Riba de Ave
-191,Rua Sousa Trêpa,Riba de Ave
-0,Alameda Arnaldo Gama,Riba de Ave
-558,Rua do Souto,Riba de Ave
-555,Rua do Serrado,Riba de Ave
-549,Rua do Rio Vizela,Riba de Ave
-480,Rua do Casal Velho,Riba de Ave
-435,Rua de Tomaz Pelayo,Riba de Ave
-616,Travessa Primeiro de Maio,Roriz
-640,Travessa da Nossa Senhora da Assunção,Roriz
-649,Travessa da Sanguinha,Roriz
-481,Rua do Chão da Presa,Roriz
-602,Travessa 25 de Abril,Roriz
-608,Travessa Chão da Presa,Roriz
-641,Travessa da Ponte da Pinguela,Roriz
-415,Rua de Silvalde,Roriz
-609,Travessa Devesa,Roriz
-518,Rua do Monte dos Saltos,Roriz
-664,Travessa de Nossa Senhora de Fátima,Roriz
-696,Zona Industrial de Poupa,Roriz
-281,Rua da Ponte da Pinguela,Roriz
-37,Ponte do Arquinho,Roriz
-185,Rua Santo Isidro,Roriz
-256,Rua da Ginja,Roriz
-210,Rua da Baixia,Roriz
-7,Avenida Comendador Silva Araújo,Roriz
-51,Rua Adelino Francisco de Araújo,Roriz
-267,Rua da Moreira,Roriz
-263,Rua da Lameira,Roriz
-129,Rua José Machado Narciso Guimarães,Roriz
-328,Rua das Cruzes,Roriz
-329,Rua das Escolas,Roriz
-65,Rua António José Borges Silva Telles,Roriz
-82,Rua Delfim Ferreira Souto,Roriz
-236,Rua da Escola Velha,Roriz
-269,Rua da Moutela,Roriz
-512,Rua do Loteamento do Facho,S. Tiago da Carreira
-507,Rua do Juncal,S. Tiago da Carreira
-258,Rua da Guarda,S. Tiago da Carreira
-411,Rua de Santo André,S. Tiago da Carreira
-500,Rua do Foral,S. Tiago da Carreira
-679,Travessa do Cruzeiro,S. Tiago da Carreira
-289,Rua da Quinta,S. Tiago da Carreira
-483,Rua do Comandante Eugénio Miranda ,S. Tiago da Carreira
-479,Rua do Casal,S. Tiago da Carreira
-685,Travessa do Rioberto,S. Tiago da Carreira
-273,Rua da Passagem,S. Tiago da Carreira
-249,Rua da Frieira,S. Tiago da Carreira
-672,Travessa do Alcaide,S. Tiago da Carreira
-246,Rua da Fonte dos Arnelos,S. Tiago da Carreira
-78,Rua Castro Pedras,S. Tiago da Carreira
-95,Rua Doutor José Cardoso de Miranda,S. Tiago da Carreira
-618,Travessa Ribeiro de Ringe,S. Tiago da Carreira
-128,Rua José Luís de Andrade,S. Tiago da Carreira
-598,Travessa 1 da Rua de Várzea,S. Tiago da Carreira
-52,Rua Albino Sousa Cruz,S. Tiago da Carreira
-159,Rua Nova,S. Tiago da Carreira
-163,Rua Nova do Facho,S. Tiago da Carreira
-519,Rua do Montinho,S. Tiago da Carreira
-580,Rua dos Lamais,S. Tiago da Carreira
-561,Rua do Talegre,S. Tiago da Carreira
-560,Rua do Subseixo,S. Tiago da Carreira
-36,Ponte da Pingela,S. Tiago da Carreira
-208,Rua da Ameixoeira,S. Tiago da Carreira
-213,Rua da Bela,S. Tiago da Carreira
-548,Rua do Rio Ave,S. Tiago da Carreira
-334,Rua das Franciscanas Hospitaleiras,S. Tiago da Carreira
-528,Rua do Peso,S. Tiago da Carreira
-563,Rua do Vale do Leça,S. Tiago da Carreira
-342,Rua das Portelinhas,S. Tiago da Carreira
-69,Rua Armando Martins Ferreira,S. Tiago da Carreira
-439,Rua de Vermoin,S. Tiago da Carreira
-352,Rua de Bougado,S. Tiago da Carreira
-356,Rua de Cavelos,S. Tiago da Carreira
-399,Rua de Quintães,S. Tiago da Carreira
-371,Rua de Fontes Secas,S. Tiago da Carreira
-379,Rua de Guindes,S. Tiago da Carreira
-444,Rua de Ângelo Andrade,S. Tiago da Carreira
-9,Avenida Doutor Délio Santarém,S. Tiago da Carreira
-695,Viela das Carvalheiras,S. Tiago da Carreira
-463,Rua do Barreiro,S. Tiago da Carreira
-343,Rua das Rosas,S. Tiago da Carreira
-537,Rua do Professor Sampaio de Carvalho,S.Tomé Negrelos
-454,Rua do Alto do Sobrado,S.Tomé Negrelos
-432,Rua de São Roque,S.Tomé Negrelos
-603,Travessa 3 da Rua de Aldares,S.Tomé Negrelos
-198,Rua Visconde de Cantim,S.Tomé Negrelos
-122,Rua Honoré,S.Tomé Negrelos
-366,Rua de Devesinhas,S.Tomé Negrelos
-692,Travessa dos Corgos,S.Tomé Negrelos
-552,Rua do Salgueirinho,S.Tomé Negrelos
-215,Rua da Boa Vista,S.Tomé Negrelos
-226,Rua da Chão,S.Tomé Negrelos
-495,Rua do Emigrante,S.Tomé Negrelos
-535,Rua do Professor Doutor António Faria Carneiro Pacheco,S.Tomé Negrelos
-64,Rua António Aleixo,S.Tomé Negrelos
-543,Rua do Regedor,S.Tomé Negrelos
-21,Largo Carneiro Pacheco,S.Tomé Negrelos
-222,Rua da Carvoeira de Cima,S.Tomé Negrelos
-386,Rua de Lerim,S.Tomé Negrelos
-394,Rua de Nossa Senhora de Fátima,S.Tomé Negrelos
-564,Rua do Valongueiro,S.Tomé Negrelos
-75,Rua Basílio Macedo,S.Tomé Negrelos
-409,Rua de Santa Rita,S.Tomé Negrelos
-586,Rua dos Pastorinhos de Fátima,S.Tomé Negrelos
-344,Rua das Tapadas,S.Tomé Negrelos
-66,Rua António Martins Ribeiro,S.Tomé Negrelos
-417,Rua de Sobregião,S.Tomé Negrelos
-389,Rua de Luís de Camões,S.Tomé Negrelos
-182,Rua Rosinha,S.Tomé Negrelos
-628,Travessa da Calçada,S.Tomé Negrelos
-187,Rua Senhora da Saúde,S.Tomé Negrelos
-624,Travessa da Agra,S.Tomé Negrelos
-302,Rua da Sede da Junta,S.Tomé Negrelos
-300,Rua da Sande,S.Tomé Negrelos
-408,Rua de Santa Maria,S.Tomé Negrelos
-297,Rua da Revolta,S.Tomé Negrelos
-490,Rua do Cubículo,S.Tomé Negrelos
-91,Rua Doutor Francisco Queirós Machado,S.Tomé Negrelos
-390,Rua de Marão,Santo Tirso
-132,Rua Júlio Maria Martins da Costa,Santo Tirso
-138,Rua Manuel Afonso da Silva,Santo Tirso
-161,Rua Nova de Argemil,Santo Tirso
-575,Rua dos Corgos,Santo Tirso
-43,Praça de Bom Nome,Santo Tirso
-140,Rua Manuel Moreira Garcia,Santo Tirso
-145,Rua Mira Rio,Santo Tirso
-398,Rua de Pidre,Santo Tirso
-660,Travessa de Bonjardim,Santo Tirso
-545,Rua do Ribeiro de Pousada,Santo Tirso
-216,Rua da Boavista,Santo Tirso
-665,Travessa de Ringe,Santo Tirso
-464,Rua do Barroco,Santo Tirso
-55,Rua Alto da Cruz,Santo Tirso
-661,Travessa de Cela,Santo Tirso
-19,Complexo Habitacional de Ringe,Santo Tirso
-650,Travessa da Senhora Seca,Santo Tirso
-448,Rua do Alferes de Gião,Santo Tirso
-416,Rua de Sobradelo,Santo Tirso
-244,Rua da Fonte,Santo Tirso
-683,Travessa do Monte Lombão,Santo Tirso
-314,Rua da Vista Alegre,Santo Tirso
-306,Rua da Trindade,Santo Tirso
-11,Avenida de Paradela,Santo Tirso
-252,Rua da Gaiola,Santo Tirso
-275,Rua da Paz,Santo Tirso
-374,Rua de Friães de Baixo,Santo Tirso
-445,Rua de Ângelo de Andrade ,Santo Tirso
-621,Travessa Rua do Bacêlo,Sequeirô
-96,Rua Doutor João Gonçalves ,Sequeirô
-349,Rua de Alberto Pimentel,Sequeirô
-654,Travessa das Bocas,Sequeirô
-402,Rua de Rondães,Sequeirô
-492,Rua do Doutor Carneiro Pacheco,Sequeirô
-196,Rua Vale do Sino,Sequeirô
-41,Praça General Humberto Delgado,Sequeirô
-311,Rua da Vila,Sequeirô
-631,Travessa da Citânia,Sequeirô
-461,Rua do Bairro Novo,Sequeirô
-293,Rua da Rabada,Sequeirô
-589,Rua dos Portos,Sequeirô
-522,Rua do Orgal,Sequeirô
-115,Rua Gen. Humberto Delgado,Sequeirô
-262,Rua da Lagoa,Sequeirô
-546,Rua do Ringe,Sequeirô
-644,Travessa da Presa do Moinho,Sequeirô
-219,Rua da Bóca,Sequeirô
-225,Rua da Cedofeita,Sequeirô
-245,Rua da Fonte de Casais,Sequeirô
-4,Avenida Abade Pedrosa,Sequeirô
-441,Rua de Vilalva,Sequeirô
-67,Rua António Silva,Vila Nova do Campo
-127,Rua José Luís Dias Barbosa,Vila Nova do Campo
-57,Rua Além Rio,Vila Nova do Campo
-60,Rua Américo Gonçalves,Vila Nova do Campo
-584,Rua dos Mouros,Vila Nova do Campo
-153,Rua Narciso José Machado Guimarães,Vila Nova do Campo
+52,Rua Albino Sousa Cruz,Lama
+84,Rua Dom Américo,Lama
+5,Avenida Carneiro Pacheco,Lamelas
+2,Alameda João Paulo II,Lamelas
+76,Rua Bernardino Gomes,Lamelas
+33,Largo do Senhor do Calvário,Lamelas
+8,Avenida Conde Vizela,Lamelas
+9,Avenida Doutor Délio Santarém,Lamelas
+92,Rua Doutor Francisco Sá Carneiro,Lamelas
+112,Rua Fonte de Quintão,Lamelas
+83,Rua Dom Afonso Henriques,Monte Córdova
+95,Rua Doutor José Cardoso de Miranda,Monte Córdova
+71,Rua Augusto Marques,Monte Córdova
+39,Praça Camilo Castelo Branco,Monte Córdova
+79,Rua Centenário,Monte Córdova
+54,Rua Almeida Garret,Palmeira
+96,Rua Doutor João Gonçalves ,Palmeira
+94,Rua Doutor Joaquim Ferreira,Palmeira
+75,Rua Basílio Macedo,Palmeira
+107,Rua Fernando Pinheiro da Rocha,Palmeira
+30,Largo da Tulha,Palmeira
+85,Rua Dom Nuno Álvares Pereira,Palmeira
+106,Rua Eça de Queiroz,Rebordões
+65,Rua António José Borges Silva Telles,Rebordões
+70,Rua Audiência,Rebordões
+44,Rua 21 de Julho,Rebordões
+101,Rua Egas Moniz,Refojos
+32,Largo do Facho,Reguenga
+117,Rua Gil Eanes,Reguenga
+28,Largo da Moutela,Reguenga
+91,Rua Doutor Francisco Queirós Machado,Reguenga
+10,Avenida da Igreja,Reguenga
+86,Rua Dona Eugénia M. Fernandes,Riba de Ave
+118,Rua Gomes Ferreira,Riba de Ave
+24,Largo Dr. Braga da Cruz,Riba de Ave
+1,Alameda Engenheiro João Mallen Júnior,Riba de Ave
+100,Rua Doutor Oliveira Salazar,Riba de Ave
+64,Rua António Aleixo,Riba de Ave
+40,Praça Conde São Bento,Riba de Ave
+6,Avenida Comendador Manuel Almeida,Roriz
+20,Largo Antigos Combatentes,Roriz
+31,Largo de Domingos Moreira,Roriz
+89,Rua Doutor Alves e Castro,Roriz
+98,Rua Doutor Manuel Cruz,Roriz
+58,Rua Além-Rio,Roriz
+47,Rua APPACDM,S. Tiago da Carreira
+55,Rua Alto da Cruz,S. Tiago da Carreira
+4,Avenida Abade Pedrosa,S. Tiago da Carreira
+90,Rua Doutor Artur Guimarães,S. Tiago da Carreira
+68,Rua António Sérgio,S. Tiago da Carreira
+74,Rua Bartolomeu Dias,S.Tomé Negrelos
+110,Rua Ferreira de Lemos,S.Tomé Negrelos
+18,Calçada do Caramulo,S.Tomé Negrelos
+15,Calçada da Ameixoeira,S.Tomé Negrelos
+87,Rua Dona Eva Machado Guimarães,S.Tomé Negrelos
+114,Rua Gabriel Cardoso de Miranda,Santo Tirso
+0,Alameda Arnaldo Gama,Santo Tirso
+48,Rua Abel Alves de Figueiredo,Santo Tirso
+17,Calçada do Agrelo,Santo Tirso
+57,Rua Além Rio,Santo Tirso
+59,Rua Amândio Machado Monteiro,Santo Tirso
+69,Rua Armando Martins Ferreira,Santo Tirso
+42,Praça Vasco da Gama,Sequeirô
+60,Rua Américo Gonçalves,Sequeirô
+23,Largo Coronel Baptista Coelho,Sequeirô
+56,Rua Alto do Monte,Sequeirô
+27,Largo da Menguela,Sequeirô
+66,Rua António Martins Ribeiro,Sequeirô
+88,Rua Dona Maria da Conceição Ribeiro de Oliveira,Sequeirô
+116,Rua General Humberto Delgado,Vila Nova do Campo
+46,Rua 5 de Outubro,Vila Nova do Campo
+103,Rua Engenheiro Fernando da Silva Coelho,Vila Nova do Campo
+51,Rua Adelino Francisco de Araújo,Vila Nova do Campo
+53,Rua Alexandre Herculano,Vila Nova do Campo
 97,Rua Doutor Luis de Fontela,Vila Nova do Campo
-422,Rua de São Francisco,Vila Nova do Campo
-101,Rua Egas Moniz,Vila Nova do Campo
-623,Travessa Seonha da Saúde 1,Vila Nova do Campo
-596,Travessa 1 da Rua da Quinta do Couço,Vila Nova do Campo
-405,Rua de Santa Clara,Vila Nova do Campo
-595,Rua Álvaro Sousa Marques,Vila Nova do Campo
-643,Travessa da Presa da Ribeira,Vila Nova do Campo
-98,Rua Doutor Manuel Cruz,Vila Nova do Campo
-211,Rua da Bandeira,Vila Nova do Campo
-457,Rua do Areal,Vila Nova do Campo
-227,Rua da Codeçosa,Vila Nova do Campo
-20,Largo Antigos Combatentes,Vila Nova do Campo
-491,Rua do Doutor António Augusto Pires de Lima,Vila Nova do Campo
-220,Rua da Capela,Vila Nova do Campo
-680,Travessa do Facho,Vila Nova do Campo
-253,Rua da Gandarinha,Vila Nova do Campo
-553,Rua do Senhor do Calvário,Vila Nova do Campo
-482,Rua do Cinco de Outubro,Vila Nova do Campo
-682,Travessa do Juncal,Vila Nova do Campo
-383,Rua de José Narciso Martins da Costa,Vila Nova do Campo
-684,Travessa do Outeiro,Vila Nova do Campo
-440,Rua de Vila Chã,Vila Nova do Campo
-330,Rua das Flores,Vila Nova do Campo
-39,Praça Camilo Castelo Branco,Vila Nova do Campo
-179,Rua Pé de Prata,Vila Nova do Campo
-177,Rua Professor Torcato Portela,Vila Nova do Campo
-340,Rua das Pedras Bastas,Vila Nova do Campo
-433,Rua de São Simão,Vila Nova do Campo
-369,Rua de Fermozém,Vila das Aves
-264,Rua da Liberdade,Vila das Aves
-676,Travessa do Calvário,Vila das Aves
-6,Avenida Comendador Manuel Almeida,Vila das Aves
-173,Rua Professor Doutor Augusto Pires de Lima,Vila das Aves
-279,Rua da Ponte Nova,Vila das Aves
-287,Rua da Quelha,Vila das Aves
-323,Rua das Bocas,Vila das Aves
-331,Rua das Fontainhas,Vila das Aves
-467,Rua do Bocage,Vila das Aves
-276,Rua da Pedreira,Vila das Aves
-61,Rua Américo Martins Coelho,Vila das Aves
-238,Rua da Escola do Monte,Vila das Aves
-17,Calçada do Agrelo,Vila das Aves
-693,Urbanização Pé de Prata,Vila das Aves
-157,Rua Nossa Senhora de Fátima,Vila das Aves
-195,Rua Torrão,Vila das Aves
-430,Rua de São Miguel,Vila das Aves
-413,Rua de Sendes,Vila das Aves
-143,Rua Mestre Escola,Vila das Aves
-423,Rua de São Gião,Vila das Aves
-136,Rua Luís de Camões,Vila das Aves
-541,Rua do Real,Vila das Aves
-438,Rua de Ventusela,Vila das Aves
-694,Urbanização de Bom Nome,Vila das Aves
-527,Rua do Penedo,Vila das Aves
-68,Rua António Sérgio,Vila das Aves
-465,Rua do Beato Nuno Álvares,Vila das Aves
-671,Travessa do Agrelo,Vilarinho
-33,Largo do Senhor do Calvário,Vilarinho
-5,Avenida Carneiro Pacheco,Vilarinho
-3,Avenida 4 de Abril de 1955,Vilarinho
-16,Calçada de Borreiros,Vilarinho
-49,Rua Abílio José da Costa,Vilarinho
-48,Rua Abel Alves de Figueiredo,Vilarinho
-62,Rua Antero de Quental,Vilarinho
-655,Travessa das Carvalheiras,Vilarinho
-678,Travessa do Cinco de Outubro,Vilarinho
-209,Rua da Azenha,Vilarinho
-591,Rua dos Santos Populares,Vilarinho
-204,Rua da Aldeia,Vilarinho
-197,Rua Victor Haeltich,Vilarinho
-478,Rua do Carvalhal,Vilarinho
-295,Rua da Regueira,Vilarinho
-572,Rua dos Casais,Vilarinho
-471,Rua do Calvário,Vilarinho
-180,Rua Quinta da Fonte,Vilarinho
-345,Rua das Termas,Vilarinho
-240,Rua da Fabrica,Vilarinho
-450,Rua do Alto da Escorregadoura,Vilarinho
-166,Rua Papa João XXIII,Vilarinho
-156,Rua Nossa Senhora das Dores,Vilarinho
-205,Rua da Aldeia Nova,Vilarinho
-637,Travessa da Igreja,Vilarinho
-443,Rua de Água Longa,Vilarinho
-294,Rua da Rainha,Vilarinho
-124,Rua Infante Dom Henrique,Vilarinho
-114,Rua Gabriel Cardoso de Miranda,Vilarinho
-102,Rua Encosta Nascente,Vilarinho
-100,Rua Doutor Oliveira Salazar,Vilarinho
-381,Rua de José Bento Correia,Vilarinho
-627,Travessa da Boavista,Vilarinho
-231,Rua da Degodrinha,Vilarinho
-76,Rua Bernardino Gomes,Vilarinho
-141,Rua Manuel da Sousa Oliveira,Vilarinho
-285,Rua da Presa de Dom Fernando,Água Longa
-501,Rua do Freixieiro,Água Longa
-71,Rua Augusto Marques,Água Longa
-350,Rua de Aldeia Nova,Água Longa
-320,Rua das Aves,Água Longa
-442,Rua de Vilar,Água Longa
-436,Rua de Trás-da-Cerca,Água Longa
-397,Rua de Paços,Água Longa
-400,Rua de Quintão,Água Longa
-477,Rua do Cardal Landim,Água Longa
-513,Rua do Loureiro,Água Longa
-540,Rua do Rancho Típico,Água Longa
-243,Rua da Flor do Vau,Água Longa
-630,Travessa da Cedofeita,Água Longa
-86,Rua Dona Eugénia M. Fernandes,Água Longa
-617,Travessa Professor Hermano Padrão,Água Longa
-125,Rua Instituto Nun'Álvares,Água Longa
-607,Travessa Aldeia do Monte,Água Longa
-139,Rua Manuel Cirne,Água Longa
-174,Rua Professor Egas Moniz,Água Longa
-576,Rua dos Correios,Água Longa
-47,Rua APPACDM,Água Longa
-181,Rua Ribeiro dos Anjos,Água Longa
-188,Rua Senhora de Fátima,Água Longa
-189,Rua Senhora do Padrão,Água Longa
-23,Largo Coronel Baptista Coelho,Água Longa
-539,Rua do Ral,Água Longa
-670,Travessa de Sarnados,Água Longa
-228,Rua da Coroa,Água Longa
-235,Rua da Escola Secundária,Água Longa
-515,Rua do Monsenhor João Gonçalves da Costa,Água Longa
-348,Rua de Agrocôvo,Água Longa
+3,Avenida 4 de Abril de 1955,Vila Nova do Campo
+11,Avenida de Paradela,Vila Nova do Campo
+49,Rua Abílio José da Costa,Vila das Aves
+115,Rua Gen. Humberto Delgado,Vilarinho
+63,Rua António Abreu Machado,Vilarinho
+19,Complexo Habitacional de Ringe,Vilarinho
+41,Praça General Humberto Delgado,Vilarinho
+38,Praceta Palácio da Justiça,Água Longa
+77,Rua Casal D'Ufe,Água Longa
+78,Rua Castro Pedras,Água Longa

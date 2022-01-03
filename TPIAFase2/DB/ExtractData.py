@@ -8,9 +8,9 @@ freguesias = ["Agrela","Água Longa","Monte Córdova","Rebordões","Reguenga","R
 "Santo Tirso", "Couto (S. Cristina e S. Miguel)","Burgães",
 "Vila das Aves","Vila Nova do Campo","Vilarinho"]
 
-ruas = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/testes_DB/SantoTirsoStreets.csv")
+ruas = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/DB/SantoTirsoStreets.csv")
 
-print(ruas)
+
 freguesia = []
 
 for x in range(len(ruas)):
@@ -18,17 +18,43 @@ for x in range(len(ruas)):
   
 
 ruas = ruas.drop_duplicates()
-
 ruas['freguesia'] = freguesia
-
 ruas = ruas.sort_values('freguesia')
 
 
-
-print(ruas)
-
+ruas_lst = ruas['rua'].tolist()
 
 
-ruas.to_csv(r'/home/arkimedez/Desktop/IA/TPIAFase2/testes_DB/SantoTirsoStreetsFinal.csv')
+arestas = []
+distancias = []
+
+for a in range(len(ruas_lst)):
+   conects = random.randint(1,5)
+   for y in range(conects):
+      distancia = random.randint(30,120)
+      distancias.append(distancia)
+
+      num = a
+      while (num == a):
+         num = random.randint(0,len(ruas_lst))
+      arestas.append(tuple([a, num]))
+
+
+
+#print(arestas)
+
+
+data = {'Arestas': arestas, 'Distancias': distancias}  
+
+#print(data)
+  
+conexoes = pd.DataFrame(data)  
+
+#print(ruas)
+#print(conexoes)
+
+
+ruas.to_csv(r'/home/arkimedez/Desktop/IA/TPIAFase2/DB/SantoTirsoStreetsFinal.csv')
+conexoes.to_csv(r'/home/arkimedez/Desktop/IA/TPIAFase2/DB/ConexoesRuas.csv')
 
 
