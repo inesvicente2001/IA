@@ -1,14 +1,33 @@
 from enum import Enum
+from ast import literal_eval as make_tuple
 import igraph
 from igraph import *
+import pandas as pd
+import random
+import tkinter as tk
+import networkx
+from pyvis.network import Network
+
+ruas = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/DB/SantoTirsoStreetsFinal.csv")
+conexoes = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/DB/ConexoesRuas.csv")
+
+ruas_lst = ruas['rua'].tolist()
+freguesias_lst = ruas['freguesia'].tolist()
+conexoes_lst_with_quotes = conexoes['Arestas'].tolist()
+distancias_lst = conexoes['Distancias'].tolist()
+
+conexoes_lst = [make_tuple(x.strip()) for x in conexoes_lst_with_quotes]
+
+#print(conexoes_lst)
 
 class Cliente:
     def __init__(self, nome): 
         self.nome = nome
         
 class Rua:
-    def __init__(self, nome, nr_entregas):
+    def __init__(self, nome, freguesia, nr_entregas):
         self.nome = nome
+        self.freguesia = freguesia
         self.nr_entregas = nr_entregas
 
 class Transporte(Enum):
@@ -16,10 +35,13 @@ class Transporte(Enum):
     Mota = 1
     Bicicleta = 2
 
-class Localizacao:
-    def __init__(self, rua, freguesia): 
-        self.rua = rua 
-        self.freguesia = freguesia
+
+##class Servico(Transporte) #vamos precisar por causa das entregas
+
+##class Localizacao:
+##    def __init__(self, rua, freguesia): 
+##        self.rua = rua 
+##        self.freguesia = freguesia
 
 
 class Servico :
@@ -54,33 +76,45 @@ class Estafeta:
 
  
 #Exemplo para criar uma encomenda   
-c = Cliente("joao")
-l = Localizacao("Barros", "Gualtar")
-e = Encomenda("ola", 21, 21, Transporte.Carro, 21, c, l, 3)
+#c = Cliente("joao")
+#l = Localizacao("Barros", "Gualtar")
+#e = Encomenda("ola", 21, 21, Transporte.Carro, 21, c, l, 3)
+
+
 
 #Isto é um exemplo básico de grafos, há outras maneiras de os definir que se calhar não ficam tão confusos
 def create_graph():
-    g = Graph([(0,1), (0,2), (2,3), (3,4), (4,2), (2,5), (5,0), (6,3), (5,6)])
-    g.vs["rua"] = ["Sol", "Barros", "Nova", "Presa", "Vilar", "fds", "desisto"] #7 ruas para 7 nodos
-    g.vs["freguesia"] = ["Gualtar", "Gualtar", "Gualtar", "Gualtar", "Arcozelo", "Arcozelo", "Arcozelo"] #freguesias para os 7 nodos (precisa de ser 7 ao todo)
-    g.es["distancia"] = [10, 14, 40, 32, 1, 6, 43, 98, 3] #distancia dos vertices
+    g = Graph(conexoes_lst)
+    g.vs["rua"] = ruas_lst
+    g.vs["freguesia"] = freguesias_lst
+    g.es["distancia"] =  distancias_lst #distancia dos vertices
    
     g.save("teste.graphml")
     return g
     #figure(g, layout=layout, bbox=(1000, 1000), margin=20) #funcao para mostrar o grafo
     
+
 def create_prefs():
     #g = Graph.Read_GraphML("teste.graphml")
-    color_dict = {"Gualtar": "blue", "Arcozelo": "pink"} 
+    color_dict = {"Gualtar": "green", "Arcozelo": "pink"} 
     prefs = {}
-    prefs["layout"] = g.layout("kk")
+    root = tk.Tk()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    prefs["bbox"] = (screen_width, screen_width)
+    prefs["layout"] = g.layout("circle")
     prefs["vertex_label"] = g.vs["rua"] #dizer que a label dos nodos vão ser o nome das ruas(a label é o nome que aparece em baixo dos vértices no grafo)
-    prefs["vertex_color"] = [color_dict[freguesia] for freguesia in g.vs["freguesia"]] #Percorres as freguesias todas do grafo e as que forem "Gualtar" vão passar a "blue" e "Arcozelo" a "pink"
+    prefs["vertex_label_size"] = 20
+    #prefs["vertex_color"] = [color_dict[freguesia] for freguesia in g.vs["freguesia"]] #Percorres as freguesias todas do grafo e as que forem "Gualtar" vão passar a "blue" e "Arcozelo" a "pink"
     prefs["edge_label"] = g.es["distancia"] #o label de cada aresta vai ser a distancia
-    prefs["edge_width"] = 3
+    prefs["edge_label_size"] = 20
+    prefs["edge_width"] = 1
     prefs["edge_color"] = "grey" 
     prefs["margin"] = 20
-    prefs["vertex_size"] = 20
+    prefs["vertex_color"] = ["red"] * 698
+    prefs["vertex_color"][g.vs["rua"].index("Green Distribution")] = "green"
+    prefs["vertex_size"] = [30] * 698
+    prefs["vertex_size"][g.vs["rua"].index("Green Distribution")] = 35
     return prefs
     
 
@@ -118,12 +152,31 @@ def add_vertice(freguesia, new_vertice, vertices, distancias):
 
 #variáveis globais
 g = create_graph()
-size = g.vcount()
+#print(g)
 
-create_graph()
-create_prefs()
+##A = g.get_edgelist()
+##G = networkx.Graph(A)
+##size = g.vcount()
+##
+##net = Network(notebook=True)
+##net.from_nx(G)
+##net.show("example.html")
+
+#create_graph()
+#create_prefs()
 #add_vertice("Arcozelo", "new", ["fds", "desisto"], [3,4])
-#load_graph()
-    
-    
+
+
+[vertices, parents] = g.dfs(g.vs["rua"].index("Green Distribution"))
+
+vertices
+parents
+
+print(vertices)
+print(parents)
+
+load_graph()
+
+
+
     
