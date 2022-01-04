@@ -75,7 +75,21 @@ class Estafeta:
         
 #    def add_encomenda(encomenda):
         
+cliente1 = Cliente("Tomás")
+cliente2 = Cliente("Miguel")
+cliente3 = Cliente("Diogo")
 
+estafeta1 = Estafeta("Jorge")
+estafeta2 = Estafeta("Inês")
+estafeta3 = Estafeta("Guilherme")
+
+rua1 = Rua("São José","Gualtar",3)
+rua2 = Rua("São João","Gualtar",4)
+rua3 = Rua("São Pedro","Gualtar",5)
+
+encomenda1 = Encomenda("Cama",90,1050,Transporte(0),time(24,00),cliente1,rua1) 
+encomenda2 = Encomenda("Cacto",15,10,Transporte(1),time(14,25),cliente2,rua2)
+encomenda3 = Encomenda("Candeeiro",3,25,Transporte(2),time(17,35),cliente3,rua3)
  
 #Exemplo para criar uma encomenda   
 #c = Cliente("joao")
