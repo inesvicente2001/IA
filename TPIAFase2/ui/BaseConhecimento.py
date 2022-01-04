@@ -5,7 +5,7 @@ class BaseConhecimento(tk.Frame):
         tk.Frame.__init__(self, master)
         tk.label = tk.Label(
             self,
-            text="Hello, Tkinter",
+            text="Base de conhecimento",
             fg="white",
             bg="black",
             width=15,
@@ -19,16 +19,18 @@ class BaseConhecimento(tk.Frame):
             height=5,
             bg="blue",
             fg="yellow",
+            command = lambda: master.switch_frame(VerBaseConhecimento)
         ).pack()
         
         
         tk.button_ae = tk.Button(
             self,
-            text="Adicionar Estafeta",
+            text="Adicionar à Base de Conhecimento",
             width=25,
             height=5,
             bg="yellow",
             fg="blue",
+            command = lambda: master.switch_frame(AdicionarBaseConhecimento)
         ).pack()
                
         tk.buttonVoltar = tk.Button(
@@ -42,3 +44,5 @@ class BaseConhecimento(tk.Frame):
         ).pack() 
          
 from PaginaInicial import *
+from VerBaseConhecimento import *
+from AdicionarBaseConhecimento import *

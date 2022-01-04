@@ -6,8 +6,6 @@ class PaginaInicial(tk.Frame):
         tk.label = tk.Label(
             self,
             text="Hello, Tkinter",
-            fg="white",
-            bg="black",
             width=15,
             height=5
         ).pack()
@@ -17,8 +15,6 @@ class PaginaInicial(tk.Frame):
             text="Grafo",
             width=25,
             height=5,
-            bg="blue",
-            fg="yellow",
             command = lambda: master.switch_frame(GrafoUI)
         ).pack()
         
@@ -28,12 +24,25 @@ class PaginaInicial(tk.Frame):
             text="Base de conhecimento",
             width=25,
             height=5,
-            bg="yellow",
-            fg="blue",
             command = lambda: master.switch_frame(BaseConhecimento)
         ).pack()
-                
-    
+          
+        tk.button_queries1 = tk.Button(
+            self,
+            text="Queries Fase 1",
+            width=25,
+            height=5,
+            command = lambda: master.switch_frame(QueriesFase1)
+        ).pack()   
+        
+           
+        tk.button_queries2 = tk.Button(
+            self,
+            text="Queries Fase 2",
+            width=25,
+            height=5,
+            command = lambda: master.switch_frame(QueriesFase2)
+        ).pack()      
 
 from GrafoUI import *
 from BaseConhecimento import *

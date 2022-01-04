@@ -1,3 +1,6 @@
+
+import sys
+sys.path.insert(1, 'dl')
 import tkinter as tk
 from igraph import *
 from db import *
@@ -5,6 +8,7 @@ import igraph as ig
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+from tkinter import ttk
     
     
 nome_freguesia = ""
@@ -12,7 +16,8 @@ rua_a_adicionar = ""
 ruas = []
 distancias = []
         
-        
+def show_graph():
+    load_graph()       
         
 class AdicionarRua(tk.Frame) :
 
@@ -21,20 +26,29 @@ class AdicionarRua(tk.Frame) :
         tk.label = tk.Label(
             self,
             text="Adicionar Rua",
-            fg="white",
-            bg="black",
             width=15,
             height=5
         ).pack()
        
         #criar um dropdown menu
-        variable = tk.StringVar()
-        variable.set("Freguesia a escolher") #oq aparece antes de ver as opções do dropdown
-        options = tk.OptionMenu(self, variable, *self.get_freguesias()).pack() #Drop down menu com freguesias a escolher
+        #variable = tk.StringVar()
+        #variable.set("Freguesia a escolher") #oq aparece antes de ver as opções do dropdown
+        #options = tk.OptionMenu(self, variable, *self.get_freguesias()).pack() #Drop down menu com freguesias a escolher
+        tk.Label(self, text="Seleciona a freguesia").pack()
         
+        freguesias = self.get_freguesias()
+        
+        #Fazer uma Combobox (um drop down menu)
+        combo = ttk.Combobox(self, value = freguesias)
+
+        combo.pack()
+        
+        tk.Label(self, text="Seleciona as ruas para conectar à nova").pack()
         #criar caixa com várias opções
         lista = tk.Listbox(self, selectmode = tk.MULTIPLE)
         ruas = self.get_ruas()
+        ruas.sort()
+        
         for item in ruas:
             lista.insert(tk.END, item) #no idea how this works: https://www.geeksforgeeks.org/creating-a-multiple-selection-using-tkinter/
             #lista.itemconfig(item, bg = "yellow" if item % 2 == 0 else "cyan") #meter cores alternadas
@@ -45,16 +59,21 @@ class AdicionarRua(tk.Frame) :
         entry = tk.Entry(self)
         text_label.pack()
         entry.pack()
-            
+        
+        tk.buttonGrafo = tk.Button(
+            self,
+            text="Ver grafo",
+            width=25,
+            height=5,
+            command = show_graph
+        ).pack()
          
         tk.buttonConfirmar = tk.Button(
             self,
             text="Confirmar",
             width=25,
             height=5,
-            bg="yellow",
-            fg="blue",
-            command = lambda: self.confirmar(lista, entry.get(), variable.get())
+            command = lambda: self.confirmar(lista, entry.get(), combo.get())
         ).pack()
 
         tk.buttonVoltar = tk.Button(
@@ -62,26 +81,9 @@ class AdicionarRua(tk.Frame) :
             text="Voltar",
             width=25,
             height=5,
-            bg="yellow",
-            fg="blue",
             command = lambda: master.switch_frame(GrafoUI)
-        ).pack()
+        ).pack() 
         
-       
-        
-        
-        tk.graph = self.show_graph()
-        
-
-        
-    def show_graph(self):
-        g = Graph.Read_GraphML("teste.graphml")
-        fig, axs = plt.subplots(figsize=(8, 4))
-        prefs = create_prefs()
-        ig.plot(g, target = axs, **prefs)
-        plt.axis('off')
-        canvas = FigureCanvasTkAgg(fig, master=self)
-        canvas.get_tk_widget().pack()
     
     def get_freguesias(self):
         g = Graph.Read_GraphML("teste.graphml")
@@ -100,8 +102,8 @@ class AdicionarRua(tk.Frame) :
         if not nova_rua:
             tk.Label(self, text = "Erro, escreve o nome da rua que queres").pack()
             flag = False
-        if freguesia == "Freguesia a escolher":
-            tk.Label(self, text = "Erro, seleciona ruas para conectar à nova rua").pack()
+        if freguesia == "":
+            tk.Label(self, text = "Erro, escolhe uma freguesia").pack()
             flag = False
             
         if nova_rua in self.get_ruas():
@@ -147,8 +149,6 @@ class AdicionarRua(tk.Frame) :
             text="Confirmar",
             width=25,
             height=5,
-            bg="yellow",
-            fg="blue",
             command = lambda: self.get_distancias(entries, window)
         ).pack()
         
