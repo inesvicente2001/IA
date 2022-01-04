@@ -10,6 +10,11 @@ freguesias = ["Agrela","Água Longa","Monte Córdova","Rebordões","Reguenga","R
 
 ruas = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/DB/SantoTirsoStreets.csv")
 
+greenDistribution = {'rua': 'Green Distribution'}
+
+ruas = ruas.append(greenDistribution, ignore_index = True)
+
+print(ruas)
 
 freguesia = []
 
@@ -29,15 +34,15 @@ arestas = []
 distancias = []
 
 for a in range(len(ruas_lst)):
-   conects = random.randint(1,5)
+   conects = random.randint(1,4)
    for y in range(conects):
-      distancia = random.randint(30,120)
-      distancias.append(distancia)
-
       num = a
       while (num == a):
          num = random.randint(0,len(ruas_lst))
-      arestas.append(tuple([a, num]))
+      if not((a, num) in arestas) and not((num, a) in arestas) :
+         arestas.append(tuple([a, num]))
+         distancia = random.randint(30,120)
+         distancias.append(distancia)
 
 
 
