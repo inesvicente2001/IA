@@ -2,8 +2,6 @@ from enum import Enum
 import igraph
 from igraph import *
 
-
-
 class Cliente:
     def __init__(self, nome): 
         self.nome = nome
@@ -23,10 +21,17 @@ class Localizacao:
         self.rua = rua 
         self.freguesia = freguesia
 
+
+class Servico :
+    def __init__(self, classificacao, chegada_a_tempo, penalizacao, transporte):
+        self.classificacao = classificacao
+        self.chegada = chegada_a_tempo
+        self.penalizacao = penalizacao
+        self.transporte = transporte    
     
 #N sei se vamos ter uma encomenda a ter um id para não haver repetidos
 class Encomenda:
-    def __init__(self, nome, peso, volume, transporte, prazo, cliente, ponto_chegada, classificacao): 
+    def __init__(self, nome, peso, volume, transporte, prazo, cliente, ponto_chegada): 
         self.nome = nome 
         self.peso = peso
         self.volume = volume
@@ -34,7 +39,6 @@ class Encomenda:
         self.prazo = prazo
         self.cliente = cliente
         self.localizacao = ponto_chegada
-        self.classificacao = classificacao  #n sei se isto fica aqui
     
 class Estafeta:
     def __init__(self, nome):
@@ -42,6 +46,8 @@ class Estafeta:
         self.classificacao = 0
         self.nr_classificacoes = 0
         self.encomendas = []
+        self.registos = []
+        self.castigo = 0
         
 #    def add_encomenda(encomenda):
         
