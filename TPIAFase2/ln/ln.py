@@ -225,7 +225,5 @@ name = "Rua Mira Rio"
 path = a_star_algorithm(name)
 load_search_graph(path)
 
-
-
 #print(g)
 #print(graph_as_adjacency_list(g))

@@ -5,7 +5,7 @@ import tkinter as tk
 from igraph import *
 from db import *
 import igraph as ig
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+#from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from tkinter import ttk
