@@ -1,6 +1,7 @@
 import sys
 sys.path.insert(1, 'dl')
 from db import *
+import math
 from enum import Enum
 from ast import literal_eval as make_tuple
 import igraph
@@ -12,7 +13,7 @@ import tkinter as tk
 import networkx
 from queue import Queue
 from itertools import groupby 
-
+from queue import PriorityQueue
 ####################################################################################################
 
 
@@ -73,8 +74,7 @@ def load_search_graph(path, names):
 ####################################################################################################
 
 def bfs_aux(graph, start_node, target_node):
-    # Set of visited nodes to prevent loops
-    visited = set()
+    # Set of visited nodes to prevent loops30
     queue = Queue()
 
     # Add the start_node to the queue and visited list
@@ -121,9 +121,22 @@ def bfs(start, target):
 ####################################################################################################
 
 # heuristic function with equal values for all nodes
-def heuristic(n):
-    H = dict.fromkeys(g.vs.indices, 1)
-    return H[n]
+def heuristic(vertix,goal,graph):
+    #Heuristica com todos os nodos a 1 ou a 0, consoante o valor que se coloque lá
+    #H = dict.fromkeys(g.vs.indices, 1)
+    #return H[n]
+
+    #Heuristica com distância Euclideana
+    #D é o número de vizinhos do nodo n
+
+    coordenadas_vertix = graph.vs["coordenadas"][vertix]
+    coordenadas_goal = graph.vs["coordenadas"][goal]
+
+    dx = abs(coordenadas_vertix[0] - coordenadas_goal[0])
+    dy = abs(coordenadas_vertix[1] - coordenadas_goal[1])
+    D = len(graph.neighbors(vertix))
+    #D = 1
+    return D * math.sqrt(dx * dx + dy * dy)
 
 
 def a_star_algorithm(start, target):
@@ -156,7 +169,7 @@ def a_star_algorithm_aux(graph, start_node, stop_node):
 
             # find a node with the lowest value of f() - evaluation function
             for v in open_list:
-                if n == None or g[v] + heuristic(v) < g[n] + heuristic(n):
+                if n == None or g[v] + heuristic(v,stop_node,graph) < g[n] + heuristic(n,stop_node,graph):
                     n = v;
 
             if n == None:
@@ -297,14 +310,112 @@ def travessia_varias_encomendas_distancia_a_star(encomendas):
     return final_path
 
 ####################################################################################################
-name = "Alameda João Paulo II"
+
+#Fazer o dijkstra devolver caminhos de alguma forma...
+
+
+def dijkstra(graph, start_vertex):
+    visited = []
+
+    #paths = {v:[start_vertex] for v in range(graph.vcount())}
+    D = {v:float('inf') for v in range(graph.vcount())}
+    D[start_vertex] = 0
+
+    pq = PriorityQueue()
+    pq.put((0, start_vertex))
+
+    while not pq.empty():
+        (dist, current_vertex) = pq.get()
+        visited.append(current_vertex)
+
+        for neighbor in g.neighbors(current_vertex):
+            try:
+                index_coordenadas = graph.get_eid(current_vertex, neighbor)               
+                distance = graph.es["distancia"][index_coordenadas]
+                if neighbor not in visited:
+                    old_cost = D[neighbor]
+                    new_cost = D[current_vertex] + distance
+                    if new_cost < old_cost:
+                        pq.put((new_cost, neighbor))
+                        D[neighbor] = new_cost
+            except IndexError:
+                print('Indice não existente')  
+    return D
+
+####################################################################################################
+
+#VARIAÇÃO PARA PESQUISA INFORMADA DO BFS
+
+def best_first_search(target):
+    path = best_first_search_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target), g.vcount())
+    print(path)
+    #load_search_graph(path)
+    return path
+
+
+
+def best_first_search_aux(graph ,source, target, n):
+    #path = []
+
+    visited = [0] * n
+    visited[source] = True
+    pq = PriorityQueue()
+    pq.put((0, source))
+    while pq.empty() == False:
+        u = pq.get()[1]
+        # Displaying the path having lowest cost
+        print(u, end=" ")
+        #path.append(u)
+        if u == target:
+            break
+ 
+        for neighbor in g.neighbors(u):
+            index_coordenadas = graph.get_eid(u, neighbor)               
+            distance = graph.es["distancia"][index_coordenadas]
+            if visited[neighbor] == False:
+                visited[neighbor] = True
+                pq.put((distance, neighbor))
+    print()
+
+    return path
+
+####################################################################################################
+
+def bilp_aux(g, start, target, path, limit, visited = set()):
+    for i in range(limit):
+        path.append(start)
+        visited.add(start)
+        if start == target:
+            return path
+        if i != limit: 
+            for neighbour in g.neighbors(start):
+                if neighbour not in visited:
+                    result = bilp_aux(g, neighbour, target, path, limit-1, visited)
+                    if result is not None:
+                        return result
+        path.pop()
+        return None
+
+
+def bilp(target, limit):
+    max_depth = limit
+    path = []
+    bilp_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target), path, max_depth, set())
+    print(path)
+    #load_search_graph(path)
+    return path
+
+
+####################################################################################################
+
+#name = "Alameda João Paulo II"
 #name = "Rua de Santa Luzia"
 #name = "Rua do Monte Lombo" #onde dá bug
 #name = "Rua Mira Rio"
 #path= dfs(name)
 #load_search_graph(path)
 #name = "Travessa de Sandim"
-#name = "Travessa de Santa Eulália"
+name = "Travessa de Santa Eulália"
 #name = "Travessa de Santo André"
 #name = "Travessa de Sarnados"
 #name = "Travessa do Agrelo"
@@ -335,9 +446,16 @@ name3 = "Urbanização Pé de Prata"
 ##name = "Rua do Monte Lombo" #onde dá bug
 #path= bfs(name)
 
+#path= dfs(name)
 #path= bfs(name)
 #path = a_star_algorithm(name)
-#load_search_graph(path)
+#print(dijkstra(g, g.vs["rua"].index("Green Distribution"))) #Não é possível dar print com o create prefs porque faz bracktracing
+#print(best_first_search(name)) #Não é possível dar print com o create prefs porque faz bracktracing
+#path= bilp(name,10)
+#if len(path)>1:
+#    load_search_graph(path)
+#print(dijkstra(g, g.vs["rua"].index("Green Distribution")))
+
 
 #print(g)
 #print(graph_as_adjacency_list(g))
@@ -349,6 +467,8 @@ name3 = "Urbanização Pé de Prata"
 
 nomes = [name2, name, name3, name4, name5, name6]
 nomes_aux = nomes[:]
+
+
 
 #lista = []
 #lista.append([1])

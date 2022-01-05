@@ -10,7 +10,7 @@ freguesias = ["Agrela","Água Longa","Monte Córdova","Rebordões","Reguenga","R
 "Santo Tirso", "Couto (S. Cristina e S. Miguel)","Burgães",
 "Vila das Aves","Vila Nova do Campo","Vilarinho"]
 
-ruas = pd.read_csv("/home/arkimedez/Desktop/IA/TPIAFase2/DB/SantoTirsoStreets.csv")
+ruas = pd.read_csv("DB/SantoTirsoStreets.csv")
 
 greenDistribution = {'rua': 'Green Distribution'}
 
@@ -94,7 +94,7 @@ conexoes = pd.DataFrame(data)
 #print(conexoes)
 
 
-ruas.to_csv(r'/home/arkimedez/Desktop/IA/TPIAFase2/DB/SantoTirsoStreetsFinal.csv')
-conexoes.to_csv(r'/home/arkimedez/Desktop/IA/TPIAFase2/DB/ConexoesRuas.csv')
+ruas.to_csv(r'DB/SantoTirsoStreets.csv')
+conexoes.to_csv(r'DB/ConexoesRuas.csv')
 
 

@@ -74,18 +74,22 @@ class Estafeta:
 cliente1 = Cliente("Tomás")
 cliente2 = Cliente("Miguel")
 cliente3 = Cliente("Diogo")
+clientes = [cliente1, cliente2, cliente3]
 
 estafeta1 = Estafeta("Jorge")
 estafeta2 = Estafeta("Inês")
 estafeta3 = Estafeta("Guilherme")
+estafetas = [estafeta1, estafeta2, estafeta3]
 
 rua1 = Rua("São José","Gualtar",3)
 rua2 = Rua("São João","Gualtar",4)
 rua3 = Rua("São Pedro","Gualtar",5)
+ruas = [rua1, rua2, rua3]
 
 encomenda1 = Encomenda("Cama",90,1050,Transporte(0),time(00,00),cliente1,rua1) 
 encomenda2 = Encomenda("Cacto",15,10,Transporte(1),time(14,25),cliente2,rua2)
 encomenda3 = Encomenda("Candeeiro",3,25,Transporte(2),time(17,35),cliente3,rua3)
+encomendas = [encomenda1, encomenda2, encomenda3]
 
 # Let's start the methods.
 
@@ -134,7 +138,7 @@ def create_prefs():
     root.destroy()
     prefs["bbox"] = (screen_width, screen_width)
     #prefs["layout"] = g.layout("lgl") #circle é mais estético 
-    prefs["layout"] = g.layout("circle") 
+    prefs["layout"] = g.layout("lgl") 
     prefs["vertex_label"] = g.vs["rua"] #dizer que a label dos nodos vão ser o nome das ruas(a label é o nome que aparece em baixo dos vértices no grafo)
     prefs["vertex_label_size"] = 7
     #prefs["vertex_color"] = [color_dict[freguesia] for freguesia in g.vs["freguesia"]] #Percorres as freguesias todas do grafo e as que forem "Gualtar" vão passar a "blue" e "Arcozelo" a "pink"
