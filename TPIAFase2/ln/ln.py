@@ -52,7 +52,7 @@ def load_search_graph(path):
             print("oof")
         prefs["vertex_color"][node] = "blue"
         prefs["vertex_size"][node] = 20
-        edge_id = g.get_eid(path[i], path[i+1], error = False)
+        edge_id = g.get_eid(path[i], path[i+1])
         prefs["edge_color"][edge_id] = "red"
         prefs["edge_width"][edge_id] = 4
         total_cost += g.es["distancia"][edge_id]
@@ -114,13 +114,13 @@ def bfs(target):
 ####################################################################################################
 
 # heuristic function with equal values for all nodes
-def h(n):
+def heuristic(n):
     H = dict.fromkeys(g.vs.indices, 1)
     return H[n]
 
 
 def a_star_algorithm(target):
-    path = bfs_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target))
+    path = a_star_algorithm_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target))
     print(path)
     #load_search_graph(path)
     return path
@@ -173,7 +173,13 @@ def a_star_algorithm_aux(graph, start_node, stop_node):
                 return reconst_path
 
             # for all neighbors of the current node do
-            for (m, weight) in graph.neighbors(n):
+            lst_neighbors = graph.neighbors(n)
+            lst_distances = []
+            for i in range(len(lst_neighbors)):
+                lst_distances.append(graph.es["distancia"][lst_neighbors[i]])
+
+            lst_tuples_node_distance = tuple(zip(lst_neighbors, lst_distances))
+            for (m, weight) in lst_tuples_node_distance :
                 # if the current node isn't in both open_list and closed_list
                 # add it to open_list and note n as it's parent
                 if m not in open_list and m not in closed_list:
@@ -209,21 +215,52 @@ def a_star_algorithm_aux(graph, start_node, stop_node):
 
 
 ####################################################################################################
-
-h(3)
-
+#name = "Alameda João Paulo II"
 #name = "Rua de Santa Luzia"
 #name = "Rua do Monte Lombo" #onde dá bug
-name = "Rua Mira Rio"
+#name = "Rua Mira Rio"
 #path= dfs(name)
 #load_search_graph(path)
+#name = "Travessa de Sandim"
+#name = "Travessa de Santa Eulália"
+#name = "Travessa de Santo André"
+#name = "Travessa de Sarnados"
+#name = "Travessa do Agrelo"
+#name = "Travessa do Alcaide"
+#name = "Travessa do Alto do Monte"
+#name = "Travessa do Barreiro"
+#name = "Travessa do Bitareu"
+#name = "Travessa do Calvário"
+#name = "Travessa do Campo Grande"
+#name = "Travessa do Cinco de Outubro"
+#name = "Travessa do Cruzeiro"
+name = "Travessa do Facho"
+#name = "Travessa do Fial"
+#name = "Travessa do Juncal"
+#name = "Travessa do Monte Lombão"
+#name = "Travessa do Outeiro"
+#name = "Travessa do Rioberto"
+#name = "Travessa do Salgueirinho"
+#name = "Travessa do Senhor dos Aflitos"
+#name = "Travessa do Valongueiro"
+#name = "Travessa do Vau"
+#name = "Travessa do tapado"
+#name = "Travessa dos Campinhos"
+#name = "Travessa dos Corgos"
+#name = "Urbanização Pé de Prata"
 
 #name = "Rua de Santa Luzia"
 ##name = "Rua do Monte Lombo" #onde dá bug
 #path= bfs(name)
 
-path = a_star_algorithm(name)
+path= bfs(name)
+#path = a_star_algorithm(name)
 load_search_graph(path)
 
 #print(g)
 #print(graph_as_adjacency_list(g))
+
+
+##[630, 125, 111, 39, 505, 203]
+##[630, 125, 111, 39, 505, 203]
+##434
