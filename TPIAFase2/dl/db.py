@@ -41,21 +41,12 @@ class Transporte(Enum):
     Mota = 1
     Bicicleta = 2
 
-
-##class Servico(Transporte) #vamos precisar por causa das entregas
-
-##class Localizacao:
-##    def __init__(self, rua, freguesia): 
-##        self.rua = rua 
-##        self.freguesia = freguesia
-
-
 class Servico :
-    def __init__(self, classificacao, chegada_a_tempo, penalizacao, transporte):
+    def __init__(self, classificacao, chegada_a_tempo, penalizacao, transporte ):
         self.classificacao = classificacao
         self.chegada = chegada_a_tempo
         self.penalizacao = penalizacao
-        self.transporte = transporte    
+        self.transporte = transporte
     
 #N sei se vamos ter uma encomenda a ter um id para não haver repetidos
 class Encomenda:
@@ -74,7 +65,7 @@ class Estafeta:
         self.classificacao = 0
         self.nr_classificacoes = 0
         self.encomendas = []
-        self.registos = []
+        self.servicos = []
         self.castigo = 0
         
         
@@ -95,13 +86,30 @@ rua3 = Rua("São Pedro","Gualtar",5)
 encomenda1 = Encomenda("Cama",90,1050,Transporte(0),time(00,00),cliente1,rua1) 
 encomenda2 = Encomenda("Cacto",15,10,Transporte(1),time(14,25),cliente2,rua2)
 encomenda3 = Encomenda("Candeeiro",3,25,Transporte(2),time(17,35),cliente3,rua3)
- 
+
+# Let's start the methods.
+
+def add_punishment(x):
+    # x is Estafeta
+    if (x.servicos.notNull()):
+        for y in x.servicos:
+            if (not y.chegada):
+                x.castigo = x.castigo + y.penalizacao
+
+
+#Problema : Precisa de uma forma de calcular o tempo e o custo ambos económico e ecológico.
+#def back_or_switch():
+
+#Problema : O servico precisa de variáveis que um utilizador precisa de dar para completar a review. Os outros podem ter algumas ideias.
+#def new_servico_from_encomenda():
+
+#Problema : Vamos precisar de uma lista de encomendas, o Jorge pode saber disso. Já agora, quantas encomendas é que permitimos por dia? Também devo perguntar.
+#def new_encomendas(x):
+    
 #Exemplo para criar uma encomenda   
 #c = Cliente("joao")
 #l = Localizacao("Barros", "Gualtar")
 #e = Encomenda("ola", 21, 21, Transporte.Carro, 21, c, l, 3)
-
-
 
 #Isto é um exemplo básico de grafos, há outras maneiras de os definir que se calhar não ficam tão confusos
 def create_graph():
