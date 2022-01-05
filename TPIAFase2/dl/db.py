@@ -120,7 +120,7 @@ def create_prefs():
     screen_height = root.winfo_screenheight()
     root.destroy()
     prefs["bbox"] = (screen_width, screen_width)
-    prefs["layout"] = g.layout("lgl")
+    prefs["layout"] = g.layout("lgl") #circle é mais estético 
     prefs["vertex_label"] = g.vs["rua"] #dizer que a label dos nodos vão ser o nome das ruas(a label é o nome que aparece em baixo dos vértices no grafo)
     prefs["vertex_label_size"] = 7
     #prefs["vertex_color"] = [color_dict[freguesia] for freguesia in g.vs["freguesia"]] #Percorres as freguesias todas do grafo e as que forem "Gualtar" vão passar a "blue" e "Arcozelo" a "pink"
@@ -174,8 +174,8 @@ def add_vertice(freguesia, new_vertice, vertices, distancias):
 
 #variáveis globais
 g = create_graph()
-nr_vertices = 698
-nr_arestas = 1701
+nr_vertices = g.vcount()
+nr_arestas = g.ecount()
 #print(g)
 
 ##A = g.get_edgelist()
