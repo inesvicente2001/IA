@@ -58,7 +58,7 @@ def load_search_graph(path):
         total_cost += g.es["distancia"][edge_id]
     #prefs["vertex_color"][g.vs["rua"].index("Green Distribution")] = "green"
     prefs["vertex_color"][path[len(path)-1]] = "yellow"
-    print(total_cost)
+    print("{:.2f}". format(total_cost)) # para ser dado print só com 2 casas decimais
     plot(g, **prefs)
 
 
@@ -253,8 +253,8 @@ name = "Travessa do Facho"
 ##name = "Rua do Monte Lombo" #onde dá bug
 #path= bfs(name)
 
-path= bfs(name)
-#path = a_star_algorithm(name)
+#path= bfs(name)
+path = a_star_algorithm(name)
 load_search_graph(path)
 
 

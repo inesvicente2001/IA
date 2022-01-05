@@ -15,12 +15,16 @@ conexoes = pd.read_csv("DB/ConexoesRuas.csv")
 
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
+coordenadas_lst_with_quotes = ruas['coordenadas'].tolist()
 conexoes_lst_with_quotes = conexoes['Arestas'].tolist()
 distancias_lst = conexoes['Distancias'].tolist()
 
+
 conexoes_lst = [make_tuple(x.strip()) for x in conexoes_lst_with_quotes]
+coordenadas_lst = [make_tuple(y.strip()) for y in coordenadas_lst_with_quotes]
 
 #print(conexoes_lst)
+#print(coordenadas_lst)
 
 class Cliente:
     def __init__(self, nome): 
@@ -104,6 +108,7 @@ def create_graph():
     g = Graph(conexoes_lst)
     g.vs["rua"] = ruas_lst
     g.vs["freguesia"] = freguesias_lst
+    g.vs["coordenadas"] = coordenadas_lst
     g.es["distancia"] =  distancias_lst #distancia dos vertices
    
     g.save("teste.graphml")
@@ -113,18 +118,19 @@ def create_graph():
 
 def create_prefs():
     #g = Graph.Read_GraphML("teste.graphml")
-    color_dict = {"Gualtar": "green", "Arcozelo": "pink"} 
+    #color_dict = {"Gualtar": "green", "Arcozelo": "pink"} 
     prefs = {}
     root = tk.Tk()
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     root.destroy()
     prefs["bbox"] = (screen_width, screen_width)
-    prefs["layout"] = g.layout("lgl") #circle é mais estético 
+    #prefs["layout"] = g.layout("lgl") #circle é mais estético 
+    prefs["layout"] = g.layout("circle") 
     prefs["vertex_label"] = g.vs["rua"] #dizer que a label dos nodos vão ser o nome das ruas(a label é o nome que aparece em baixo dos vértices no grafo)
     prefs["vertex_label_size"] = 7
     #prefs["vertex_color"] = [color_dict[freguesia] for freguesia in g.vs["freguesia"]] #Percorres as freguesias todas do grafo e as que forem "Gualtar" vão passar a "blue" e "Arcozelo" a "pink"
-    prefs["edge_label"] = g.es["distancia"] #o label de cada aresta vai ser a distancia
+    prefs["edge_label"] = [ '%.2f' % elem for elem in g.es["distancia"] ]  #o label de cada aresta vai ser a distancia
     prefs["edge_label_size"] = 7
     prefs["edge_width"] = [1] * nr_arestas 
     prefs["edge_color"] = ["grey"] * nr_arestas 
