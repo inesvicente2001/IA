@@ -11,6 +11,7 @@ import random
 import tkinter as tk
 import networkx
 from queue import Queue
+from itertools import groupby 
 
 ####################################################################################################
 
@@ -29,10 +30,10 @@ def dfs_aux(g, start, target, path, visited = set()):
     return None
 
 
-def dfs(target):
+def dfs(start, target):
     path = []
-    dfs_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target), path, set())
-    print(path)
+    dfs_aux(g, g.vs["rua"].index(start), g.vs["rua"].index(target), path, set())
+    #print(path)
     #load_search_graph(path)
     return path
     
@@ -41,11 +42,14 @@ def dfs(target):
 ####################################################################################################
 
 
-def load_search_graph(path):
+def load_search_graph(path, names):
     prefs = create_prefs()
-    print(path)
+    ids_target = [] #ids dos targets
     total_cost = 0
-    
+    for name in names:
+        print(name)
+        ids_target.append(g.vs["rua"].index(name))
+    print(ids_target)
     
     for (i, node) in enumerate(path[1:]):
         if node==697: 
@@ -53,12 +57,15 @@ def load_search_graph(path):
         prefs["vertex_color"][node] = "blue"
         prefs["vertex_size"][node] = 20
         edge_id = g.get_eid(path[i], path[i+1])
+        total_cost += g.es["distancia"][edge_id]
         prefs["edge_color"][edge_id] = "red"
         prefs["edge_width"][edge_id] = 4
-        total_cost += g.es["distancia"][edge_id]
     #prefs["vertex_color"][g.vs["rua"].index("Green Distribution")] = "green"
     prefs["vertex_color"][path[len(path)-1]] = "yellow"
+    print(path)
     print("{:.2f}". format(total_cost)) # para ser dado print só com 2 casas decimais
+    for i in ids_target:
+        prefs["vertex_color"][i] = "yellow"
     plot(g, **prefs)
 
 
@@ -104,9 +111,9 @@ def bfs_aux(graph, start_node, target_node):
 
 
 
-def bfs(target):
-    path = bfs_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target))
-    print(path)
+def bfs(start, target):
+    path = bfs_aux(g, g.vs["rua"].index(start), g.vs["rua"].index(target))
+    #print(path)
     #load_search_graph(path)
     return path
 
@@ -119,9 +126,9 @@ def heuristic(n):
     return H[n]
 
 
-def a_star_algorithm(target):
-    path = a_star_algorithm_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target))
-    print(path)
+def a_star_algorithm(start, target):
+    path = a_star_algorithm_aux(g, g.vs["rua"].index(start), g.vs["rua"].index(target))
+    #print(path)
     #load_search_graph(path)
     return path
 
@@ -207,15 +214,90 @@ def a_star_algorithm_aux(graph, start_node, stop_node):
         print('Path does not exist!')
         return None
 
+#calcula o custo de um caminho
+def calcula_custo(path):
+    total_cost = 0
+    for (i, smt) in enumerate(path[1:]):
+        edge_id = g.get_eid(path[i], path[i+1])
+        total_cost += g.es["distancia"][edge_id]
+    return total_cost
+
+def travessia_varias_encomendas_distancia_dfs(encomendas):
+    custo_total = 0
+    path_completo = [] #path completo a passar em todas as encomendas
+    paths = [] #paths em cada for loop
+    nome = "Green Distribution" #nodo inicial
+    custos = [] #lista que vai ter os custos de todas as encomendas
+    #fazer travessia do Green Distribution a todas as encomendas
+    while encomendas :
+        for encomenda in encomendas:
+            path = dfs(nome, encomenda)
+            paths.append(path)
+            custo = calcula_custo(path)
+            custos.append(custo)
+            path = []
+        id_menor_custo = custos.index(min(custos))
+        nome = encomendas.pop(id_menor_custo)
+        path_completo += paths[id_menor_custo]
+        print(paths[id_menor_custo])
+        custo_total += min(custos)
+        custos = []
+        paths = []
+    final_path = [i[0] for i in groupby(path_completo)]
+    return final_path
 
 
+def travessia_varias_encomendas_distancia_bfs(encomendas):
+    custo_total = 0
+    path_completo = [] #path completo a passar em todas as encomendas
+    paths = [] #paths em cada for loop
+    nome = "Green Distribution" #nodo inicial
+    custos = [] #lista que vai ter os custos de todas as encomendas
+    #fazer travessia do Green Distribution a todas as encomendas
+    while encomendas :
+        for encomenda in encomendas:
+            path = bfs(nome, encomenda)
+            paths.append(path)
+            custo = calcula_custo(path)
+            custos.append(custo)
+            path = []
+        id_menor_custo = custos.index(min(custos))
+        nome = encomendas.pop(id_menor_custo)
+        path_completo += paths[id_menor_custo]
+        print(paths[id_menor_custo])
+        custo_total += min(custos)
+        custos = []
+        paths = []
+    final_path = [i[0] for i in groupby(path_completo)]
+    return final_path
 
 
-
-
+def travessia_varias_encomendas_distancia_a_star(encomendas):
+    custo_total = 0
+    path_completo = [] #path completo a passar em todas as encomendas
+    paths = [] #paths em cada for loop
+    nome = "Green Distribution" #nodo inicial
+    custos = [] #lista que vai ter os custos de todas as encomendas
+    #fazer travessia do Green Distribution a todas as encomendas
+    while encomendas :
+        for encomenda in encomendas:
+            path = a_star_algorithm(nome, encomenda)
+            paths.append(path)
+            custo = calcula_custo(path)
+            custos.append(custo)
+            path = []
+        id_menor_custo = custos.index(min(custos))
+        nome = encomendas.pop(id_menor_custo)
+        path_completo += paths[id_menor_custo]
+        print(paths[id_menor_custo])
+        custo_total += min(custos)
+        custos = []
+        paths = []
+    final_path = [i[0] for i in groupby(path_completo)]
+    return final_path
 
 ####################################################################################################
-#name = "Alameda João Paulo II"
+name = "Alameda João Paulo II"
 #name = "Rua de Santa Luzia"
 #name = "Rua do Monte Lombo" #onde dá bug
 #name = "Rua Mira Rio"
@@ -234,28 +316,28 @@ def a_star_algorithm_aux(graph, start_node, stop_node):
 #name = "Travessa do Campo Grande"
 #name = "Travessa do Cinco de Outubro"
 #name = "Travessa do Cruzeiro"
-name = "Travessa do Facho"
-#name = "Travessa do Fial"
-#name = "Travessa do Juncal"
+#name = "Travessa do Facho"
+name2 = "Travessa do Fial"
+#name3 = "Travessa do Juncal"
 #name = "Travessa do Monte Lombão"
-#name = "Travessa do Outeiro"
-#name = "Travessa do Rioberto"
-#name = "Travessa do Salgueirinho"
+#name2 = "Travessa do Outeiro"
+#name3 = "Travessa do Rioberto"
+name4 = "Travessa do Salgueirinho"
 #name = "Travessa do Senhor dos Aflitos"
 #name = "Travessa do Valongueiro"
-#name = "Travessa do Vau"
+name5 = "Travessa do Vau"
 #name = "Travessa do tapado"
-#name = "Travessa dos Campinhos"
+name6 = "Travessa dos Campinhos"
 #name = "Travessa dos Corgos"
-#name = "Urbanização Pé de Prata"
+name3 = "Urbanização Pé de Prata"
 
 #name = "Rua de Santa Luzia"
 ##name = "Rua do Monte Lombo" #onde dá bug
 #path= bfs(name)
 
 #path= bfs(name)
-path = a_star_algorithm(name)
-load_search_graph(path)
+#path = a_star_algorithm(name)
+#load_search_graph(path)
 
 #print(g)
 #print(graph_as_adjacency_list(g))
@@ -264,3 +346,13 @@ load_search_graph(path)
 ##[630, 125, 111, 39, 505, 203]
 ##[630, 125, 111, 39, 505, 203]
 ##434
+
+nomes = [name2, name, name3, name4, name5, name6]
+nomes_aux = nomes[:]
+
+#lista = []
+#lista.append([1])
+#lista.append([2,3])
+#print(lista)
+#path = travessia_varias_encomendas_distancia_dfs(nomes)
+#load_search_graph(path, nomes_aux)
