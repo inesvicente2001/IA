@@ -115,6 +115,14 @@ def create_estafetas(estafetas):
 
 
 
+def get_ruas(path):
+    ruas_lista = []
+    for i in path:
+        print(g.vs["rua"][i])
+        ruas_lista.append(g.vs["rua"][i])
+    return ruas_lista
+
+
 class Cliente:
     def __init__(self, nome): 
         self.nome = nome
@@ -263,8 +271,6 @@ def add_encomenda_to_estafeta(encomenda):
     
     
         
-
-
 def convert_encomendas(encomendas):
     lista = []
     for e in encomendas:
@@ -282,10 +288,10 @@ def convert_encomendas(encomendas):
         lista.append(l_aux)
     return lista
  
-def add_encomenda(nome, peso, volume, rua, client_nome, horas, minutos):
+def add_encomenda(nome, peso, volume, rua, client_nome, horas, minutos, urgencia):
     tempo = time(horas, minutos)
     i = encomendas_final[-1].id
-    encomenda = Encomenda(i+1, nome, peso, volume, rua, Cliente(client_nome), tempo, 0)
+    encomenda = Encomenda(i+1, nome, peso, volume, rua, Cliente(client_nome), tempo, urgencia)
     encomendas_final.append(encomenda)
     add_encomenda_to_estafeta(encomenda)
     lista_encomendas = convert_encomendas(encomendas_final)

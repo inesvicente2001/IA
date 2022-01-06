@@ -211,7 +211,21 @@ class FazerEncomenda(tk.Frame) :
         msg = tk.Label(frame, text = tempo)
         msg.pack()
         
+        frame2 = tk.LabelFrame(search_window, text = "Caminho percorrido")
+        frame2.pack()
         
+        ruas_path = get_ruas(path)
+        #print(ruas_path)
+        
+        msg2 = tk.Label(frame2, text = path_to_string(ruas_path))
+        msg2.pack()
+
+
+def path_to_string(path):
+    string = ""
+    for e in path:
+        string += e + "\n"
+    return string        
         
         
 from GrafoUI import *
