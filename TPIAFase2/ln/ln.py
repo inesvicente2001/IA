@@ -49,13 +49,11 @@ def load_search_graph(path, names):
     ids_target = [] #ids dos targets
     total_cost = 0
     for name in names:
-        print(name)
+        #print(name)
         ids_target.append(g.vs["rua"].index(name))
-    print(ids_target)
+    #print(ids_target)
     
     for (i, node) in enumerate(path[1:]):
-        if node==697: 
-            print("oof")
         prefs["vertex_color"][node] = "blue"
         prefs["vertex_size"][node] = 20
         edge_id = g.get_eid(path[i], path[i+1])
@@ -64,7 +62,8 @@ def load_search_graph(path, names):
         prefs["edge_width"][edge_id] = 4
     #prefs["vertex_color"][g.vs["rua"].index("Green Distribution")] = "green"
     prefs["vertex_color"][path[len(path)-1]] = "yellow"
-    print(path)
+    prefs["vertex_color"][g.vs["rua"].index("Green Distribution")] = "green"
+    #print(path)
     print("{:.2f}". format(total_cost)) # para ser dado print só com 2 casas decimais
     for i in ids_target:
         prefs["vertex_color"][i] = "yellow"
@@ -78,6 +77,7 @@ def bfs_aux(graph, start_node, target_node):
     # Set of visited nodes to prevent loops
     visited = set()
     # Set of visited nodes to prevent loops30
+    visited = set()
     queue = Queue()
 
     # Add the start_node to the queue and visited list
@@ -246,54 +246,132 @@ def calcula_custo(path):
         total_cost += g.es["distancia"][edge_id]
     return total_cost
 
-def travessia_varias_encomendas_distancia_dfs(encomendas):
+#def travessia_varias_encomendas_distancia_dfs(encomendas):
+#    custo_total = 0
+#    path_completo = [] #path completo a passar em todas as encomendas
+#    paths = [] #paths em cada for loop
+#    nome = "Green Distribution" #nodo inicial
+#    custos = [] #lista que vai ter os custos de todas as encomendas
+#    #fazer travessia do Green Distribution a todas as encomendas
+#    while encomendas :
+#        for encomenda in encomendas:
+#            path = dfs(nome, encomenda)
+#            paths.append(path)
+#            custo = calcula_custo(path)
+#            custos.append(custo)
+#            path = []
+#        id_menor_custo = custos.index(min(custos))
+#        nome = encomendas.pop(id_menor_custo)
+#        path_completo += paths[id_menor_custo]
+#        #print(paths[id_menor_custo])
+#        custo_total += min(custos)
+#        custos = []
+#        paths = []
+#    final_path = [i[0] for i in groupby(path_completo)]
+#    return final_path
+
+def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafeta):
+    veiculo = escolhe_veiculo_velocidade(estafeta)
+    print(veiculo)
+    tempo = 0
+    path_completo = []
+    vel = calcula_velocidade(veiculo, estafeta.encomendas)
+    for rua in encomendas_nomes:
+        #print(rua)
+        if procura == "Depth-first" :
+            path = dfs("Green Distribution", rua)
+        elif procura == "Breadth-first":
+            path = bfs("Green Distribution", rua)
+        elif procura == "A*":
+            path = a_star_algorithm("Green Distribution", rua)
+        inverse_path = path[:]
+        inverse_path.reverse()
+        path_completo += path + inverse_path[1:-1]
+        estafeta.encomendas.pop(0)
+        custo = calcula_custo(path)
+        tempo += calcula_tempo(custo, vel)
+        vel = calcula_velocidade(veiculo, estafeta.encomendas)
+        tempo += calcula_tempo(custo, vel)
+    path_completo.append(697)
+    print(tempo)
+    #print(path_completo)
+    return (path_completo, tempo)
+        
+
+
+def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
+    veiculo = escolhe_veiculo_velocidade(estafeta)
+    print(veiculo)
+    peso_total = 0
     custo_total = 0
+    tempo = 0
     path_completo = [] #path completo a passar em todas as encomendas
     paths = [] #paths em cada for loop
     nome = "Green Distribution" #nodo inicial
     custos = [] #lista que vai ter os custos de todas as encomendas
     #fazer travessia do Green Distribution a todas as encomendas
-    while encomendas :
-        for encomenda in encomendas:
-            path = dfs(nome, encomenda)
+    while encomendas_nomes :
+        vel = calcula_velocidade(veiculo, estafeta.encomendas)
+        print(vel)
+        for encomenda_nome in encomendas_nomes:
+            if procura == "Depth-first" :
+                path = dfs(nome, encomenda_nome)
+            elif procura == "Breadth-first":
+                path = bfs(nome, encomenda_nome)
+            elif procura == "A*":
+                path = a_star_algorithm(nome, encomenda_nome)
             paths.append(path)
             custo = calcula_custo(path)
             custos.append(custo)
             path = []
         id_menor_custo = custos.index(min(custos))
-        nome = encomendas.pop(id_menor_custo)
+        nome = encomendas_nomes.pop(id_menor_custo)
+        estafeta.encomendas.pop(id_menor_custo)
         path_completo += paths[id_menor_custo]
-        print(paths[id_menor_custo])
+        #print(paths[id_menor_custo])
         custo_total += min(custos)
+        tempo += calcula_tempo(min(custos), vel)
         custos = []
         paths = []
+    if procura == "Depth-first" :
+        path = dfs(nome, "Green Distribution")
+    elif procura == "Breadth-first":
+        path = bfs(nome, "Green Distribution")
+    elif procura == "A*":
+        path = a_star_algorithm(nome, "Green Distribution")
+    path_completo += path
+    custo = calcula_custo(path)
+    custos.append(custo)
     final_path = [i[0] for i in groupby(path_completo)]
-    return final_path
+    print(tempo)
+    return (final_path, tempo)
 
 
-def travessia_varias_encomendas_distancia_bfs(encomendas):
-    custo_total = 0
-    path_completo = [] #path completo a passar em todas as encomendas
-    paths = [] #paths em cada for loop
-    nome = "Green Distribution" #nodo inicial
-    custos = [] #lista que vai ter os custos de todas as encomendas
-    #fazer travessia do Green Distribution a todas as encomendas
-    while encomendas :
-        for encomenda in encomendas:
-            path = bfs(nome, encomenda)
-            paths.append(path)
-            custo = calcula_custo(path)
-            custos.append(custo)
-            path = []
-        id_menor_custo = custos.index(min(custos))
-        nome = encomendas.pop(id_menor_custo)
-        path_completo += paths[id_menor_custo]
-        print(paths[id_menor_custo])
-        custo_total += min(custos)
-        custos = []
-        paths = []
-    final_path = [i[0] for i in groupby(path_completo)]
-    return final_path
+
+#def travessia_varias_encomendas_distancia_bfs(encomendas):
+#    
+#    custo_total = 0
+#    path_completo = [] #path completo a passar em todas as encomendas
+#    paths = [] #paths em cada for loop
+#    nome = "Green Distribution" #nodo inicial
+#    custos = [] #lista que vai ter os custos de todas as encomendas
+#    #fazer travessia do Green Distribution a todas as encomendas
+#    while encomendas :
+#        for encomenda in encomendas:
+#            path = bfs(nome, encomenda)
+#            paths.append(path)
+#            custo = calcula_custo(path)
+#            custos.append(custo)
+#            path = []
+#        id_menor_custo = custos.index(min(custos))
+#        nome = encomendas.pop(id_menor_custo)
+#        path_completo += paths[id_menor_custo]
+#        #print(paths[id_menor_custo])
+#        custo_total += min(custos)
+#        custos = []
+#        paths = []
+#    final_path = [i[0] for i in groupby(path_completo)]
+#    return final_path
 
 
 ##def travessia_varias_encomendas_distancia_bfs_euclidean(encomendas):
@@ -342,7 +420,7 @@ def travessia_varias_encomendas_distancia_a_star(encomendas):
         id_menor_custo = custos.index(min(custos))
         nome = encomendas.pop(id_menor_custo)
         path_completo += paths[id_menor_custo]
-        print(paths[id_menor_custo])
+        #print(paths[id_menor_custo])
         custo_total += min(custos)# Set of visited nodes to prevent loops
         visited = set()
         custos = []
@@ -389,7 +467,7 @@ def dijkstra(graph, start_vertex):
 
 def best_first_search(target):
     path = best_first_search_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target), g.vcount())
-    print(path)
+    #print(path)
     #load_search_graph(path)
     return path
 
@@ -449,6 +527,35 @@ def bilp(target, limit):
 
 ####################################################################################################
 
+
+def calcula_tempo(distancia, velocidade):
+    return (distancia)/velocidade
+    
+def calcula_velocidade(veiculo, encomendas):
+    soma_peso = 0
+    for e in encomendas:
+        soma_peso += e.peso
+    if veiculo == Transporte.Bicicleta:
+        return 10 - 0.7*soma_peso
+    elif veiculo == Transporte.Mota:
+        return 35 - 0.5*soma_peso
+    else:
+        return 25 - 0.1*soma_peso
+    
+def escolhe_veiculo_velocidade(estafeta):
+    soma_peso = 0
+    for e in estafeta.encomendas:
+        soma_peso += e.peso
+    if soma_peso <= 5:
+        return Transporte.Bicicleta
+    elif soma_peso <= 20:
+        return Transporte.Mota
+    else:
+        return Transporte.Carro
+
+
+
+###################################################################################################
 def greedy_search_aux(graph,start, target, euclidean):
     # greedy search algorithm
     #d_dict = {1: [(1, 2), (2, 15), (3, 30)], 2: [(1, 30), (7, 10)]}  # dict of lists of tuples such that nodei : [ (neighbourj, distancej), .... ]
@@ -558,9 +665,9 @@ name3 = "Urbanização Pé de Prata"
 
 #TRUE: USA HEURISTICA EUCLIDEANA
 #FALSE: USA HEURISTICA DO MAIS PROXIMO DOS VIZINHOS
-path= greedy_search("Green Distribution",name, False)
-aux_lst = [name]
-load_search_graph(path,aux_lst)
+#path= greedy_search("Green Distribution",name, False)
+#aux_lst = [name]
+#load_search_graph(path,aux_lst)
 
 #print(g)
 #print(graph_as_adjacency_list(g))
@@ -574,7 +681,8 @@ nomes = [name2, name, name3]
 #nomes = [name2, name, name3, name4, name5, name6,name7,name8,name9,name10,name11,name12,name13,name14,name15,name16,name17,name18]
 nomes_aux = nomes[:]
 
-
+#path = travessia_varias_encomendas_distancia_uma(nomes, "Breadth-first", estafetas_final[3])
+#load_search_graph(path, nomes_aux)
 
 #lista = []
 #lista.append([1])

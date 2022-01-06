@@ -58,14 +58,10 @@ def estafeta_to_string(estafeta):
 class VerBaseConhecimento(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        tk.label = tk.Label(
-            self,
-            text="Base de conhecimento",
-            fg="white",
-            bg="black",
-            width=15,
-            height=5
-        ).pack()
+        
+        tk.Label(self, text = "Ver conhecimento", font=("Arial", 30)).pack(pady = 25)
+        
+
         
         tk.Button(
             self,
@@ -121,6 +117,8 @@ class VerRuas(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         
+        tk.Label(self, text = "Ver ruas", font=("Arial", 30)).pack(pady = 25)
+        
         tk.Label(self, text="Seleciona a freguesia").pack()
         combo = ttk.Combobox(self, value = get_freguesias())
         combo.pack()
@@ -141,6 +139,7 @@ class VerRuas(tk.Frame):
             
 class VerEstafetas(tk.Frame):
     
+    
     def get_estafetas_names(self):
         names = []
         for estafeta in e:
@@ -150,6 +149,7 @@ class VerEstafetas(tk.Frame):
     
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        tk.Label(self, text = "Ver Estafetas", font=("Arial", 30)).pack(pady = 25)
         
         tk.Label(self, text="Seleciona o estafeta").pack()
         combo = ttk.Combobox(self, value = self.get_estafetas_names())
@@ -184,6 +184,7 @@ class VerClientes(tk.Frame):
         tk.Frame.__init__(self, master)
         
         
+        tk.Label(self, text = "Ver Clientes", font=("Arial", 30)).pack(pady = 25)
         
         frame = tk.LabelFrame(self, text = "Clientes")
         msg = tk.Label(frame, text = self.get_clientes())
@@ -215,6 +216,7 @@ class VerEncomendas(tk.Frame):
     
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        tk.Label(self, text = "Ver Encomenda", font=("Arial", 30)).pack(pady = 25)
         
         tk.Label(self, text="Seleciona a encomenda").pack()
         combo = ttk.Combobox(self, value = self.get_encomenda_names())
@@ -258,6 +260,7 @@ class VerServico(tk.Frame):
     
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        tk.Label(self, text = "Ver Serviços", font=("Arial", 30)).pack(pady = 25)
         
         tk.Label(self, text="Seleciona o serviço").pack()
         combo = ttk.Combobox(self, value = self.get_servico_names())

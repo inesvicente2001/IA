@@ -5,10 +5,9 @@ class PaginaInicial(tk.Frame):
         tk.Frame.__init__(self, master)
         tk.label = tk.Label(
             self,
-            text="Hello, Tkinter",
-            width=15,
-            height=5
-        ).pack()
+            text="Green Distribution",
+            font = ('Arial', 50)
+        ).pack(pady=40)
         
         tk.button_graph = tk.Button(
             self,

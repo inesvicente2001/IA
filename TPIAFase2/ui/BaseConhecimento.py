@@ -3,11 +3,7 @@ import tkinter as tk
 class BaseConhecimento(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        tk.label = tk.Label(
-            self,
-            text="Base de conhecimento",
-
-        ).pack()
+        tk.Label(self, text = "Base de conhecimento", font=("Arial", 30)).pack(pady = 25)
         
         tk.button_bc = tk.Button(
             self,

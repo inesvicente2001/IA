@@ -13,7 +13,6 @@ class App(tk.Tk):
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
         if self._frame is not None:
-            print("Hello")
             self._frame.destroy()
         self._frame = new_frame
         self._frame.pack()
