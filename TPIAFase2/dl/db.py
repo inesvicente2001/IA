@@ -12,6 +12,9 @@ from datetime import time
 
 ruas = pd.read_csv("DB/SantoTirsoStreetsFinal.csv")
 conexoes = pd.read_csv("DB/ConexoesRuas.csv")
+clientes = pd.read_csv("DB/Clientes.csv")
+encomendas = pd.read_csv("DB/Encomendas.csv")
+estafetas = pd.read_csv("DB/Estafetas.csv")
 
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
@@ -26,11 +29,11 @@ class Cliente:
     def __init__(self, nome): 
         self.nome = nome
         
-class Rua:
-    def __init__(self, nome, freguesia, nr_entregas):
-        self.nome = nome
-        self.freguesia = freguesia
-        self.nr_entregas = nr_entregas
+#class Rua:
+ #   def __init__(self, nome, freguesia, nr_entregas):
+  #      self.nome = nome
+   #     self.freguesia = freguesia
+    #    self.nr_entregas = nr_entregas
 
 class Transporte(Enum):
     Carro = 0
@@ -38,50 +41,36 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, classificacao, chegada_a_tempo, penalizacao, transporte ):
+    def __init__(self,nome, rua ,classificacao, chegada_a_tempo, penalizacao, transporte):
+        self.nome = nome
+        self.rua = rua
         self.classificacao = classificacao
         self.chegada = chegada_a_tempo
         self.penalizacao = penalizacao
         self.transporte = transporte
-    
+
 #N sei se vamos ter uma encomenda a ter um id para não haver repetidos
 class Encomenda:
-    def __init__(self, nome, peso, volume, transporte, prazo, cliente, ponto_chegada): 
+    def __init__(self,nome,peso,volume,rua,cliente,prazo,urgencia):
         self.nome = nome 
         self.peso = peso
         self.volume = volume
-        self.transporte = transporte #n sei se isto fica aqui
-        self.prazo = prazo
+        self.rua = rua
         self.cliente = cliente
-        self.localizacao = ponto_chegada
+        self.prazo = prazo
+        self.urgencia = urgencia
     
 class Estafeta:
-    def __init__(self, nome):
+    def __init__(self, nome, encomendas):
         self.nome = nome
         self.classificacao = 0
         self.nr_classificacoes = 0
-        self.encomendas = []
+        self.encomendas = encomendas
         self.servicos = []
         self.castigo = 0
-        
-        
+        self.peso = 0
+
 #    def add_encomenda(encomenda):
-        
-cliente1 = Cliente("Tomás")
-cliente2 = Cliente("Miguel")
-cliente3 = Cliente("Diogo")
-
-estafeta1 = Estafeta("Jorge")
-estafeta2 = Estafeta("Inês")
-estafeta3 = Estafeta("Guilherme")
-
-rua1 = Rua("São José","Gualtar",3)
-rua2 = Rua("São João","Gualtar",4)
-rua3 = Rua("São Pedro","Gualtar",5)
-
-encomenda1 = Encomenda("Cama",90,1050,Transporte(0),time(00,00),cliente1,rua1) 
-encomenda2 = Encomenda("Cacto",15,10,Transporte(1),time(14,25),cliente2,rua2)
-encomenda3 = Encomenda("Candeeiro",3,25,Transporte(2),time(17,35),cliente3,rua3)
 
 # Let's start the methods.
 
@@ -108,6 +97,7 @@ def add_punishment(x):
 #e = Encomenda("ola", 21, 21, Transporte.Carro, 21, c, l, 3)
 
 #Isto é um exemplo básico de grafos, há outras maneiras de os definir que se calhar não ficam tão confusos
+
 def create_graph():
     g = Graph(conexoes_lst)
     g.vs["rua"] = ruas_lst

@@ -1,0 +1,10 @@
+,peso,volume,rua,cliente,prazo,urgencia
+"Cama",90,1050,Rua da Escola do Monte,"Tomas",time(00,00),5
+"Cacto",15,10,Rua de Covas,"Miguel",time(14,25),7
+"Candeeiro",3,25,Rua António Aleixo,"Diogo",time(17,35),2
+"Lâmpada",1,10,Rua António Aleixo,"Diogo",time(17,35),2
+"Mesa",75.180,Rua da Gandra,"Guilherme",time(12,34),4
+"Besta",15,25,Travessa de Santa Eulália,"Ana",time(9,05),1
+"Relva",90,1000,Rua da Escola da Abelha,"Ines",6
+"Cilindro de Gás",75,145,Rua do Bacelo,"Frederico",3
+"Arvóre de Natal",12,60,Rua do Rio Vizela,"Miguel",6

@@ -1,0 +1,9 @@
+,classificacao,nr_classificacoes,encomendas,servicos,castigo,peso
+"Jorge",0,0,[Encomenda("Cama",90,1050,Rua da Escola do Monte,"Tomas",time(00,00),5)],[],0,0
+"Gonçalo",0,0,[Encomenda("Candeeiro",3,25,Rua António Aleixo,"Diogo",time(17,35),2)],[],0,0
+"Mariana",0,0,[Encomenda("Cacto",15,10,Rua de Covas,"Miguel",time(14,25),7),Encomenda("Lâmpada",1,10,Rua António Aleixo,"Diogo",time(17,35),2)],[],0,0
+"Rita",0,0,[],[],0,0
+"Pedro",0,0,[Encomenda("Mesa",75.180,Rua da Gandra,"Guilherme",time(12,34),4),Encomenda("Besta",15,25,Travessa de Santa Eulália,"Ana",time(9,05),1),Encomenda("Relva",90,1000,Rua da Escola da Abelha,"Ines",6)],[],0,0
+"Mirabel",0,0,[Encomenda("Cilindro de Gás",75,145,Rua do Bacelo,"Frederico",3)],[],0,0
+"Mario",0,0,[],[],0,0
+"Hugo",0,0,[Encomenda("Arvóre de Natal",12,60,Rua do Rio Vizela,"Miguel",6)],[],0,0
