@@ -63,7 +63,8 @@ def load_search_graph(path, names):
         prefs["edge_width"][edge_id] = 4
     #prefs["vertex_color"][g.vs["rua"].index("Green Distribution")] = "green"
     prefs["vertex_color"][path[len(path)-1]] = "yellow"
-    print(path)
+    prefs["vertex_color"][g.vs["rua"].index("Green Distribution")] = "green"
+    #print(path)
     print("{:.2f}". format(total_cost)) # para ser dado print só com 2 casas decimais
     for i in ids_target:
         prefs["vertex_color"][i] = "yellow"
@@ -75,6 +76,7 @@ def load_search_graph(path, names):
 
 def bfs_aux(graph, start_node, target_node):
     # Set of visited nodes to prevent loops30
+    visited = set()
     queue = Queue()
 
     # Add the start_node to the queue and visited list
@@ -260,7 +262,55 @@ def travessia_varias_encomendas_distancia_dfs(encomendas):
     return final_path
 
 
+def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
+    veiculo = escolhe_veiculo_velocidade(estafeta)
+    peso_total = 0
+    custo_total = 0
+    tempo = 0
+    path_completo = [] #path completo a passar em todas as encomendas
+    paths = [] #paths em cada for loop
+    nome = "Green Distribution" #nodo inicial
+    custos = [] #lista que vai ter os custos de todas as encomendas
+    #fazer travessia do Green Distribution a todas as encomendas
+    while encomendas_nomes :
+        vel = calcula_velocidade(veiculo, estafeta.encomendas)
+        for encomenda_nome in encomendas_nomes:
+            if procura == "Depth-first" :
+                path = dfs(nome, encomenda_nome)
+            elif procura == "Breadth-first":
+                path = bfs(nome, encomenda_nome)
+            elif procura == "A*":
+                path = a_star_algorithm(nome, encomenda_nome)
+            paths.append(path)
+            custo = calcula_custo(path)
+            custos.append(custo)
+            path = []
+        id_menor_custo = custos.index(min(custos))
+        nome = encomendas_nomes.pop(id_menor_custo)
+        estafeta.encomendas.pop(id_menor_custo)
+        path_completo += paths[id_menor_custo]
+        print(paths[id_menor_custo])
+        custo_total += min(custos)
+        tempo += calcula_tempo(min(custos), vel)
+        custos = []
+        paths = []
+    if procura == "Depth-first" :
+        path = dfs(nome, "Green Distribution")
+    elif procura == "Breadth-first":
+        path = bfs(nome, "Green Distribution")
+    elif procura == "A*":
+        path = a_star_algorithm(nome, "Green Distribution")
+    path_completo += path
+    custo = calcula_custo(path)
+    custos.append(custo)
+    final_path = [i[0] for i in groupby(path_completo)]
+    print(tempo)
+    return final_path
+
+
+
 def travessia_varias_encomendas_distancia_bfs(encomendas):
+    
     custo_total = 0
     path_completo = [] #path completo a passar em todas as encomendas
     paths = [] #paths em cada for loop
@@ -408,6 +458,35 @@ def bilp(target, limit):
 
 ####################################################################################################
 
+
+def calcula_tempo(distancia, velocidade):
+    return (distancia/1000)/velocidade
+    
+def calcula_velocidade(veiculo, encomendas):
+    soma_peso = 0
+    for e in encomendas:
+        soma_peso += e.peso
+    if veiculo == Transporte.Bicicleta:
+        return 10 - 0.7*soma_peso
+    elif veiculo == Transporte.Mota:
+        return 35 - 0.5*soma_peso
+    else:
+        return 25 - 0.1*soma_peso
+    
+def escolhe_veiculo_velocidade(estafeta):
+    soma_peso = 0
+    for e in estafeta.encomendas:
+        soma_peso += e.peso
+    if soma_peso <= 5:
+        return Transporte.Bicicleta
+    elif soma_peso <= 20:
+        return Transporte.Mota
+    else:
+        return Transporte.Carro
+
+
+
+###################################################################################################
 #name = "Alameda João Paulo II"
 #name = "Rua de Santa Luzia"
 #name = "Rua do Monte Lombo" #onde dá bug
