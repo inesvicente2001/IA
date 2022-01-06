@@ -12,7 +12,13 @@ from datetime import time
 
 ruas = pd.read_csv("DB/SantoTirsoStreetsFinal.csv")
 conexoes = pd.read_csv("DB/ConexoesRuas.csv")
+clientes = pd.read_csv("DB/Clientes.csv")
+encomendas = pd.read_csv("DB/Encomendas.csv")
+estafetas = pd.read_csv("DB/Estafetas.csv")
+servicos = pd.read_csv("DB/Servicos.csv")
 
+
+clientes_lst = clientes['nome'].tolist()
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
 coordenadas_lst_with_quotes = ruas['coordenadas'].tolist()
@@ -25,16 +31,94 @@ coordenadas_lst = [make_tuple(y.strip()) for y in coordenadas_lst_with_quotes]
 
 #print(conexoes_lst)
 #print(coordenadas_lst)
+def create_clientes(clientes):
+    cliente_class = []
+    for cliente in clientes:
+        client = Cliente(cliente)
+        cliente_class.append(client)
+    return cliente_class
+
+def get_client_by_name(name):
+    for client in clientes_final:
+        if client.nome == name:
+            return client
+
+def create_encomendas(encomendas):
+    encomendas_class = []
+    for index, row in encomendas.iterrows():
+        client = get_client_by_name(row[5])
+        tempoAux = row[6]
+        #print(tempoAux)
+        tempo = tempoAux.split(";") 
+        tempo_final = time(int(tempo[0]), int(tempo[1]))
+        #print(tempo_final)
+        encomendas_class.append(Encomenda(row[0],row[1],row[2],row[3],row[4],client,tempo_final,row[7]))
+    return encomendas_class
+
+def create_servicos(s):
+    lista = []
+    for index, row in s.iterrows():
+        if row[4] == "true":
+            c = True
+        else:
+            c = False        
+        if row[6] == "carro":
+            t = Transporte.Carro
+        elif row[6] == "mota":
+            t = Transporte.Mota
+        else:
+            t = Transporte.Bicicleta
+        lista.append(Servico(row[0],row[1],row[2],row[3],c,row[5], t))
+    return lista
+
+def get_encomenda_by_id(i):
+    for e in encomendas_final:
+        if e.id == int(i):
+            return e
+
+def find_encomendas(e):
+    package = [] #Estou a ficar sem nomes para variaveis
+    split = e.split(";")
+    for s in split:
+        package.append(get_encomenda_by_id(s))
+    return package
+
+def get_servico_by_id(ow):
+    for s in servicos_final:
+        print(s)
+        if s.id == int(ow):
+            return s
+    
+def find_servicos(s):
+    package = []
+    split = s.split(";")
+    for aux in split:
+        package.append(get_servico_by_id(aux))
+    return package
+
+def create_estafetas(estafetas):
+    estafetas_class = []
+    for index, row in estafetas.iterrows():
+        e = row[3]
+        s = row[4]
+        if e != ";":
+            es_en = find_encomendas(e)
+        else:
+            es_en = []
+        if s != ";":
+            es_s = find_servicos(s)
+        else:
+            es_s = []
+        estafetas_class.append(Estafeta(row[0],row[1],row[2],es_en, es_s, row[5]))
+    return estafetas_class
+
+
+
 
 class Cliente:
     def __init__(self, nome): 
         self.nome = nome
-        
-class Rua:
-    def __init__(self, nome, freguesia, nr_entregas):
-        self.nome = nome
-        self.freguesia = freguesia
-        self.nr_entregas = nr_entregas
+
 
 class Transporte(Enum):
     Carro = 0
@@ -42,54 +126,111 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, classificacao, chegada_a_tempo, penalizacao, transporte ):
+    def __init__(self, index, nome, rua ,classificacao, chegada_a_tempo, penalizacao, transporte):
+        self.id = index
+        self.nome = nome
+        self.rua = rua
         self.classificacao = classificacao
         self.chegada = chegada_a_tempo
         self.penalizacao = penalizacao
         self.transporte = transporte
-    
+
 #N sei se vamos ter uma encomenda a ter um id para não haver repetidos
 class Encomenda:
-    def __init__(self, nome, peso, volume, transporte, prazo, cliente, ponto_chegada): 
+    def __init__(self,index, nome,peso,volume,rua,cliente,prazo,urgencia):
+        self.id = index
         self.nome = nome 
         self.peso = peso
         self.volume = volume
-        self.transporte = transporte #n sei se isto fica aqui
-        self.prazo = prazo
+        self.rua = rua
         self.cliente = cliente
-        self.localizacao = ponto_chegada
+        self.prazo = prazo
+        self.urgencia = urgencia
     
 class Estafeta:
-    def __init__(self, nome):
+    def __init__(self, nome, classificacao, nr_classificacoes, encomendas, servicos, castigo):
         self.nome = nome
-        self.classificacao = 0
-        self.nr_classificacoes = 0
-        self.encomendas = []
-        self.servicos = []
-        self.castigo = 0
+        self.classificacao = classificacao
+        self.nr_classificacoes = nr_classificacoes
+        self.encomendas = encomendas
+        self.servicos = servicos
+        self.castigo = castigo
         
         
 #    def add_encomenda(encomenda):
         
-cliente1 = Cliente("Tomás")
-cliente2 = Cliente("Miguel")
-cliente3 = Cliente("Diogo")
-clientes = [cliente1, cliente2, cliente3]
+clientes_final = create_clientes(clientes_lst)
+encomendas_final = create_encomendas(encomendas)
+servicos_final = create_servicos(servicos)
+estafetas_final = create_estafetas(estafetas)
 
-estafeta1 = Estafeta("Jorge")
-estafeta2 = Estafeta("Inês")
-estafeta3 = Estafeta("Guilherme")
-estafetas = [estafeta1, estafeta2, estafeta3]
+    
+def get_client_names():
+    nomes = []
+    for c in clientes_final:
+        nomes.append(c.nome)
+    return nomes
 
-rua1 = Rua("São José","Gualtar",3)
-rua2 = Rua("São João","Gualtar",4)
-rua3 = Rua("São Pedro","Gualtar",5)
-ruas = [rua1, rua2, rua3]
+def add_cliente(nome):
+    clientes_final.append(Cliente(nome))
+    names = get_client_names()
+    aux = pd.DataFrame(names, columns = ['nome']) 
+    aux.to_csv('DB/Clientes.csv', index=False)   
 
-encomenda1 = Encomenda("Cama",90,1050,Transporte(0),time(00,00),cliente1,rua1) 
-encomenda2 = Encomenda("Cacto",15,10,Transporte(1),time(14,25),cliente2,rua2)
-encomenda3 = Encomenda("Candeeiro",3,25,Transporte(2),time(17,35),cliente3,rua3)
-encomendas = [encomenda1, encomenda2, encomenda3]
+
+def convert_estafetas(estafetas):
+    lista = []
+    for e in estafetas:
+        l_aux = []
+        l_aux.append(e.nome)
+        l_aux.append(e.classificacao)
+        l_aux.append(e.nr_classificacoes)
+        if e.encomendas == []:
+            l_aux.append(";")
+        else:
+            string = ""
+            for en in e.encomendas:
+                string += str(en.id)
+                string += ";"
+            string = string[:-1]
+            l_aux.append(string)
+        if e.servicos == []:
+            l_aux.append(";")
+        else:
+            string = ""
+            for en in e.servicos:
+                string += str(en.id)
+                string += ";"
+            string = string[:-1]
+            l_aux.append(string)
+        l_aux.append(e.castigo)
+        lista.append(l_aux)
+    print(lista)  
+    return lista  
+            
+def add_estafeta(nome):
+    estafetas_final.append(Estafeta(nome, 0, 0, [], [], 0))
+    lista_estafetas = convert_estafetas(estafetas_final)
+    df = pd.DataFrame(lista_estafetas, columns=['nome','classificacao','nr_classificacao','encomendas','servicos','castigo'])
+    df.to_csv('DB/Estafetas.csv', index=False)
+    
+#add_estafeta("JOJO")
+    
+#TODO fazer o add_encomenda e o add_servico 
+#estafeta1 = Estafeta("Jorge")
+#estafeta2 = Estafeta("Inês")
+#estafeta3 = Estafeta("Guilherme")
+#estafetas = [estafeta1, estafeta2, estafeta3]
+
+#rua1 = Rua("São José","Gualtar",3)
+#rua2 = Rua("São João","Gualtar",4)
+#rua3 = Rua("São Pedro","Gualtar",5)
+#ruas = [rua1, rua2, rua3]
+#
+#encomenda1 = Encomenda("Cama",90,1050,Transporte(0),time(00,00),cliente1,rua1) 
+#encomenda2 = Encomenda("Cacto",15,10,Transporte(1),time(14,25),cliente2,rua2)
+#encomenda3 = Encomenda("Candeeiro",3,25,Transporte(2),time(17,35),cliente3,rua3)
+#encomendas = [encomenda1, encomenda2, encomenda3]
 
 # Let's start the methods.
 
@@ -116,6 +257,7 @@ def add_punishment(x):
 #e = Encomenda("ola", 21, 21, Transporte.Carro, 21, c, l, 3)
 
 #Isto é um exemplo básico de grafos, há outras maneiras de os definir que se calhar não ficam tão confusos
+
 def create_graph():
     g = Graph(conexoes_lst)
     g.vs["rua"] = ruas_lst
