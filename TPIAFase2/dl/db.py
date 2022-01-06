@@ -137,7 +137,7 @@ class Servico :
 
 #N sei se vamos ter uma encomenda a ter um id para não haver repetidos
 class Encomenda:
-    def __init__(self,index, nome,peso,volume,rua,cliente,prazo,urgencia):
+    def __init__(self,index,nome,peso,volume,rua,cliente,prazo,urgencia):
         self.id = index
         self.nome = nome 
         self.peso = peso
@@ -214,7 +214,85 @@ def add_estafeta(nome):
     df = pd.DataFrame(lista_estafetas, columns=['nome','classificacao','nr_classificacao','encomendas','servicos','castigo'])
     df.to_csv('DB/Estafetas.csv', index=False)
     
+def get_estafetas_names():
+    nomes = []
+    for e in estafetas_final:
+        nomes.append(e.nome)
+    return nomes
+
+def get_client_names():
+    nomes = []
+    for c in clientes_final:
+        nomes.append(c.nome)
+    return nomes
+    
 #add_estafeta("JOJO")
+
+def filtra_estafetas_peso(encomenda):
+    final = []
+    for e in estafetas_final:
+        soma = 0
+        for p in e.encomendas:
+            soma += p.peso
+        if soma + encomenda.peso < 100:
+            final.append(e)
+    return final
+
+def get_classificacoes_estafeta(estafetas):
+    lista = []
+    for e in estafetas:
+        lista.append(e.classificacao)
+    return lista
+
+def add_encomenda_to_estafeta(encomenda):
+    e_copy = filtra_estafetas_peso(encomenda)
+    print(e_copy)
+    classificacoes = get_classificacoes_estafeta(e_copy)
+    print(classificacoes)
+    print(classificacoes.index(max(classificacoes)))
+    melhor_estafeta = e_copy[classificacoes.index(max(classificacoes))]
+    for e in estafetas_final:
+        if e.nome == melhor_estafeta.nome :
+            e.encomendas.append(encomenda)
+            print(e)
+    lista_estafetas = convert_estafetas(estafetas_final)
+    df = pd.DataFrame(lista_estafetas, columns=['nome','classificacao','nr_classificacao','encomendas','servicos','castigo'])
+    df.to_csv('DB/Estafetas.csv', index=False)
+    
+        
+    
+    
+        
+
+
+def convert_encomendas(encomendas):
+    lista = []
+    for e in encomendas:
+        l_aux = []
+        l_aux.append(e.id)
+        l_aux.append(e.nome)
+        l_aux.append(e.peso)
+        l_aux.append(e.volume)
+        l_aux.append(e.rua)
+        l_aux.append(e.cliente.nome)
+        string = ""
+        string = str(e.prazo.hour) + ";" + str(e.prazo.minute)
+        l_aux.append(string)
+        l_aux.append(e.urgencia)
+        lista.append(l_aux)
+    return lista
+ 
+def add_encomenda(nome, peso, volume, rua, client_nome, horas, minutos):
+    tempo = time(horas, minutos)
+    i = encomendas_final[-1].id
+    encomenda = Encomenda(i+1, nome, peso, volume, rua, Cliente(client_nome), tempo, 0)
+    encomendas_final.append(encomenda)
+    add_encomenda_to_estafeta(encomenda)
+    lista_encomendas = convert_encomendas(encomendas_final)
+    df = pd.DataFrame(lista_encomendas, columns=['id','nome','peso','volume','rua','cliente','prazo','urgencia'])
+    df.to_csv('DB/Encomendas.csv', index=False)
+    
+
     
 #TODO fazer o add_encomenda e o add_servico 
 #estafeta1 = Estafeta("Jorge")

@@ -14,6 +14,7 @@ import networkx
 from queue import Queue
 from itertools import groupby 
 from queue import PriorityQueue
+import numpy as np
 ####################################################################################################
 
 
@@ -75,6 +76,8 @@ def load_search_graph(path, names):
 ####################################################################################################
 
 def bfs_aux(graph, start_node, target_node):
+    # Set of visited nodes to prevent loops
+    visited = set()
     # Set of visited nodes to prevent loops30
     visited = set()
     queue = Queue()
@@ -123,7 +126,7 @@ def bfs(start, target):
 ####################################################################################################
 
 # heuristic function with equal values for all nodes
-def heuristic(vertix,goal,graph):
+def heuristic(vertix,goal,graph,D):
     #Heuristica com todos os nodos a 1 ou a 0, consoante o valor que se coloque lá
     #H = dict.fromkeys(g.vs.indices, 1)
     #return H[n]
@@ -136,7 +139,14 @@ def heuristic(vertix,goal,graph):
 
     dx = abs(coordenadas_vertix[0] - coordenadas_goal[0])
     dy = abs(coordenadas_vertix[1] - coordenadas_goal[1])
-    D = len(graph.neighbors(vertix))
+
+    point_a = np.array([coordenadas_vertix[0],coordenadas_goal[0]])
+    point_b = np.array([coordenadas_vertix[1],coordenadas_goal[1]])
+   
+    #TESTAR COM E SEM D
+    #return D * np.linalg.norm(point_a - point_b)
+
+    #D = len(graph.neighbors(vertix))
     #D = 1
     return D * math.sqrt(dx * dx + dy * dy)
 
@@ -171,7 +181,8 @@ def a_star_algorithm_aux(graph, start_node, stop_node):
 
             # find a node with the lowest value of f() - evaluation function
             for v in open_list:
-                if n == None or g[v] + heuristic(v,stop_node,graph) < g[n] + heuristic(n,stop_node,graph):
+                #mudar para 1 para outra heuristica
+                if n == None or g[v] + heuristic(v,stop_node,graph,len(graph.neighbors(v))) < g[n] + heuristic(n,stop_node,graph,len(graph.neighbors(v))):
                     n = v;
 
             if n == None:
@@ -335,6 +346,35 @@ def travessia_varias_encomendas_distancia_bfs(encomendas):
     return final_path
 
 
+##def travessia_varias_encomendas_distancia_bfs_euclidean(encomendas):
+##    custo_total = 0
+##    path_completo = [] #path completo a passar em todas as encomendas
+##    paths = [] #paths em cada for loop
+##    nome = "Green Distribution" #nodo inicial
+##    custos = [] #lista que vai ter os custos de todas as encomendas
+##    #fazer travessia do Green Distribution a todas as encomendas
+##    encomendas_path = []
+##    while encomendas :
+##        for encomenda in encomendas:
+##            heuristic(vertix,goal,graph,D)
+##            encomendas
+##
+##            ##path = bfs(nome, encomenda)
+##            ##paths.append(path)
+##            ##custo = calcula_custo(path)
+##            ##custos.append(custo)
+##            ##path = []
+##        id_menor_custo = custos.index(min(custos))
+##        nome = encomendas.pop(id_menor_custo)
+##        path_completo += paths[id_menor_custo]
+##        print(paths[id_menor_custo])
+##        custo_total += min(custos)
+##        custos = []
+##        paths = []
+##    final_path = [i[0] for i in groupby(path_completo)]
+##    return final_path
+
+
 def travessia_varias_encomendas_distancia_a_star(encomendas):
     custo_total = 0
     path_completo = [] #path completo a passar em todas as encomendas
@@ -353,7 +393,8 @@ def travessia_varias_encomendas_distancia_a_star(encomendas):
         nome = encomendas.pop(id_menor_custo)
         path_completo += paths[id_menor_custo]
         print(paths[id_menor_custo])
-        custo_total += min(custos)
+        custo_total += min(custos)# Set of visited nodes to prevent loops
+        visited = set()
         custos = []
         paths = []
     final_path = [i[0] for i in groupby(path_completo)]
@@ -458,6 +499,7 @@ def bilp(target, limit):
 
 ####################################################################################################
 
+<<<<<<< HEAD
 
 def calcula_tempo(distancia, velocidade):
     return (distancia/1000)/velocidade
@@ -487,6 +529,67 @@ def escolhe_veiculo_velocidade(estafeta):
 
 
 ###################################################################################################
+=======
+def greedy_search_aux(graph,start, target, euclidean):
+    # greedy search algorithm
+    #d_dict = {1: [(1, 2), (2, 15), (3, 30)], 2: [(1, 30), (7, 10)]}  # dict of lists of tuples such that nodei : [ (neighbourj, distancej), .... ]
+    currentCity = start
+    tour = []   # list of covered nodes
+    tour.append(currentCity)
+    #distanceTravelled = 0   # distance travelled in tour
+    while len( set([neighbourCity for neighbourCity in graph.neighbors(currentCity)]).difference(set(tour))) > 0:  # set(currentCityNeighbours) - set(visitedNodes)
+        # way 1 starts
+        minDistanceNeighbour = None
+        minDistance = None
+        for neighbour in graph.neighbors(currentCity):
+            #for eachNeighbour, eachNeighbourdDistance in 
+            if neighbour != currentCity and neighbour not in tour:
+                if euclidean:
+                    if minDistance is not None:
+                        if minDistance > heuristic(currentCity,neighbour,graph,1) :
+                            minDistance = heuristic(currentCity,neighbour,graph,1)
+                            minDistanceNeighbour = neighbour
+                    else:
+                        minDistance = heuristic(currentCity,neighbour,graph,1)
+                        minDistanceNeighbour = neighbour
+                else:
+                    edge_id = graph.get_eid(currentCity, neighbour)
+                    cost = graph.es["distancia"][edge_id]
+                    if minDistance is not None:
+                        if minDistance > cost :
+                            minDistance = cost
+                            minDistanceNeighbour = neighbour
+                    else:
+                        minDistance = cost
+                        minDistanceNeighbour = neighbour
+
+        nearestNeigbhourCity = (minDistanceNeighbour, minDistance)
+        # way 1 ends
+        # way 2 starts
+        # nearestNeigbhourCity = min(d_dict[currentCity], key=lambda someList: someList[1] if someList[0] not in tour else 1000000000)  # else part returns some very large number
+        # way 2 ends
+        tour.append(nearestNeigbhourCity[0])
+        currentCity = nearestNeigbhourCity[0]
+        #distanceTravelled += nearestNeigbhourCity[1]
+    #print(tour)
+    #print(distanceTravelled)
+    return tour
+
+
+def greedy_search(start, target, euclidean):
+    path = greedy_search_aux(g, g.vs["rua"].index(start), g.vs["rua"].index(target), euclidean)
+    #print(path)
+    #load_search_graph(path)
+    return path
+
+
+##ALGORITMO DA ECOLOGIA COM FALSES E O CRLH A 4
+
+
+####################################################################################################
+
+
+>>>>>>> refs/remotes/origin/main
 #name = "Alameda João Paulo II"
 #name = "Rua de Santa Luzia"
 #name = "Rua do Monte Lombo" #onde dá bug
@@ -495,18 +598,18 @@ def escolhe_veiculo_velocidade(estafeta):
 #load_search_graph(path)
 #name = "Travessa de Sandim"
 name = "Travessa de Santa Eulália"
-#name = "Travessa de Santo André"
-#name = "Travessa de Sarnados"
-#name = "Travessa do Agrelo"
-#name = "Travessa do Alcaide"
-#name = "Travessa do Alto do Monte"
-#name = "Travessa do Barreiro"
-#name = "Travessa do Bitareu"
-#name = "Travessa do Calvário"
-#name = "Travessa do Campo Grande"
-#name = "Travessa do Cinco de Outubro"
-#name = "Travessa do Cruzeiro"
-#name = "Travessa do Facho"
+name7 = "Travessa de Santo André"
+name8 = "Travessa de Sarnados"
+name9 = "Travessa do Agrelo"
+name10 = "Travessa do Alcaide"
+name11 = "Travessa do Alto do Monte"
+name12 = "Travessa do Barreiro"
+name13 = "Travessa do Bitareu"
+name14 = "Travessa do Calvário"
+name15 = "Travessa do Campo Grande"
+name16 = "Travessa do Cinco de Outubro"
+name17 = "Travessa do Cruzeiro"
+name18 = "Travessa do Facho"
 name2 = "Travessa do Fial"
 #name3 = "Travessa do Juncal"
 #name = "Travessa do Monte Lombão"
@@ -535,6 +638,11 @@ name3 = "Urbanização Pé de Prata"
 #    load_search_graph(path)
 #print(dijkstra(g, g.vs["rua"].index("Green Distribution")))
 
+#TRUE: USA HEURISTICA EUCLIDEANA
+#FALSE: USA HEURISTICA DO MAIS PROXIMO DOS VIZINHOS
+path= greedy_search("Green Distribution",name, False)
+aux_lst = [name]
+load_search_graph(path,aux_lst)
 
 #print(g)
 #print(graph_as_adjacency_list(g))
@@ -544,7 +652,8 @@ name3 = "Urbanização Pé de Prata"
 ##[630, 125, 111, 39, 505, 203]
 ##434
 
-nomes = [name2, name, name3, name4, name5, name6]
+nomes = [name2, name, name3]
+#nomes = [name2, name, name3, name4, name5, name6,name7,name8,name9,name10,name11,name12,name13,name14,name15,name16,name17,name18]
 nomes_aux = nomes[:]
 
 
@@ -553,5 +662,6 @@ nomes_aux = nomes[:]
 #lista.append([1])
 #lista.append([2,3])
 #print(lista)
-#path = travessia_varias_encomendas_distancia_dfs(nomes)
+#path = travessia_varias_encomendas_distancia_a_star(nomes)
+##path = travessia_varias_encomendas_distancia_bfs(nomes)
 #load_search_graph(path, nomes_aux)

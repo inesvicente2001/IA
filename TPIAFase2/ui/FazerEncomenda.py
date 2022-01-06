@@ -14,6 +14,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import tkinter as ttk
 
+e = estafetas_final
 
 procuras = [
     "Depth-first",
@@ -31,22 +32,19 @@ criterios = [
 def get_ruas_encomendas(encomendas):
     ruas = []
     for encomenda in encomendas:
-        ruas.append(encomenda.localizacao)
+        ruas.append(encomenda.rua)
     return ruas
 
-def calcula_caminho(ruas, procura, criterio):
-    if procura == "Depth-first" and criterio == "distância":
-        return travessia_varias_encomendas_distancia_dfs(ruas) 
-    if procura == "Breadth-first" and criterio == "distância":
-        return travessia_varias_encomendas_distancia_bfs(ruas)
-    if procura == "A*" and criterio == "distância":
-        return travessia_varias_encomendas_distancia_a_star(ruas)
+def calcula_caminho(ruas, procura, criterio, estafeta):
+    if criterio == "distância":
+        return travessia_varias_encomendas_distancia(ruas, procura, estafeta)
     #TODO acabar isto com as outras procuras
     
 def show_graph():
     load_graph()   
     
 def show_search_graph(path, ruas):
+    print(ruas)
     load_search_graph(path, ruas)
 
 class FazerEncomenda(tk.Frame) :
@@ -56,7 +54,8 @@ class FazerEncomenda(tk.Frame) :
         tk.label = tk.Label(
             self,
             text="Fazer entregas",
-        ).pack()
+            font = ("Arial", 30)
+        ).pack(pady = 25)
         
         ruas = self.get_ruas()
         ruas.sort()
@@ -68,7 +67,7 @@ class FazerEncomenda(tk.Frame) :
         
         #Drop down menu
         tk.Label(self, text="Seleciona o estafeta").pack()
-        combo = ttk.Combobox(self, value = self.get_estafetas_names(estafetas))
+        combo = ttk.Combobox(self, value = self.get_estafetas_names(e))
         combo.pack()
         
         frame = tk.LabelFrame(self, text = "")
@@ -126,9 +125,9 @@ class FazerEncomenda(tk.Frame) :
 
     def show_estafeta(self, estafeta_name, msg, frame):
         frame.config(text = estafeta_name)
-        for e in estafetas:
-            if e.nome == estafeta_name:
-                estafeta = e
+        for es in e:
+            if es.nome == estafeta_name:
+                estafeta = es
         frame.pack()
         msg.config(text = estafeta_to_string(estafeta))
         msg.pack()
@@ -138,9 +137,9 @@ class FazerEncomenda(tk.Frame) :
         return g.vs["rua"]
     
     def confirmar(self, estafeta_name, procura, criterio):
-        for e in estafetas:
-            if e.nome == estafeta_name:
-                estafeta = e
+        for es in e:
+            if es.nome == estafeta_name:
+                estafeta = es
         flag = True
         if estafeta_name == "":
             tk.Label(self, text = "Erro, seleciona um estafeta para fazer a entrega").pack()
@@ -162,21 +161,23 @@ class FazerEncomenda(tk.Frame) :
             return
         
         ruas = get_ruas_encomendas(estafeta.encomendas)
-        path = calcula_caminho(ruas, procura, criterio)
+        ruas_aux = ruas[:]
+        path = calcula_caminho(ruas, procura, criterio, estafeta)
         
         
         search_window = tk.Tk()
-        tk.label = tk.Label(
+        tk.Label(
             search_window,
             text="Entregas efetuadas com sucesso!",
-        ).pack()
+            font = ("Arial", 20)
+        ).pack(pady=10)
         
         tk.buttonGrafo = tk.Button(
             search_window,
             text="Ver grafo com procura",
             width=25,
             height=5,
-            command = lambda: show_search_graph(path, ruas)
+            command = lambda: show_search_graph(path, ruas_aux)
         ).pack()
         
         

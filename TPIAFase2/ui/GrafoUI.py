@@ -20,9 +20,8 @@ class GrafoUI(tk.Frame) :
         tk.label = tk.Label(
             self,
             text="Grafo",
-            width=15,
-            height=5
-        ).pack()
+            font = ('Arial', 30)
+        ).pack(pady = 25)
         
         tk.buttonGrafo = tk.Button(
             self,

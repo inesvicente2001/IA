@@ -26,9 +26,8 @@ class AdicionarRua(tk.Frame) :
         tk.label = tk.Label(
             self,
             text="Adicionar Rua",
-            width=15,
-            height=5
-        ).pack()
+            font = ('Arial', 30) 
+        ).pack(pady = 25)
        
         #criar um dropdown menu
         #variable = tk.StringVar()
