@@ -6,10 +6,7 @@ class BaseConhecimento(tk.Frame):
         tk.label = tk.Label(
             self,
             text="Base de conhecimento",
-            fg="white",
-            bg="black",
-            width=15,
-            height=5
+
         ).pack()
         
         tk.button_bc = tk.Button(
@@ -17,8 +14,7 @@ class BaseConhecimento(tk.Frame):
             text="Ver Base de Conhecimento",
             width=25,
             height=5,
-            bg="blue",
-            fg="yellow",
+
             command = lambda: master.switch_frame(VerBaseConhecimento)
         ).pack()
         
@@ -28,8 +24,7 @@ class BaseConhecimento(tk.Frame):
             text="Adicionar à Base de Conhecimento",
             width=25,
             height=5,
-            bg="yellow",
-            fg="blue",
+
             command = lambda: master.switch_frame(AdicionarBaseConhecimento)
         ).pack()
                
@@ -38,10 +33,12 @@ class BaseConhecimento(tk.Frame):
             text="Voltar",
             width=25,
             height=5,
-            bg="yellow",
-            fg="blue",
+
             command = lambda: master.switch_frame(PaginaInicial)
         ).pack() 
+        
+        
+        
          
 from PaginaInicial import *
 from VerBaseConhecimento import *

@@ -18,12 +18,16 @@ estafetas = pd.read_csv("DB/Estafetas.csv")
 
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
+coordenadas_lst_with_quotes = ruas['coordenadas'].tolist()
 conexoes_lst_with_quotes = conexoes['Arestas'].tolist()
 distancias_lst = conexoes['Distancias'].tolist()
 
+
 conexoes_lst = [make_tuple(x.strip()) for x in conexoes_lst_with_quotes]
+coordenadas_lst = [make_tuple(y.strip()) for y in coordenadas_lst_with_quotes]
 
 #print(conexoes_lst)
+#print(coordenadas_lst)
 
 class Cliente:
     def __init__(self, nome): 
@@ -68,9 +72,29 @@ class Estafeta:
         self.encomendas = encomendas
         self.servicos = []
         self.castigo = 0
-        self.peso = 0
-
+        
+        
 #    def add_encomenda(encomenda):
+        
+cliente1 = Cliente("Tomás")
+cliente2 = Cliente("Miguel")
+cliente3 = Cliente("Diogo")
+clientes = [cliente1, cliente2, cliente3]
+
+estafeta1 = Estafeta("Jorge")
+estafeta2 = Estafeta("Inês")
+estafeta3 = Estafeta("Guilherme")
+estafetas = [estafeta1, estafeta2, estafeta3]
+
+rua1 = Rua("São José","Gualtar",3)
+rua2 = Rua("São João","Gualtar",4)
+rua3 = Rua("São Pedro","Gualtar",5)
+ruas = [rua1, rua2, rua3]
+
+encomenda1 = Encomenda("Cama",90,1050,Transporte(0),time(00,00),cliente1,rua1) 
+encomenda2 = Encomenda("Cacto",15,10,Transporte(1),time(14,25),cliente2,rua2)
+encomenda3 = Encomenda("Candeeiro",3,25,Transporte(2),time(17,35),cliente3,rua3)
+encomendas = [encomenda1, encomenda2, encomenda3]
 
 # Let's start the methods.
 
@@ -102,6 +126,7 @@ def create_graph():
     g = Graph(conexoes_lst)
     g.vs["rua"] = ruas_lst
     g.vs["freguesia"] = freguesias_lst
+    g.vs["coordenadas"] = coordenadas_lst
     g.es["distancia"] =  distancias_lst #distancia dos vertices
    
     g.save("teste.graphml")
@@ -111,18 +136,19 @@ def create_graph():
 
 def create_prefs():
     #g = Graph.Read_GraphML("teste.graphml")
-    color_dict = {"Gualtar": "green", "Arcozelo": "pink"} 
+    #color_dict = {"Gualtar": "green", "Arcozelo": "pink"} 
     prefs = {}
     root = tk.Tk()
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     root.destroy()
     prefs["bbox"] = (screen_width, screen_width)
-    prefs["layout"] = g.layout("lgl") #circle é mais estético 
+    #prefs["layout"] = g.layout("lgl") #circle é mais estético 
+    prefs["layout"] = g.layout("lgl") 
     prefs["vertex_label"] = g.vs["rua"] #dizer que a label dos nodos vão ser o nome das ruas(a label é o nome que aparece em baixo dos vértices no grafo)
     prefs["vertex_label_size"] = 7
     #prefs["vertex_color"] = [color_dict[freguesia] for freguesia in g.vs["freguesia"]] #Percorres as freguesias todas do grafo e as que forem "Gualtar" vão passar a "blue" e "Arcozelo" a "pink"
-    prefs["edge_label"] = g.es["distancia"] #o label de cada aresta vai ser a distancia
+    prefs["edge_label"] = [ '%.2f' % elem for elem in g.es["distancia"] ]  #o label de cada aresta vai ser a distancia
     prefs["edge_label_size"] = 7
     prefs["edge_width"] = [1] * nr_arestas 
     prefs["edge_color"] = ["grey"] * nr_arestas 

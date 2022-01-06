@@ -23,17 +23,31 @@ procuras = [
     "A*",
 ]
 
+criterios = [
+    "distância",
+    "ecológico (tempo)"
+]
 
-def calcula_caminho(rua, procura):
-    if procura == "Depth-first":
-        return dfs(rua)
+def get_ruas_encomendas(encomendas):
+    ruas = []
+    for encomenda in encomendas:
+        ruas.append(encomenda.localizacao)
+    return ruas
+
+def calcula_caminho(ruas, procura, criterio):
+    if procura == "Depth-first" and criterio == "distância":
+        return travessia_varias_encomendas_distancia_dfs(ruas) 
+    if procura == "Breadth-first" and criterio == "distância":
+        return travessia_varias_encomendas_distancia_bfs(ruas)
+    if procura == "A*" and criterio == "distância":
+        return travessia_varias_encomendas_distancia_a_star(ruas)
     #TODO acabar isto com as outras procuras
     
 def show_graph():
     load_graph()   
     
-def show_search_graph(path):
-    load_search_graph(path)
+def show_search_graph(path, ruas):
+    load_search_graph(path, ruas)
 
 class FazerEncomenda(tk.Frame) :
 
@@ -41,9 +55,7 @@ class FazerEncomenda(tk.Frame) :
         tk.Frame.__init__(self, master)
         tk.label = tk.Label(
             self,
-            text="Fazer uma encomenda",
-            width=15,
-            height=5
+            text="Fazer entregas",
         ).pack()
         
         ruas = self.get_ruas()
@@ -55,25 +67,37 @@ class FazerEncomenda(tk.Frame) :
         #optionsR = tk.OptionMenu(self, rua, *ruas).pack() #Drop down menu com freguesias a escolher
         
         #Drop down menu
-        tk.Label(self, text="Seleciona a rua para fazer a entrega").pack()
-        comboRua = ttk.Combobox(self, value = ruas)
-        comboRua.pack()
+        tk.Label(self, text="Seleciona o estafeta").pack()
+        combo = ttk.Combobox(self, value = self.get_estafetas_names(estafetas))
+        combo.pack()
         
-        tk.Label(self, text="Seleciona o tipo de procura").pack()
-        comboProcura = ttk.Combobox(self, value = procuras)
-        comboProcura.pack()
+        frame = tk.LabelFrame(self, text = "")
+        msg = tk.Label(frame, text = "")
+        tk.Button(self, text = "Ver estafeta", command = lambda:  self.show_estafeta(combo.get(), msg, frame)).pack()
         
+            
+        tk.Label(self, text="Seleciona a procura").pack()
+        comboP = ttk.Combobox(self, value = procuras)
+        comboP.pack()
+
         
+        tk.Label(self, text="Seleciona o critério").pack()
+        comboC = ttk.Combobox(self, value = criterios)
+        comboC.pack()
         #procura = tk.StringVar()
         #procura.set("Seleciona tipo de procura") #oq aparece antes de ver as opções do dropdown
         #optionsP = tk.OptionMenu(self, procura, *procuras).pack() #Drop down menu com procuras a escolher
+        
+        #tk.Label(self, text="Seleciona o critério").pack()
+        #combo = ttk.Combobox(self, value = *procuras)
+        #combo.pack()
         
         tk.buttonConfirmar = tk.Button(
             self,
             text="Confirmar",
             width=25,
             height=5,
-            command = lambda: self.confirmar(comboRua.get(), comboProcura.get())
+            command = lambda: self.confirmar(combo.get(), comboP.get(), comboC.get())
         ).pack()
         
         tk.buttonGrafo = tk.Button(
@@ -94,33 +118,57 @@ class FazerEncomenda(tk.Frame) :
             command = lambda: master.switch_frame(GrafoUI)
         ).pack()
         
-        
-        
+    def get_estafetas_names(self, estafetas):
+        names = []
+        for estafeta in estafetas:
+            names.append(estafeta.nome) 
+        return names
+
+    def show_estafeta(self, estafeta_name, msg, frame):
+        frame.config(text = estafeta_name)
+        for e in estafetas:
+            if e.nome == estafeta_name:
+                estafeta = e
+        frame.pack()
+        msg.config(text = estafeta_to_string(estafeta))
+        msg.pack()
+    
     def get_ruas(self):
         g = Graph.Read_GraphML("teste.graphml")
         return g.vs["rua"]
     
-    def confirmar(self, rua, procura):
+    def confirmar(self, estafeta_name, procura, criterio):
+        for e in estafetas:
+            if e.nome == estafeta_name:
+                estafeta = e
         flag = True
-        if rua == "":
-            tk.Label(self, text = "Erro, seleciona uma rua para fazer a entrega").pack()
+        if estafeta_name == "":
+            tk.Label(self, text = "Erro, seleciona um estafeta para fazer a entrega").pack()
             flag = False
             
         if procura == "":
             tk.Label(self, text = "Erro, seleciona o tipo de procura").pack()
             flag = False
             
+        if criterio == "":
+            tk.Label(self, text = "Erro, seleciona o critério").pack()
+            flag = False
+            
+        if estafeta.encomendas == []:
+            tk.Label(self, text = "Erro, este estafeta não tem encomendas pendentes").pack()
+            flag = False
+        
         if flag == False:
             return
         
-        path = calcula_caminho(rua, procura)
+        ruas = get_ruas_encomendas(estafeta.encomendas)
+        path = calcula_caminho(ruas, procura, criterio)
+        
         
         search_window = tk.Tk()
         tk.label = tk.Label(
             search_window,
-            text="Procura efetuada com sucesso!",
-            width=50,
-            height=5
+            text="Entregas efetuadas com sucesso!",
         ).pack()
         
         tk.buttonGrafo = tk.Button(
@@ -128,7 +176,7 @@ class FazerEncomenda(tk.Frame) :
             text="Ver grafo com procura",
             width=25,
             height=5,
-            command = lambda: show_search_graph(path)
+            command = lambda: show_search_graph(path, ruas)
         ).pack()
         
         
@@ -141,3 +189,4 @@ class FazerEncomenda(tk.Frame) :
         ).pack()
         
 from GrafoUI import *
+from VerBaseConhecimento import estafeta_to_string

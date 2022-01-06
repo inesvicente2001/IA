@@ -32,7 +32,7 @@ class GrafoUI(tk.Frame) :
             command = show_graph
         ).pack()
        
-        
+       #TODO provavelmente vamos ter de mudar 
         tk.buttonRua = tk.Button(
             self,
             text="Adicionar Rua",
@@ -45,7 +45,7 @@ class GrafoUI(tk.Frame) :
         
         tk.buttonEncomenda = tk.Button(
             self,
-            text="Fazer encomenda",
+            text="Fazer entrega",
             width=25,
             height=5,
             command = lambda: master.switch_frame(FazerEncomenda)
