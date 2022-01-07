@@ -574,6 +574,9 @@ def greedy_search_aux(graph,start, target, euclidean):
         minDistanceNeighbour = None
         minDistance = None
         for neighbour in graph.neighbors(currentCity):
+            if neighbour == target:
+                tour.append(neighbour)
+                break
             #for eachNeighbour, eachNeighbourdDistance in 
             if neighbour != currentCity and neighbour not in tour:
                 if euclidean:
@@ -610,12 +613,54 @@ def greedy_search_aux(graph,start, target, euclidean):
 
 def greedy_search(start, target, euclidean):
     path = greedy_search_aux(g, g.vs["rua"].index(start), g.vs["rua"].index(target), euclidean)
+    if path[-1] != g.vs["rua"].index(target):
+        path.clear()
+        print("Pesquisa gulosa não encontrou caminho")
     #print(path)
     #load_search_graph(path)
     return path
 
 
 ####################################################################################################
+
+
+def ecologic_path_uma(encomendas_nomes, procura, estafeta, profundidade):
+    veiculo = escolhe_veiculo_velocidade(estafeta)
+    print(veiculo)
+    tempo = 0
+    path_completo = []
+    vel = calcula_velocidade(veiculo, estafeta.encomendas)
+    while encomendas_nomes:
+        #escolhe a  mais urgente
+        #nome da rua para a encomenda mais urgente
+        most_urgent = select_most_urgent(estafeta.encomendas, [])
+        most_urgent_id = estafeta.encomendas.index(most_urgent)
+
+        #print(rua)
+        if procura == "Depth-first" :
+            path = dfs("Green Distribution", most_urgent)
+        elif procura == "Breadth-first":
+            path = bfs("Green Distribution", most_urgent)
+        elif procura == "A*":
+            path = a_star_algorithm("Green Distribution", most_urgent)
+        elif procura == "Iterativa":
+            print(rua)
+            path = bilp("Green Distribution", most_urgent, int(profundidade))
+        elif procura == "Gulosa":
+            path = greedy_search("Green Distribution", most_urgent, False)
+
+        inverse_path = path[:]
+        inverse_path.reverse()
+        path_completo += path + inverse_path[1:-1]
+        estafeta.encomendas.pop(most_urgent_id)
+        custo = calcula_custo(path)
+        tempo += calcula_tempo(custo, vel)
+        vel = calcula_velocidade(veiculo, estafeta.encomendas)
+        tempo += calcula_tempo(custo, vel)
+    path_completo.append(697)
+    print(tempo)
+    #print(path_completo)
+    return (path_completo, tempo)
 
 
 
@@ -658,6 +703,14 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
     #guarda valor anterior no primeiro elemento da lista e o atual no segundo
     for veiculo in veiculos_possiveis:
         times_dictionary.update({veiculo:[time(0,0),time(0,0)]})
+
+
+    #em floats
+    #tempos para os diferentes veiculos num dicionário
+    float_times_dictionary = {}
+    #guarda valor anterior no primeiro elemento da lista e o atual no segundo
+    for veiculo in veiculos_possiveis:
+        float_times_dictionary.update({veiculo:[0,0]})
 
     #velocidades para os diferentes veiculos num dicionário
     velocities_dictionary = {}
@@ -741,6 +794,12 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
 
             #atualizar valor no dicionário
             tempo_demorado = calcula_tempo(custo, velocities_dictionary[veiculo][1])
+
+            tmp_float = float_times_dictionary[veiculo][1]
+            float_times_dictionary[veiculo][0] = tmp_float
+            float_times_dictionary[veiculo][1] = tmp_float + tempo_demorado
+
+
             minutes_to_add = int((tempo_demorado*60) % 60)
             aux = times_dictionary[veiculo][1]
             tempo_atual = datetime.combine(date.today(), aux) + timedelta(minutes = minutes_to_add)
@@ -786,6 +845,13 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
                 #ver tempos e depois meter no dicionário de booleanos
                 #atualizar valores no dicionário cópia dos tempos
                 tempo_demorado_tmp = calcula_tempo(custo_tmp, velocities_dictionary_copy[veiculo][1])
+
+                tmp_demorado_float = float_times_dictionary[veiculo][1]
+                float_times_dictionary[veiculo][0] = tmp_demorado_float
+                float_times_dictionary[veiculo][1] = tmp_demorado_float + tempo_demorado_tmp
+
+
+
                 minutes_to_add = int((tempo_demorado*60) % 60)
                 aux = times_dict_copy[veiculo][1]
                 tempo_atual = datetime.combine(date.today(), aux) + timedelta(minutes = minutes_to_add)
@@ -867,6 +933,10 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
                 times_atuais_lst[1] = times_atuais_lst[0]
                 times_dictionary[veiculo] = times_atuais_lst
 
+                float_times_atuais_lst = float_times_dictionary[veiculo]
+                float_times_atuais_lst[1] = float_times_atuais_lst[0]
+                float_times_dictionary[veiculo] = float_times_atuais_lst
+
                 #dicionário das velocidades fica com as veloccidades atuais a serem iguais as antigas
                 velocities_atuais_lst = velocities_dictionary[veiculo]
                 velocities_atuais_lst[1] = velocities_atuais_lst[0]
@@ -937,6 +1007,7 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
         tempo_atual = datetime.combine(date.today(), aux) + timedelta(minutes = minutes_to_add)
         #times_dictionary[veiculo][0] = aux
         #times_dictionary[veiculo][1] = tempo_atual.time()
+        tempo_atual_float = float_times_dictionary[veiculo][1] + tempo_demorado
 
         print(tempo_atual.time())
         print(veiculo_usado)
@@ -944,11 +1015,11 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
         flat=chain.from_iterable(path_dictionary[veiculo_usado])
         path_lst = list(flat)
         final_path = [i[0] for i in groupby(path_lst)]
-        return (final_path, 5) #depois mudar isto... para time(_,_)
+        return (final_path, tempo_atual_float) #depois mudar isto... para time(_,_)
 
     else:
         print("Não foi possivel entregar todas as encomendas a tempo")
-        return ([], 0) #depois mudar isto... para time(_,_)
+        return ([], -1) #depois mudar isto... para time(_,_)
 
 
 
@@ -1008,9 +1079,9 @@ name3 = "Urbanização Pé de Prata"
 
 #TRUE: USA HEURISTICA EUCLIDEANA
 #FALSE: USA HEURISTICA DO MAIS PROXIMO DOS VIZINHOS
-#path= greedy_search("Green Distribution",name, False)
-#aux_lst = [name]
-#load_search_graph(path,aux_lst)
+path= greedy_search("Green Distribution",name, False)
+aux_lst = [name]
+load_search_graph(path,aux_lst)
 
 #print(g)
 #print(graph_as_adjacency_list(g))
