@@ -15,11 +15,8 @@ from queue import Queue
 from itertools import groupby,chain 
 from queue import PriorityQueue
 import numpy as np
+import datetime
 from datetime import *
-
-
-
-
 ####################################################################################################
 
 
@@ -251,31 +248,9 @@ def calcula_custo(path):
         total_cost += g.es["distancia"][edge_id]
     return total_cost
 
-#def travessia_varias_encomendas_distancia_dfs(encomendas):
-#    custo_total = 0
-#    path_completo = [] #path completo a passar em todas as encomendas
-#    paths = [] #paths em cada for loop
-#    nome = "Green Distribution" #nodo inicial
-#    custos = [] #lista que vai ter os custos de todas as encomendas
-#    #fazer travessia do Green Distribution a todas as encomendas
-#    while encomendas :
-#        for encomenda in encomendas:
-#            path = dfs(nome, encomenda)
-#            paths.append(path)
-#            custo = calcula_custo(path)
-#            custos.append(custo)
-#            path = []
-#        id_menor_custo = custos.index(min(custos))
-#        nome = encomendas.pop(id_menor_custo)
-#        path_completo += paths[id_menor_custo]
-#        #print(paths[id_menor_custo])
-#        custo_total += min(custos)
-#        custos = []
-#        paths = []
-#    final_path = [i[0] for i in groupby(path_completo)]
-#    return final_path
 
-def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafeta):
+
+def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafeta, profundidade):
     veiculo = escolhe_veiculo_velocidade(estafeta)
     print(veiculo)
     tempo = 0
@@ -289,6 +264,12 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
             path = bfs("Green Distribution", rua)
         elif procura == "A*":
             path = a_star_algorithm("Green Distribution", rua)
+        elif procura == "Iterativa":
+            print(rua)
+            path = bilp("Green Distribution", rua, int(profundidade))
+        elif procura == "Gulosa":
+            path = greedy_search("Green Distribution", rua, False)
+
         inverse_path = path[:]
         inverse_path.reverse()
         path_completo += path + inverse_path[1:-1]
@@ -301,11 +282,65 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
     print(tempo)
     #print(path_completo)
     return (path_completo, tempo)
+
+def calcula_dinheiro(encomenda, hora_entrega, veiculo):
+    dinheiro = encomenda.peso * encomenda.volume
+    if encomenda.prazo < hora_entrega:
+        dinheiro = dinheiro * 0.8
+    if veiculo == Transporte.Carro:
+        dinheiro = dinheiro * 1.2
+    elif veiculo == Transporte.Mota:
+        dinheiro = dinheiro * 1.1
+    return dinheiro
+    
+
+def calcula_classificacao(tempo_atual, tempo_destino, estafeta, veiculo):
+    tempo_atual_minutos = tempo_atual.hour * 60 + tempo_atual.minute
+    tempo_destino_minutos = tempo_destino.hour * 60 + tempo_destino.minute
+    if (tempo_destino_minutos / tempo_atual_minutos) >= 1.5:
+        estafeta.castigo -= 1
+        return random.randint(3,5)
+    
+    if (tempo_destino_minutos / tempo_atual_minutos) <= 1.5:
+        estafeta.castigo += 2
+        return random.randint(1,3)
+    else:
+        return random.randint(2,4)
+
         
+def criar_servico(estafeta, encomenda, tempo, veiculo):
+    tempo_atual = datetime.combine(date.today(), time(0,0)) + timedelta(hours = tempo)
+    tempo_destino = encomenda.prazo
+    
+    #atualizar classificacao
+    classificacao = calcula_classificacao(tempo_atual, tempo_destino, estafeta, veiculo)
+    media_classificacao = (classificacao + (estafeta.classificacao) * estafeta.nr_classificacoes) / (estafeta.nr_classificacoes + 1)
+    estafeta.classificacao = media_classificacao
+    estafeta.nr_classificacoes  += 1
+    
+    #criar servico
+    hora_da_entrega = time(tempo_atual.hour, tempo_atual.minute)
+    if hora_da_entrega > tempo_destino:
+        a_tempo = False
+    else:
+        a_tempo = True
+    
+        
+    dinheiro = calcula_dinheiro(encomenda, hora_da_entrega, veiculo)
+        
+    servico = Servico(encomenda.id, encomenda.nome, encomenda.rua, classificacao, hora_da_entrega, a_tempo, encomenda.peso, veiculo, dinheiro)
+    estafeta.servicos.append(servico)
+    lista_estafetas = convert_estafetas(estafetas_final)
+    add_servico(servico)
+    df = pd.DataFrame(lista_estafetas, columns=['nome','classificacao','nr_classificacao','encomendas','servicos','castigo'])
+    df.to_csv('DB/Estafetas.csv', index=False)
+    
+    
+    
 
-
-def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
+def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta, profundidade):
     veiculo = escolhe_veiculo_velocidade(estafeta)
+    servicos = estafeta.encomendas[:]
     print(veiculo)
     peso_total = 0
     custo_total = 0
@@ -325,17 +360,22 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
                 path = bfs(nome, encomenda_nome)
             elif procura == "A*":
                 path = a_star_algorithm(nome, encomenda_nome)
+            elif procura == "Iterativa":
+                path = bilp(nome, encomenda_nome, int(profundidade))
+            elif procura == "Gulosa":
+                path = greedy_search(nome, encomenda_nome, False)
             paths.append(path)
             custo = calcula_custo(path)
             custos.append(custo)
             path = []
         id_menor_custo = custos.index(min(custos))
         nome = encomendas_nomes.pop(id_menor_custo)
-        estafeta.encomendas.pop(id_menor_custo)
+        servico = estafeta.encomendas.pop(id_menor_custo)
         path_completo += paths[id_menor_custo]
         #print(paths[id_menor_custo])
         custo_total += min(custos)
         tempo += calcula_tempo(min(custos), vel)
+        criar_servico(estafeta, servico, tempo, veiculo)
         custos = []
         paths = []
     if procura == "Depth-first" :
@@ -348,90 +388,10 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
     custo = calcula_custo(path)
     custos.append(custo)
     final_path = [i[0] for i in groupby(path_completo)]
+    
     print(tempo)
     return (final_path, tempo)
 
-
-
-#def travessia_varias_encomendas_distancia_bfs(encomendas):
-#    
-#    custo_total = 0
-#    path_completo = [] #path completo a passar em todas as encomendas
-#    paths = [] #paths em cada for loop
-#    nome = "Green Distribution" #nodo inicial
-#    custos = [] #lista que vai ter os custos de todas as encomendas
-#    #fazer travessia do Green Distribution a todas as encomendas
-#    while encomendas :
-#        for encomenda in encomendas:
-#            path = bfs(nome, encomenda)
-#            paths.append(path)
-#            custo = calcula_custo(path)
-#            custos.append(custo)
-#            path = []
-#        id_menor_custo = custos.index(min(custos))
-#        nome = encomendas.pop(id_menor_custo)
-#        path_completo += paths[id_menor_custo]
-#        #print(paths[id_menor_custo])
-#        custo_total += min(custos)
-#        custos = []
-#        paths = []
-#    final_path = [i[0] for i in groupby(path_completo)]
-#    return final_path
-
-
-##def travessia_varias_encomendas_distancia_bfs_euclidean(encomendas):
-##    custo_total = 0
-##    path_completo = [] #path completo a passar em todas as encomendas
-##    paths = [] #paths em cada for loop
-##    nome = "Green Distribution" #nodo inicial
-##    custos = [] #lista que vai ter os custos de todas as encomendas
-##    #fazer travessia do Green Distribution a todas as encomendas
-##    encomendas_path = []
-##    while encomendas :
-##        for encomenda in encomendas:
-##            heuristic(vertix,goal,graph,D)
-##            encomendas
-##
-##            ##path = bfs(nome, encomenda)
-##            ##paths.append(path)
-##            ##custo = calcula_custo(path)
-##            ##custos.append(custo)
-##            ##path = []
-##        id_menor_custo = custos.index(min(custos))
-##        nome = encomendas.pop(id_menor_custo)
-##        path_completo += paths[id_menor_custo]
-##        print(paths[id_menor_custo])
-##        custo_total += min(custos)
-##        custos = []
-##        paths = []
-##    final_path = [i[0] for i in groupby(path_completo)]
-##    return final_path
-
-
-def travessia_varias_encomendas_distancia_a_star(encomendas):
-    custo_total = 0
-    path_completo = [] #path completo a passar em todas as encomendas
-    paths = [] #paths em cada for loop
-    nome = "Green Distribution" #nodo inicial
-    custos = [] #lista que vai ter os custos de todas as encomendas
-    #fazer travessia do Green Distribution a todas as encomendas
-    while encomendas :
-        for encomenda in encomendas:
-            path = a_star_algorithm(nome, encomenda)
-            paths.append(path)
-            custo = calcula_custo(path)
-            custos.append(custo)
-            path = []
-        id_menor_custo = custos.index(min(custos))
-        nome = encomendas.pop(id_menor_custo)
-        path_completo += paths[id_menor_custo]
-        #print(paths[id_menor_custo])
-        custo_total += min(custos)# Set of visited nodes to prevent loops
-        visited = set()
-        custos = []
-        paths = []
-    final_path = [i[0] for i in groupby(path_completo)]
-    return final_path
 
 ####################################################################################################
 
@@ -521,10 +481,12 @@ def bilp_aux(g, start, target, path, limit, visited = set()):
         return None
 
 
-def bilp(target, limit):
+def bilp(start, target, limit):
     max_depth = limit
     path = []
-    bilp_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target), path, max_depth, set())
+    print(start)
+    print(target)
+    bilp_aux(g, g.vs["rua"].index(start), g.vs["rua"].index(target), path, max_depth, set())
     print(path)
     #load_search_graph(path)
     return path
@@ -652,7 +614,7 @@ def greedy_search(start, target, euclidean):
 
 
 
-def ecologic_on_time_path(encomendas_nomes, procura, estafeta):
+def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
 
     max_num_tries = 10 * len(encomendas_nomes)
 
@@ -755,14 +717,18 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta):
             #voltar a meter lista de proibidos nula
             lst_proibidos_dictionary[veiculo] = []
 
-
-            #itera para o nodo mais urgente
             if procura == "Depth-first" :
-                fst_path = dfs(nome, most_urgent)
+                fst_path = dfs("Green Distribution", most_urgent)
             elif procura == "Breadth-first":
-                fst_path = bfs(nome, most_urgent)
+                fst_path = bfs("Green Distribution", most_urgent)
             elif procura == "A*":
-                fst_path = a_star_algorithm(nome, most_urgent)
+                fst_path = a_star_algorithm("Green Distribution", most_urgent)
+            elif procura == "Iterativa":
+                print(rua)
+                fst_path = bilp("Green Distribution", most_urgent, int(profundidade))
+            elif procura == "Gulosa":
+                fst_path = greedy_search("Green Distribution", most_urgent, False)
+
 
             #nome = most_urgent
             custo = calcula_custo(fst_path)
@@ -785,12 +751,18 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta):
             
 
             for encomenda_nome in nomes_encomendas_dictionary[veiculo]:
+
                 if procura == "Depth-first" :
                     path = dfs(nome, encomenda_nome)
                 elif procura == "Breadth-first":
                     path = bfs(nome, encomenda_nome)
                 elif procura == "A*":
                     path = a_star_algorithm(nome, encomenda_nome)  
+                elif procura == "Iterativa":
+                    print(rua)
+                    path = bilp(nome, encomenda_nome, int(profundidade))
+                elif procura == "Gulosa":
+                    path = greedy_search(nome, encomenda_nome, False)
 
                 #fazer cálculos
                 #dicionário dos bools
@@ -940,6 +912,11 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta):
             path_back_gd = bfs(nome, "Green Distribution")
         elif procura == "A*":
             path_back_gd = a_star_algorithm(nome, "Green Distribution")
+        elif procura == "Iterativa":
+            print(rua)
+            path_back_gd = bilp(nome, "Green Distribution", int(profundidade))
+        elif procura == "Gulosa":
+            path_back_gd = greedy_search(nome, "Green Distribution", False)
 
         #adiciona aos paths
 
@@ -1019,9 +996,9 @@ name3 = "Urbanização Pé de Prata"
 #path = a_star_algorithm(name)
 #print(dijkstra(g, g.vs["rua"].index("Green Distribution"))) #Não é possível dar print com o create prefs porque faz bracktracing
 #print(best_first_search(name)) #Não é possível dar print com o create prefs porque faz bracktracing
-#path= bilp(name,10)
+#path= bilp(name,1)
 #if len(path)>1:
-#    load_search_graph(path)
+#    load_search_graph(path, [name])
 #print(dijkstra(g, g.vs["rua"].index("Green Distribution")))
 
 #TRUE: USA HEURISTICA EUCLIDEANA

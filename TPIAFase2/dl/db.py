@@ -8,7 +8,6 @@ import random
 import tkinter as tk
 import networkx
 from datetime import time
-#from pyvis.network import Network
 
 ruas = pd.read_csv("DB/SantoTirsoStreetsFinal.csv")
 conexoes = pd.read_csv("DB/ConexoesRuas.csv")
@@ -17,14 +16,12 @@ encomendas = pd.read_csv("DB/Encomendas.csv")
 estafetas = pd.read_csv("DB/Estafetas.csv")
 servicos = pd.read_csv("DB/Servicos.csv")
 
-
 clientes_lst = clientes['nome'].tolist()
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
 coordenadas_lst_with_quotes = ruas['coordenadas'].tolist()
 conexoes_lst_with_quotes = conexoes['Arestas'].tolist()
 distancias_lst = conexoes['Distancias'].tolist()
-
 
 conexoes_lst = [make_tuple(x.strip()) for x in conexoes_lst_with_quotes]
 coordenadas_lst = [make_tuple(y.strip()) for y in coordenadas_lst_with_quotes]
@@ -58,17 +55,20 @@ def create_encomendas(encomendas):
 def create_servicos(s):
     lista = []
     for index, row in s.iterrows():
-        if row[4] == "true":
+        tempoAux = row[4] 
+        tempo = tempoAux.split(";") 
+        tempo_final = time(int(tempo[0]), int(tempo[1]))
+        if row[5] == "true":
             c = True
         else:
             c = False        
-        if row[6] == "carro":
+        if row[7] == "carro":
             t = Transporte.Carro
-        elif row[6] == "mota":
+        elif row[7] == "mota":
             t = Transporte.Mota
         else:
             t = Transporte.Bicicleta
-        lista.append(Servico(row[0],row[1],row[2],row[3],c,row[5], t))
+        lista.append(Servico(row[0],row[1],row[2],row[3],tempo_final,c,row[6], t, row[8]))
     return lista
 
 def get_encomenda_by_id(i):
@@ -112,7 +112,12 @@ def create_estafetas(estafetas):
         estafetas_class.append(Estafeta(row[0],row[1],row[2],es_en, es_s, row[5]))
     return estafetas_class
 
-
+def get_ruas(path):
+    ruas_lista = []
+    for i in path:
+        print(g.vs["rua"][i])
+        ruas_lista.append(g.vs["rua"][i])
+    return ruas_lista
 
 
 class Cliente:
@@ -126,14 +131,16 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, index, nome, rua ,classificacao, chegada_a_tempo, penalizacao, transporte):
+    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, peso, transporte, dinheiro):
         self.id = index
         self.nome = nome
+        self.peso = peso
         self.rua = rua
         self.classificacao = classificacao
-        self.chegada = chegada_a_tempo
-        self.penalizacao = penalizacao
+        self.hora_de_entrega = hora_de_entrega
+        self.chegada_a_tempo = chegada_a_tempo
         self.transporte = transporte
+        self.dinheiro = dinheiro
 
 #N sei se vamos ter uma encomenda a ter um id para não haver repetidos
 class Encomenda:
@@ -156,7 +163,6 @@ class Estafeta:
         self.servicos = servicos
         self.castigo = castigo
         
-        
 #    def add_encomenda(encomenda):
         
 clientes_final = create_clientes(clientes_lst)
@@ -164,6 +170,39 @@ encomendas_final = create_encomendas(encomendas)
 servicos_final = create_servicos(servicos)
 estafetas_final = create_estafetas(estafetas)
 
+
+def convert_servicos(servicos):
+    lista = []
+    for s in servicos:
+        s_aux = []
+        s_aux.append(s.id)
+        s_aux.append(s.nome)
+        s_aux.append(s.rua)
+        s_aux.append(s.classificacao)
+        string = ""
+        string = str(s.hora_de_entrega.hour) + ";" + str(s.hora_de_entrega.minute)
+        s_aux.append(string)
+        s_aux.append(s.chegada_a_tempo)
+        string = ""
+        if s.transporte == Transporte.Carro:
+            string = "carro"
+        if s.transporte == Transporte.Mota:
+            string = "mota"
+        if s.transporte == Transporte.Bicicleta:
+            string = "bicicleta"
+        s_aux.append(string)
+        s_aux.append(s.dinheiro)
+        lista.append(s_aux)
+    return lista
+        
+
+def add_servico(servico):
+    servicos_final.append(servico)
+    lista_servicos = convert_servicos(servicos_final)
+    df = pd.DataFrame(lista_servicos, columns=['id', 'nome', 'rua', 'classificacao', 'hora_da_entrega','chegada_a_tempo','transporte','dinheiro'])
+    df.to_csv('DB/Servicos.csv', index=False)
+    
+    
     
 def get_client_names():
     nomes = []
@@ -220,6 +259,11 @@ def get_estafetas_names():
         nomes.append(e.nome)
     return nomes
 
+def get_estafeta_by_name(name):
+    for e in estafetas_final:
+        if e.nome == name:
+            return e
+
 def get_client_names():
     nomes = []
     for c in clientes_final:
@@ -266,8 +310,6 @@ def get_prazo_encomenda(estafeta, encomenda_rua_nome):
             return encomenda_it.prazo    
     
         
-
-
 def convert_encomendas(encomendas):
     lista = []
     for e in encomendas:
@@ -285,10 +327,10 @@ def convert_encomendas(encomendas):
         lista.append(l_aux)
     return lista
  
-def add_encomenda(nome, peso, volume, rua, client_nome, horas, minutos):
+def add_encomenda(nome, peso, volume, rua, client_nome, horas, minutos, urgencia):
     tempo = time(horas, minutos)
     i = encomendas_final[-1].id
-    encomenda = Encomenda(i+1, nome, peso, volume, rua, Cliente(client_nome), tempo, 0)
+    encomenda = Encomenda(i+1, nome, peso, volume, rua, Cliente(client_nome), tempo, urgencia)
     encomendas_final.append(encomenda)
     add_encomenda_to_estafeta(encomenda)
     lista_encomendas = convert_encomendas(encomendas_final)
@@ -296,6 +338,14 @@ def add_encomenda(nome, peso, volume, rua, client_nome, horas, minutos):
     df.to_csv('DB/Encomendas.csv', index=False)
     
 
+#TODO fazer isto depois de ver diferença de tempos
+#def add_servico(encomendas):
+    
+    
+def add_servicos(encomendas):
+    for e in encomendas:
+        add_servico(e)
+    
     
 #TODO fazer o add_encomenda e o add_servico 
 #estafeta1 = Estafeta("Jorge")

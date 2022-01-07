@@ -34,14 +34,8 @@ class PaginaInicial(tk.Frame):
             command = lambda: master.switch_frame(QueriesFase1)
         ).pack()   
         
-           
-        tk.button_queries2 = tk.Button(
-            self,
-            text="Queries Fase 2",
-            width=25,
-            height=5,
-            command = lambda: master.switch_frame(QueriesFase2)
-        ).pack()      
+  
 
 from GrafoUI import *
 from BaseConhecimento import *
+from QueriesFase1 import *

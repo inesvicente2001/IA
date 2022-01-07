@@ -179,12 +179,17 @@ class AdicionarEncomenda(tk.Frame):
         combo4 = ttk.Combobox(self, value = list(range(60)))
         combo4.pack()
         
+        text_label8 = tk.Label(self, text = "Urgencia da encomenda")
+        text_label8.pack()
+        combo5 = ttk.Combobox(self, value = [0,1])
+        combo5.pack()
+        
         tk.buttonAdd = tk.Button(
             self,
             text="Adicionar",
             width=25,
             height=5,
-            command = lambda: self.adicionar(entry1.get(), entry2.get(), entry3.get(), combo.get(), combo2.get(), combo3.get(), combo4.get())
+            command = lambda: self.adicionar(entry1.get(), entry2.get(), entry3.get(), combo.get(), combo2.get(), combo3.get(), combo4.get(), combo5.get())
         ).pack()
         
         tk.buttonVoltar = tk.Button(
@@ -195,7 +200,7 @@ class AdicionarEncomenda(tk.Frame):
             command = lambda: master.switch_frame(AdicionarBaseConhecimento)
         ).pack()
         
-    def adicionar(self, nome, peso, volume, rua, client_nome, horas, minutos):
+    def adicionar(self, nome, peso, volume, rua, client_nome, horas, minutos, boolean):
         
         if nome == "":
             tk.Label(self, text = "Erro, insira uma nome").pack()
@@ -246,12 +251,17 @@ class AdicionarEncomenda(tk.Frame):
         if minutos == "":
             tk.Label(self, text = "Erro, escolha os minutos para a entrega").pack()
             flag = False
+            
+        if boolean == "":
+            tk.Label(self, text = "Erro, escolha os minutos para a entrega").pack()
+            flag = False
+            
         
         if flag == False:
             return
         
-        add_encomenda(nome, int(peso), int(volume), rua, client_nome, int(horas), int(minutos))
-        tk.Label(self, text = "Encomenda adiciona com sucesso!").pack()
+        add_encomenda(nome, int(peso), int(volume), rua, client_nome, int(horas), int(minutos), int(boolean))
+        tk.Label(self, text = "Encomenda adicionada com sucesso!", font = ("Arial", 20)).pack()
             
         print("passei os testes")
         return

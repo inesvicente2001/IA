@@ -13,6 +13,7 @@ import igraph as ig
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import tkinter as ttk
+import time as time_
 
 e = estafetas_final
 estafeta = []
@@ -36,13 +37,111 @@ def get_ruas_encomendas(encomendas):
         ruas.append(encomenda.rua)
     return ruas
 
-def calcula_caminho(ruas, procura, criterio, opcao, estafeta):
+def calcula_caminho_bilp(root, ruas, procura, criterio, opcao, estafeta, profundidade):
+    root.destroy()
+    ruas = get_ruas_encomendas(estafeta.encomendas)
+    ruas_aux = ruas[:]
     if criterio == "distância" and opcao == "Sim":
-        return travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta)
+        start_time = time_.time()
+        (path, tempo) = travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
     if criterio == "distância" and opcao == "Nao":
-        return travessia_varias_encomendas_distancia(ruas, procura, estafeta)
+        start_time = time_.time()
+        (path, tempo) = travessia_varias_encomendas_distancia(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
+    #TODO acabar com as outras opções
+    search_window = tk.Tk()
+    tk.Label(
+        search_window,
+        text="Entregas efetuadas com sucesso!",
+        font = ("Arial", 20)
+    ).pack(pady=10)
+    
+    tk.buttonGrafo = tk.Button(
+        search_window,
+        text="Ver grafo com procura",
+        width=25,
+        height=5,
+        command = lambda: show_search_graph(path, ruas_aux)
+    ).pack()
+    
+    
+    tk.buttonVoltar = tk.Button(
+        search_window,
+        text="Voltar",
+        width=25,
+        height=5,
+        command = lambda: search_window.destroy()
+    ).pack()
+    
+    
+    frame = tk.LabelFrame(search_window, text = "tempo do estafeta")
+    frame.pack()
+    #print("{:.2f}". format(total_cost)) # para ser dado print só com 2 casas decimais
+    msg = tk.Label(frame, text = "{:.2f} horas". format(tempo))
+    msg.pack()
+    
+    
+    frame3 = tk.LabelFrame(search_window, text = "tempo a calcular a procura")
+    frame3.pack()
+    msg3 = tk.Label(frame3, text =  "{:.2f} segundos". format(tempo_r))
+    msg3.pack()
+    
+    frame2 = tk.LabelFrame(search_window, text = "Caminho percorrido")
+    frame2.pack()
+    
+    ruas_path = get_ruas(path)
+    #print(ruas_path)
+    
+    msg2 = tk.Label(frame2, text = path_to_string(ruas_path))
+    msg2.pack()
+        
+        
+def calcula_caminho(ruas, procura, criterio, opcao, estafeta):
+    print(opcao)
+    profundidade = 0
+    if procura == "Iterativa" :
+        root = tk.Tk()
+        tk.Label(root, text="Seleciona a profundidade").pack()
+        comboC = ttk.Combobox(root, value = list(range(nr_vertices)))
+        comboC.pack()
+        tk.buttonConfirmar = tk.Button(
+            root,
+            text="Confirmar",
+            width=25,
+            height=5,
+            command = lambda: calcula_caminho_bilp(root, ruas, procura, criterio, opcao, estafeta, comboC.get())
+        ).pack()()
+        
+    #if procura == "Gulosa" :
+    #    root = tk.Tk()
+    #    tk.Label(root, text="Seleciona a heuristica").pack()
+    #    comboC = ttk.Combobox(root, value = list(range(nr_vertices)))
+    #    comboC.pack()
+    #    tk.buttonConfirmar = tk.Button(
+    #        root,
+    #        text="Confirmar",
+    #        width=25,
+    #        height=5,
+    #        command = lambda: calcula_caminho_bilp(root, ruas, procura, criterio, opcao, estafeta, comboC.get())
+    #    ).pack()
+        
+        
+    if criterio == "distância" and opcao == "Sim":
+        start_time = time_.time()
+        (path, tempo_e) = travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
+        return (path, tempo_e, tempo_r)
+    if criterio == "distância" and opcao == "Nao":
+        start_time = time_.time()
+        (path, tempo_e) = travessia_varias_encomendas_distancia(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
+        return (path, tempo_e, tempo_r)
     if criterio == "ecológico (tempo)" and opcao == "Nao":
-        return ecologic_on_time_path(ruas, procura, estafeta)
+        start_time = time_.time()
+        (path, tempo_e) = ecologic_on_time_path(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
+        return (path, tempo_e, tempo_r)
 
     #TODO acabar isto com as outras procuras
     
@@ -180,7 +279,7 @@ class FazerEncomenda(tk.Frame) :
         
         ruas = get_ruas_encomendas(estafeta.encomendas)
         ruas_aux = ruas[:]
-        (path, tempo) = calcula_caminho(ruas, procura, criterio, opcao, estafeta)
+        (path, tempo, tempo_r) = calcula_caminho(ruas, procura, criterio, opcao, estafeta)
         
         
         search_window = tk.Tk()
@@ -208,12 +307,31 @@ class FazerEncomenda(tk.Frame) :
         ).pack()
         
         
-        frame = tk.LabelFrame(search_window, text = "tempo")
+        frame = tk.LabelFrame(search_window, text = "tempo do estafeta")
         frame.pack()
-        msg = tk.Label(frame, text = tempo)
+        msg = tk.Label(frame, text =  "{:.2f} horas". format(tempo))
         msg.pack()
         
+        frame3 = tk.LabelFrame(search_window, text = "tempo a calcular a procura")
+        frame3.pack()
+        msg3 = tk.Label(frame3, text =  "{:.2f} segundos". format(tempo_r))
+        msg3.pack()
         
+        frame2 = tk.LabelFrame(search_window, text = "Caminho percorrido")
+        frame2.pack()
+        
+        ruas_path = get_ruas(path)
+        #print(ruas_path)
+        
+        msg2 = tk.Label(frame2, text = path_to_string(ruas_path))
+        msg2.pack()
+
+
+def path_to_string(path):
+    string = ""
+    for e in path:
+        string += e + "\n"
+    return string        
         
         
 from GrafoUI import *
