@@ -131,7 +131,7 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, peso, transporte, dinheiro):
+    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, peso  , transporte, dinheiro):
         self.id = index
         self.nome = nome
         self.peso = peso
@@ -183,6 +183,7 @@ def convert_servicos(servicos):
         string = str(s.hora_de_entrega.hour) + ";" + str(s.hora_de_entrega.minute)
         s_aux.append(string)
         s_aux.append(s.chegada_a_tempo)
+        s_aux.append(s.peso)
         string = ""
         if s.transporte == Transporte.Carro:
             string = "carro"
@@ -199,7 +200,7 @@ def convert_servicos(servicos):
 def add_servico(servico):
     servicos_final.append(servico)
     lista_servicos = convert_servicos(servicos_final)
-    df = pd.DataFrame(lista_servicos, columns=['id', 'nome', 'rua', 'classificacao', 'hora_da_entrega','chegada_a_tempo','transporte','dinheiro'])
+    df = pd.DataFrame(lista_servicos, columns=['id', 'nome', 'rua', 'classificacao', 'hora_da_entrega','chegada_a_tempo','peso','transporte','dinheiro'])
     df.to_csv('DB/Servicos.csv', index=False)
     
     

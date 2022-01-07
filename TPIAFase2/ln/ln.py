@@ -273,9 +273,10 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
         inverse_path = path[:]
         inverse_path.reverse()
         path_completo += path + inverse_path[1:-1]
-        estafeta.encomendas.pop(0)
+        servico = estafeta.encomendas.pop(0)
         custo = calcula_custo(path)
         tempo += calcula_tempo(custo, vel)
+        criar_servico(estafeta, servico, tempo, veiculo)
         vel = calcula_velocidade(veiculo, estafeta.encomendas)
         tempo += calcula_tempo(custo, vel)
     path_completo.append(697)
@@ -383,6 +384,10 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta, p
     elif procura == "Breadth-first":
         path = bfs(nome, "Green Distribution")
     elif procura == "A*":
+        path = a_star_algorithm(nome, "Green Distribution")
+    elif procura == "Iterativa":
+        path = a_star_algorithm(nome, "Green Distribution")
+    elif procura == "Gulosa":
         path = a_star_algorithm(nome, "Green Distribution")
     path_completo += path
     custo = calcula_custo(path)

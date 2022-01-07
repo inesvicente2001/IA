@@ -152,7 +152,7 @@ class AdicionarEncomenda(tk.Frame):
         entry2.pack()
         
         
-        text_label3 = tk.Label(self, text = "Volume da nova Encomenda")
+        text_label3 = tk.Label(self, text = "Volume da nova Encomenda(máx: 20)")
         entry3 = tk.Entry(self)
         text_label3.pack()
         entry3.pack()
