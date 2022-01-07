@@ -40,8 +40,8 @@ for a in range(len(ruas_lst)):
    coord_y = 20
 
    while (coord_x,coord_y) in coordenadas_lst:
-      coord_x = random.randint(1,200)
-      coord_y = random.randint(1,200)
+      coord_x = random.randint(1,4000)
+      coord_y = random.randint(1,4000)
 
 
    coordenadas_lst.append((coord_x,coord_y))
@@ -94,7 +94,7 @@ conexoes = pd.DataFrame(data)
 #print(conexoes)
 
 
-ruas.to_csv(r'DB/SantoTirsoStreets.csv')
+ruas.to_csv(r'DB/SantoTirsoStreetsFinal.csv')
 conexoes.to_csv(r'DB/ConexoesRuas.csv')
 
 
