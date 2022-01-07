@@ -723,16 +723,16 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
             lst_proibidos_dictionary[veiculo] = []
 
             if procura == "Depth-first" :
-                fst_path = dfs("Green Distribution", most_urgent)
+                fst_path = dfs(nome, most_urgent)
             elif procura == "Breadth-first":
-                fst_path = bfs("Green Distribution", most_urgent)
+                fst_path = bfs(nome, most_urgent)
             elif procura == "A*":
-                fst_path = a_star_algorithm("Green Distribution", most_urgent)
+                fst_path = a_star_algorithm(nome, most_urgent)
             elif procura == "Iterativa":
                 print(rua)
-                fst_path = bilp("Green Distribution", most_urgent, int(profundidade))
+                fst_path = bilp(nome, most_urgent, int(profundidade))
             elif procura == "Gulosa":
-                fst_path = greedy_search("Green Distribution", most_urgent, False)
+                fst_path = greedy_search(nome, most_urgent, False)
 
 
             #nome = most_urgent
@@ -1020,11 +1020,13 @@ name3 = "Urbanização Pé de Prata"
 ##[630, 125, 111, 39, 505, 203]
 ##434
 
-nomes = [name2, name, name3]
-#nomes = [name2, name, name3, name4, name5, name6,name7,name8,name9,name10,name11,name12,name13,name14,name15,name16,name17,name18]
-nomes_aux = nomes[:]
-
-#path = travessia_varias_encomendas_distancia_uma(nomes, "Breadth-first", estafetas_final[3])
+#nomes = [name2, name, name3]
+##nomes = [name2, name, name3, name4, name5, name6,name7,name8,name9,name10,name11,name12,name13,name14,name15,name16,name17,name18]
+#nomes_aux = nomes[:]
+#
+#path,tempo = ecologic_on_time_path(nomes, "Breadth-first", estafetas_final[3], 2)
+#
+##path = travessia_varias_encomendas_distancia_uma(nomes, "Breadth-first", estafetas_final[3])
 #load_search_graph(path, nomes_aux)
 
 #lista = []
