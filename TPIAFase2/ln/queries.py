@@ -38,14 +38,14 @@ def query3(estafeta):
     for x in estafeta.encomendas:
         if (x.cliente in list_clientes):
             continue
-        list_clientes.append(x.client)
+        list_clientes.append(x.cliente)
         continue
     return list_clientes
 
-def query4(estafetas,day):
+def query4(estafetas):
     rendimento = 0
-    time_start = datetime.combine(day,time.min)
-    time_end = datetime.combine(day,time.max)
+    time_start = time(0,0)
+    time_end = time(23,59)
     for x in estafetas:
         for y in x.servicos:
             if (time_start <= y.hora_de_entrega <= time_end):
@@ -121,13 +121,13 @@ def query9(time_start, time_end, estafetas):
     entregues_e_nao = (nEncomendasEntregues,nNãoEncomendasEntregues)
     return entregues_e_nao
         
-def query10(estafetas,day):
-    time_start = datetime.combine(day,time.min)
-    time_end = datetime.combine(day,time.max)
+def query10(estafetas):
+    time_start = time(0,0)
+    time_end = time(23,59)
     peso_por_estafeta = []
     peso = 0
     for x in estafetas:
-        for y in x.encomendas:
+        for y in x.servicos:
             if (time_start <= y.hora_de_entrega <= time_end):
                 peso = peso + y.peso
             continue
@@ -135,5 +135,5 @@ def query10(estafetas,day):
         continue
     return peso_por_estafeta
 
-estafeta = query1(estafetas_final)
-print(estafeta.nome)
+estafe = query10(estafetas_final)
+print(estafe)
