@@ -260,7 +260,10 @@ def add_encomenda_to_estafeta(encomenda):
     df.to_csv('DB/Estafetas.csv', index=False)
     
         
-    
+def get_prazo_encomenda(estafeta, encomenda_rua_nome):
+    for encomenda_it in estafeta.encomendas:
+        if encomenda_it.rua == encomenda_rua_nome:
+            return encomenda_it.prazo    
     
         
 

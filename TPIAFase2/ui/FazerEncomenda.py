@@ -41,6 +41,8 @@ def calcula_caminho(ruas, procura, criterio, opcao, estafeta):
         return travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta)
     if criterio == "distância" and opcao == "Nao":
         return travessia_varias_encomendas_distancia(ruas, procura, estafeta)
+    if criterio == "ecológico (tempo)" and opcao == "Nao":
+        return ecologic_on_time_path(ruas, procura, estafeta)
 
     #TODO acabar isto com as outras procuras
     

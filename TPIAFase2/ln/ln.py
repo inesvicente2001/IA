@@ -12,9 +12,14 @@ import random
 import tkinter as tk
 import networkx
 from queue import Queue
-from itertools import groupby 
+from itertools import groupby,chain 
 from queue import PriorityQueue
 import numpy as np
+from datetime import *
+
+
+
+
 ####################################################################################################
 
 
@@ -529,7 +534,7 @@ def bilp(target, limit):
 
 
 def calcula_tempo(distancia, velocidade):
-    return (distancia)/velocidade
+    return (distancia)/velocidade*pow(10,-3)
     
 def calcula_velocidade(veiculo, encomendas):
     soma_peso = 0
@@ -552,6 +557,40 @@ def escolhe_veiculo_velocidade(estafeta):
         return Transporte.Mota
     else:
         return Transporte.Carro
+
+
+def veiculos_possiveis_lst(estafeta):
+    soma_peso = 0
+    for e in estafeta.encomendas:
+        soma_peso += e.peso
+    if soma_peso <= 5:
+        return [Transporte.Bicicleta,Transporte.Mota,Transporte.Carro]
+    elif soma_peso <= 20:
+        return [Transporte.Mota,Transporte.Carro]
+    else:
+        return [Transporte.Carro]
+
+
+
+def fator_urgencia_e_prazo(urgencia, prazo):
+    #15 minutos: fator urgencia
+    #cria um novo prazo representativo de urgencia
+    tempo = datetime.combine(date.today(), prazo) - timedelta(minutes = 15*urgencia)
+    new_prazo = tempo.time()
+    return new_prazo
+
+
+
+
+def select_most_urgent(encomendas, lst_proibidos):
+    most_urgent = " " 
+    urgency = time(23,59) #urgencia maxima -> começa no ultimo minuto antes de mudança de dia
+    for encomenda in encomendas:
+        prazo_fatorizado = fator_urgencia_e_prazo(encomenda.urgencia, encomenda.prazo)
+        if prazo_fatorizado < urgency and encomenda.rua not in lst_proibidos:
+            most_urgent = encomenda.rua
+            urgency = prazo_fatorizado
+    return most_urgent
 
 
 
@@ -609,11 +648,333 @@ def greedy_search(start, target, euclidean):
     return path
 
 
-##ALGORITMO DA ECOLOGIA COM FALSES E O CRLH A 4
+####################################################################################################
+
+
+
+def ecologic_on_time_path(encomendas_nomes, procura, estafeta):
+
+    max_num_tries = 10 * len(encomendas_nomes)
+
+
+    custo_atual = 0 #distancia
+    tempo_atual = time(0,0) #tempo
+    path_final = []
+
+    #lista com veiculos que serão possiveis de usar, tendo em conta o peso total da encomenda
+    veiculos_possiveis = veiculos_possiveis_lst(estafeta)
+
+    #lista encomendas estafeta
+    #encomendas = estafeta.encomendas
+
+    paths = []
+    custos = []
+
+
+    nome = "Green Distribution" #nodo inicial
+    #para todos os veiculos possiveis:
+    #dicionário que diz se cada nodo será entregue a tempo  
+    on_time_dictionary = {}
+    for veiculo in veiculos_possiveis:
+        on_time_dictionary.update({veiculo:dict()})
+        for encomenda_nome in encomendas_nomes:
+            on_time_dictionary[veiculo].update({encomenda_nome:True})
+
+    #dicionário que diz se encontrou caminho
+    found_path_dictionary = {}
+    for veiculo in veiculos_possiveis:
+        found_path_dictionary.update({veiculo:False})
+
+    
+    #tempos para os diferentes veiculos num dicionário
+    times_dictionary = {}
+    #guarda valor anterior no primeiro elemento da lista e o atual no segundo
+    for veiculo in veiculos_possiveis:
+        times_dictionary.update({veiculo:[time(0,0),time(0,0)]})
+
+    #velocidades para os diferentes veiculos num dicionário
+    velocities_dictionary = {}
+    #guarda valor anterior no primeiro elemento da lista e o atual no segundo
+    for veiculo in veiculos_possiveis:
+        velocities_dictionary.update({veiculo:[-1,-1]})
+
+
+    #encomendas para os diferentes veiculos num dicionário
+    encomendas_dictionary = {}
+    #guarda copia encomendas para cada veiculo
+    for veiculo in veiculos_possiveis:
+        encomendas_dictionary.update({veiculo:estafeta.encomendas.copy()})
+
+    #nomes encomendas para os diferentes veiculos num dicionário
+    nomes_encomendas_dictionary = {}
+    #guarda copia nome encomendas para cada veiculo
+    for veiculo in veiculos_possiveis:
+        nomes_encomendas_dictionary.update({veiculo:encomendas_nomes.copy()})
+
+    #lista dos proibidos para os diferentes veiculos num dicionário
+    lst_proibidos_dictionary = {}
+    #guarda copia nome encomendas para cada veiculo
+    for veiculo in veiculos_possiveis:
+        lst_proibidos_dictionary.update({veiculo:[]})
+
+
+    #lista dos custos para os diferentes veiculos num dicionário
+    custos_dictionary = {}
+    for veiculo in veiculos_possiveis:
+        custos_dictionary.update({veiculo:[]})
+
+
+    #lista dos paths para os diferentes veiculos num dicionário
+    path_dictionary = {}
+    for veiculo in veiculos_possiveis:
+        path_dictionary.update({veiculo:[]})
+
+
+
+    #travessia para os diupdate({veiculo:ferentes veiculos
+    #faz isso para os diferentes veiculos
+    #o que para um veiculo pode dar, para outro pode não dar
+    for veiculo in veiculos_possiveis:
+
+        num_tries = 0
+
+        while nomes_encomendas_dictionary[veiculo] and num_tries < max_num_tries and len(lst_proibidos_dictionary[veiculo]) < len(nomes_encomendas_dictionary[veiculo]):
+            old_name = nome
+            #ver velocidades de todos os veiculos
+            #o procedimento deve ser feito para os veiculos todos
+            #atualizar valor no dicionário velocidades
+        
+            velocities_dictionary[veiculo][0] = velocities_dictionary[veiculo][1]
+            velocities_dictionary[veiculo][1] = calcula_velocidade(veiculo, encomendas_dictionary[veiculo])
+            #vel = calcula_velocidade(veiculo, estafeta.encomendas)
+
+            #nome da rua para a encomenda mais urgente
+            most_urgent = select_most_urgent(encomendas_dictionary[veiculo], lst_proibidos_dictionary[veiculo])
+            most_urgent_id = nomes_encomendas_dictionary[veiculo].index(most_urgent)
+
+            #voltar a meter lista de proibidos nula
+            lst_proibidos_dictionary[veiculo] = []
+
+
+            #itera para o nodo mais urgente
+            if procura == "Depth-first" :
+                fst_path = dfs(nome, most_urgent)
+            elif procura == "Breadth-first":
+                fst_path = bfs(nome, most_urgent)
+            elif procura == "A*":
+                fst_path = a_star_algorithm(nome, most_urgent)
+
+            #nome = most_urgent
+            custo = calcula_custo(fst_path)
+            custo_atual = custo_atual + custo
+
+            #atualizar valor no dicionário
+            tempo_demorado = calcula_tempo(custo, velocities_dictionary[veiculo][1])
+            minutes_to_add = int((tempo_demorado*60) % 60)
+            aux = times_dictionary[veiculo][1]
+            tempo_atual = datetime.combine(date.today(), aux) + timedelta(minutes = minutes_to_add)
+            times_dictionary[veiculo][0] = aux
+            times_dictionary[veiculo][1] = tempo_atual.time()
+
+
+
+            #percorrer lista e ver se os bools não se alteram drasticamente
+            #exceto encomenda para a qual avançamos
+            nome = nomes_encomendas_dictionary[veiculo].pop(most_urgent_id)
+            encomenda_retirada = encomendas_dictionary[veiculo].pop(most_urgent_id)
+            
+
+            for encomenda_nome in nomes_encomendas_dictionary[veiculo]:
+                if procura == "Depth-first" :
+                    path = dfs(nome, encomenda_nome)
+                elif procura == "Breadth-first":
+                    path = bfs(nome, encomenda_nome)
+                elif procura == "A*":
+                    path = a_star_algorithm(nome, encomenda_nome)  
+
+                #fazer cálculos
+                #dicionário dos bools
+                #dicionário dos tempos --> faz uma cópia e usa-a para fazer verificações e preencher o dos bools
+                #tmb é preciso uma cópia para o das velocidades para simular dimiunição do peso
+                on_time_dictionary_copy = on_time_dictionary.copy()
+                times_dict_copy = times_dictionary.copy()
+                velocities_dictionary_copy = velocities_dictionary.copy()
+                custo_tmp = calcula_custo(path)
+                custo_atual_tmp = custo_atual + custo_tmp
+
+                #atualizar valores no dicionário cópia das velocidades
+                velocities_dictionary_copy[veiculo][0] = velocities_dictionary_copy[veiculo][1]
+                velocities_dictionary_copy[veiculo][1] = calcula_velocidade(veiculo, encomendas_dictionary[veiculo])
+
+                #ver tempos e depois meter no dicionário de booleanos
+                #atualizar valores no dicionário cópia dos tempos
+                tempo_demorado_tmp = calcula_tempo(custo_tmp, velocities_dictionary_copy[veiculo][1])
+                minutes_to_add = int((tempo_demorado*60) % 60)
+                aux = times_dict_copy[veiculo][1]
+                tempo_atual = datetime.combine(date.today(), aux) + timedelta(minutes = minutes_to_add)
+                times_dict_copy[veiculo][0] = aux
+                times_dict_copy[veiculo][1] = tempo_atual.time()
+
+
+                if times_dict_copy[veiculo][1] > get_prazo_encomenda(estafeta, encomenda_nome):
+                    #colocar a false no dicionário
+                    print("Aqui")
+                    new_dictionary = on_time_dictionary[veiculo]
+                    new_dictionary[encomenda_nome] = False
+                    on_time_dictionary[veiculo] = new_dictionary
+
+           
+            #não esquecer quando correr mal de voltar a colocar os valores anteriores
+            #adicionar nome node à lista proibidos
+            #adicionar de novo às encomendas do estafeta, pq n foi entregue. adicionar à cópia no caso
+            #fazer  o dicionario dos bools e os outros voltam a ter o estado atual igual ao antigo
+            #recomeçar while
+            #remover ultimo path dos paths / não adicionar
+            #nome volta o antigo
+        
+            #quando corre bem --> Quando tem Lista com Trues
+            #adiciona o path atual à lista dos paths
+            #paths.append(fst_path)
+            #custos.append(custo)
+            #path = []   
+
+            
+            #analisar dicionário completo dos tempos já com as modificações
+            all_on_time = True
+            for encomenda_nome,boolean in on_time_dictionary[veiculo].items():
+                if boolean == False:
+                    all_on_time = False
+
+            if all_on_time == True:
+                #pode avançar. correu bem. adiciona aos dicionários de custos e paths
+                custos_atuais_lst = custos_dictionary[veiculo]
+                paths_atuais_lst = path_dictionary[veiculo]
+
+                custos_atuais_lst.append(custo)
+                paths_atuais_lst.append(fst_path)
+                
+                custos_dictionary[veiculo] = custos_atuais_lst
+                path_dictionary[veiculo] = paths_atuais_lst
+
+                num_tries = 0
+
+            else:
+                #não pode avançar 
+                #não adiciona nada aos dicionários de custos e paths
+                atual_nome = nome
+                nome = old_name
+                proibidos_atuais_lst = lst_proibidos_dictionary[veiculo]
+                proibidos_atuais_lst.append(nome)
+                lst_proibidos_dictionary[veiculo] = proibidos_atuais_lst
+
+
+                #voltar a adicionar a encomenda
+                encomendas_lst = encomendas_dictionary[veiculo]
+                encomendas_lst.append(encomenda_retirada)
+                encomendas_dictionary[veiculo] = encomendas_lst
+
+                num_encomendas = num_encomendas+1
+
+                #voltar a adicionar o nome da encomenda
+                nomes_encomendas_lst = nomes_encomendas_dictionary[veiculo]
+                nomes_encomendas_lst.append(atual_nome)
+                nomes_encomendas_dictionary[veiculo] = nomes_encomendas_lst
+
+
+                #dicionário de on_time volta a estar True
+                for encomenda_nome,boolean in on_time_dictionary[veiculo].items():
+                    on_time_dictionary[veiculo][encomenda_nome] = True
+
+                #dicionário dos tempos fica com os tempos atuais a serem iguais aos antigos
+                times_atuais_lst = times_dictionary[veiculo]
+                times_atuais_lst[1] = times_atuais_lst[0]
+                times_dictionary[veiculo] = times_atuais_lst
+
+                #dicionário das velocidades fica com as veloccidades atuais a serem iguais as antigas
+                velocities_atuais_lst = velocities_dictionary[veiculo]
+                velocities_atuais_lst[1] = velocities_atuais_lst[0]
+                velocities_dictionary[veiculo] = velocities_atuais_lst
+
+                num_tries = num_tries - 1
+
+    #saiu do while.
+    #se correu bem, algum dos veiculos terá o caminho todo 
+    #entregas feitas: esvazia encomendas do estafeta
+    #escolhe o veículo
+
+    #senão: não encontrou caminho q satisfaz o objetivo
+    for veiculo in veiculos_possiveis:
+        all_on_time_final = True
+        for encomenda_nome,boolean in on_time_dictionary[veiculo].items():
+                if boolean == False:
+                    all_on_time_final = False
+
+        if all_on_time_final:
+            found_path_dictionary[veiculo] = True
+
+
+    veiculos_com_path = []
+    for veiculo,boolean in found_path_dictionary.items():
+        if found_path_dictionary[veiculo] == True:
+            veiculos_com_path.append(veiculo)
+
+    if len(veiculos_com_path)>0:
+        found_a_path = True
+        if Transporte.Bicicleta in veiculos_com_path:
+            veiculo_usado = Transporte.Bicicleta
+        elif Transporte.Mota in veiculos_com_path:
+            veiculo_usado = Transporte.Mota
+        else:
+            veiculo_usado = Transporte.Carro
+        
+
+    if found_a_path:
+        #tirar encomendas do estafeta
+        estafeta.encomendas.clear()
+
+
+        #back to Green Distribution  
+        if procura == "Depth-first" :
+            path_back_gd = dfs(nome, "Green Distribution")
+        elif procura == "Breadth-first":
+            path_back_gd = bfs(nome, "Green Distribution")
+        elif procura == "A*":
+            path_back_gd = a_star_algorithm(nome, "Green Distribution")
+
+        #adiciona aos paths
+
+        path_dictionary[veiculo_usado] += [path_back_gd]
+        custo_back_gd = calcula_custo(path_back_gd)
+        custos_dictionary[veiculo_usado] += [custo_back_gd]
+        custo_final = sum(custos_dictionary[veiculo_usado])
+
+        #atualiza tempo
+        tempo_demorado = calcula_tempo(custo_back_gd, velocities_dictionary[veiculo][1])
+        minutes_to_add = int((tempo_demorado*60) % 60)
+        aux = times_dictionary[veiculo][1]
+        tempo_atual = datetime.combine(date.today(), aux) + timedelta(minutes = minutes_to_add)
+        #times_dictionary[veiculo][0] = aux
+        #times_dictionary[veiculo][1] = tempo_atual.time()
+
+        print(tempo_atual.time())
+        print(veiculo_usado)
+
+        flat=chain.from_iterable(path_dictionary[veiculo_usado])
+        path_lst = list(flat)
+        final_path = [i[0] for i in groupby(path_lst)]
+        return (final_path, 5) #depois mudar isto... para time(_,_)
+
+    else:
+        print("Não foi possivel entregar todas as encomendas a tempo")
+        return ([], 0) #depois mudar isto... para time(_,_)
+
+
+
+    
+
 
 
 ####################################################################################################
-
 
 #name = "Alameda João Paulo II"
 #name = "Rua de Santa Luzia"

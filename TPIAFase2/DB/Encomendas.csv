@@ -8,3 +8,4 @@ id,nome,peso,volume,rua,cliente,prazo,urgencia
 6,Relva,90,1000,Rua da Escola da Abelha,Ines,23;2,6
 7,Cilindro de Gás,75,145,Rua do Bacelo,Frederico,21;30,3
 8,Arvóre de Natal,12,60,Rua do Rio Vizela,Miguel,18;30,6
+9,Kayak,25,5,Rua Além Rio,Miguel,5;10,0
