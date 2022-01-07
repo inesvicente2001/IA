@@ -2,7 +2,6 @@ import sys
 sys.path.insert(1, 'dl')
 from datetime import datetime, timedelta, time
 from tkinter.constants import N, NE
-import db 
 from db import Estafeta, Transporte
 #from dl.db import Estafeta, Transporte, db
 from collections import Counter
