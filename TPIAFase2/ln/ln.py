@@ -270,7 +270,7 @@ def calcula_custo(path):
 #    final_path = [i[0] for i in groupby(path_completo)]
 #    return final_path
 
-def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafeta):
+def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafeta, profundidade):
     veiculo = escolhe_veiculo_velocidade(estafeta)
     print(veiculo)
     tempo = 0
@@ -284,6 +284,10 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
             path = bfs("Green Distribution", rua)
         elif procura == "A*":
             path = a_star_algorithm("Green Distribution", rua)
+        elif procura == "Iterativa":
+            print(rua)
+            path = bilp("Green Distribution", rua, int(profundidade))
+
         inverse_path = path[:]
         inverse_path.reverse()
         path_completo += path + inverse_path[1:-1]
@@ -299,8 +303,9 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
         
 
 
-def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
+def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta, profundidade):
     veiculo = escolhe_veiculo_velocidade(estafeta)
+    servicos = estafeta.encomendas[:]
     print(veiculo)
     peso_total = 0
     custo_total = 0
@@ -320,6 +325,8 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
                 path = bfs(nome, encomenda_nome)
             elif procura == "A*":
                 path = a_star_algorithm(nome, encomenda_nome)
+            elif procura == "Iterativa":
+                path = bilp(nome, encomenda_nome, int(profundidade))
             paths.append(path)
             custo = calcula_custo(path)
             custos.append(custo)
@@ -343,6 +350,7 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta):
     custo = calcula_custo(path)
     custos.append(custo)
     final_path = [i[0] for i in groupby(path_completo)]
+    
     print(tempo)
     return (final_path, tempo)
 
@@ -516,10 +524,12 @@ def bilp_aux(g, start, target, path, limit, visited = set()):
         return None
 
 
-def bilp(target, limit):
+def bilp(start, target, limit):
     max_depth = limit
     path = []
-    bilp_aux(g, g.vs["rua"].index("Green Distribution"), g.vs["rua"].index(target), path, max_depth, set())
+    print(start)
+    print(target)
+    bilp_aux(g, g.vs["rua"].index(start), g.vs["rua"].index(target), path, max_depth, set())
     print(path)
     #load_search_graph(path)
     return path
@@ -658,9 +668,9 @@ name3 = "Urbanização Pé de Prata"
 #path = a_star_algorithm(name)
 #print(dijkstra(g, g.vs["rua"].index("Green Distribution"))) #Não é possível dar print com o create prefs porque faz bracktracing
 #print(best_first_search(name)) #Não é possível dar print com o create prefs porque faz bracktracing
-#path= bilp(name,10)
+#path= bilp(name,1)
 #if len(path)>1:
-#    load_search_graph(path)
+#    load_search_graph(path, [name])
 #print(dijkstra(g, g.vs["rua"].index("Green Distribution")))
 
 #TRUE: USA HEURISTICA EUCLIDEANA

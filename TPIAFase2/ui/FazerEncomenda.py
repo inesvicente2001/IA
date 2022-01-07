@@ -36,11 +36,78 @@ def get_ruas_encomendas(encomendas):
         ruas.append(encomenda.rua)
     return ruas
 
-def calcula_caminho(ruas, procura, criterio, opcao, estafeta):
+def calcula_caminho_bilp(root, ruas, procura, criterio, opcao, estafeta, profundidade):
+    root.destroy()
+    ruas = get_ruas_encomendas(estafeta.encomendas)
+    ruas_aux = ruas[:]
     if criterio == "distância" and opcao == "Sim":
-        return travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta)
+        (path, tempo) = travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta, profundidade)
     if criterio == "distância" and opcao == "Nao":
-        return travessia_varias_encomendas_distancia(ruas, procura, estafeta)
+        (path, tempo) = travessia_varias_encomendas_distancia(ruas, procura, estafeta, profundidade)
+    #TODO acabar com as outras opções
+    print("/////////////////////////////////////////////")
+    print(ruas_aux)
+    print("/////////////////////////////////////////////")
+    search_window = tk.Tk()
+    tk.Label(
+        search_window,
+        text="Entregas efetuadas com sucesso!",
+        font = ("Arial", 20)
+    ).pack(pady=10)
+    
+    tk.buttonGrafo = tk.Button(
+        search_window,
+        text="Ver grafo com procura",
+        width=25,
+        height=5,
+        command = lambda: show_search_graph(path, ruas_aux)
+    ).pack()
+    
+    
+    tk.buttonVoltar = tk.Button(
+        search_window,
+        text="Voltar",
+        width=25,
+        height=5,
+        command = lambda: search_window.destroy()
+    ).pack()
+    
+    
+    frame = tk.LabelFrame(search_window, text = "tempo")
+    frame.pack()
+    msg = tk.Label(frame, text = tempo)
+    msg.pack()
+    
+    frame2 = tk.LabelFrame(search_window, text = "Caminho percorrido")
+    frame2.pack()
+    
+    ruas_path = get_ruas(path)
+    #print(ruas_path)
+    
+    msg2 = tk.Label(frame2, text = path_to_string(ruas_path))
+    msg2.pack()
+        
+        
+def calcula_caminho(ruas, procura, criterio, opcao, estafeta):
+    print(opcao)
+    profundidade = 0
+    if procura == "Iterativa" :
+        root = tk.Tk()
+        tk.Label(root, text="Seleciona a profundidade").pack()
+        comboC = ttk.Combobox(root, value = list(range(nr_vertices)))
+        comboC.pack()
+        tk.buttonConfirmar = tk.Button(
+            root,
+            text="Confirmar",
+            width=25,
+            height=5,
+            command = lambda: calcula_caminho_bilp(root, ruas, procura, criterio, opcao, estafeta, comboC.get())
+        ).pack()()
+        
+    if criterio == "distância" and opcao == "Sim":
+        return travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta, profundidade)
+    if criterio == "distância" and opcao == "Nao":
+        return travessia_varias_encomendas_distancia(ruas, procura, estafeta, profundidade)
 
     #TODO acabar isto com as outras procuras
     

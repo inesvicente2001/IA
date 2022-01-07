@@ -1,2 +1,2 @@
-id,nome,rua,classificacao,chegada_a_tempo,penalizacao,transporte
-0,"nsei","Avenida Conde Vizela",1,true,0,carro
+id,nome,rua,classificacao,hora_da_entrega,chegada_a_tempo,penalizacao,transporte,dinheiro
+0,"nsei","Avenida Conde Vizela",1,21;30,true,0,carro,100

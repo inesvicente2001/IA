@@ -58,17 +58,20 @@ def create_encomendas(encomendas):
 def create_servicos(s):
     lista = []
     for index, row in s.iterrows():
-        if row[4] == "true":
+        tempoAux = row[4] 
+        tempo = tempoAux.split(";") 
+        tempo_final = time(int(tempo[0]), int(tempo[1]))
+        if row[5] == "true":
             c = True
         else:
             c = False        
-        if row[6] == "carro":
+        if row[7] == "carro":
             t = Transporte.Carro
-        elif row[6] == "mota":
+        elif row[7] == "mota":
             t = Transporte.Mota
         else:
             t = Transporte.Bicicleta
-        lista.append(Servico(row[0],row[1],row[2],row[3],c,row[5], t))
+        lista.append(Servico(row[0],row[1],row[2],row[3],tempo_final,c,row[6], t, row[8]))
     return lista
 
 def get_encomenda_by_id(i):
@@ -112,9 +115,6 @@ def create_estafetas(estafetas):
         estafetas_class.append(Estafeta(row[0],row[1],row[2],es_en, es_s, row[5]))
     return estafetas_class
 
-
-
-
 def get_ruas(path):
     ruas_lista = []
     for i in path:
@@ -134,14 +134,16 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, index, nome, rua ,classificacao, chegada_a_tempo, penalizacao, transporte):
+    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, penalizacao, transporte, dinheiro):
         self.id = index
         self.nome = nome
         self.rua = rua
         self.classificacao = classificacao
-        self.chegada = chegada_a_tempo
+        self.hora_de_entrega = hora_de_entrega
+        self.a_tempo = chegada_a_tempo
         self.penalizacao = penalizacao
         self.transporte = transporte
+        self.dinheiro = dinheiro
 
 #N sei se vamos ter uma encomenda a ter um id para não haver repetidos
 class Encomenda:
@@ -163,7 +165,6 @@ class Estafeta:
         self.encomendas = encomendas
         self.servicos = servicos
         self.castigo = castigo
-        
         
 #    def add_encomenda(encomenda):
         
