@@ -652,9 +652,10 @@ def ecologic_path_uma(encomendas_nomes, procura, estafeta, profundidade):
         inverse_path = path[:]
         inverse_path.reverse()
         path_completo += path + inverse_path[1:-1]
-        estafeta.encomendas.pop(most_urgent_id)
+        encomenda_removida = estafeta.encomendas.pop(most_urgent_id)
         custo = calcula_custo(path)
         tempo += calcula_tempo(custo, vel)
+        criar_servico(estafeta, encomenda_removida , tempo, veiculo)
         vel = calcula_velocidade(veiculo, estafeta.encomendas)
         tempo += calcula_tempo(custo, vel)
     path_completo.append(697)
@@ -1022,88 +1023,3 @@ def ecologic_on_time_path(encomendas_nomes, procura, estafeta, profundidade):
         return ([], -1) #depois mudar isto... para time(_,_)
 
 
-
-    
-
-
-
-####################################################################################################
-
-#name = "Alameda João Paulo II"
-#name = "Rua de Santa Luzia"
-#name = "Rua do Monte Lombo" #onde dá bug
-#name = "Rua Mira Rio"
-#path= dfs(name)
-#load_search_graph(path)
-#name = "Travessa de Sandim"
-name = "Travessa de Santa Eulália"
-name7 = "Travessa de Santo André"
-name8 = "Travessa de Sarnados"
-name9 = "Travessa do Agrelo"
-name10 = "Travessa do Alcaide"
-name11 = "Travessa do Alto do Monte"
-name12 = "Travessa do Barreiro"
-name13 = "Travessa do Bitareu"
-name14 = "Travessa do Calvário"
-name15 = "Travessa do Campo Grande"
-name16 = "Travessa do Cinco de Outubro"
-name17 = "Travessa do Cruzeiro"
-name18 = "Travessa do Facho"
-name2 = "Travessa do Fial"
-#name3 = "Travessa do Juncal"
-#name = "Travessa do Monte Lombão"
-#name2 = "Travessa do Outeiro"
-#name3 = "Travessa do Rioberto"
-name4 = "Travessa do Salgueirinho"
-#name = "Travessa do Senhor dos Aflitos"
-#name = "Travessa do Valongueiro"
-name5 = "Travessa do Vau"
-#name = "Travessa do tapado"
-name6 = "Travessa dos Campinhos"
-#name = "Travessa dos Corgos"
-name3 = "Urbanização Pé de Prata"
-
-#name = "Rua de Santa Luzia"
-##name = "Rua do Monte Lombo" #onde dá bug
-#path= bfs(name)
-
-#path= dfs(name)
-#path= bfs(name)
-#path = a_star_algorithm(name)
-#print(dijkstra(g, g.vs["rua"].index("Green Distribution"))) #Não é possível dar print com o create prefs porque faz bracktracing
-#print(best_first_search(name)) #Não é possível dar print com o create prefs porque faz bracktracing
-#path= bilp(name,1)
-#if len(path)>1:
-#    load_search_graph(path, [name])
-#print(dijkstra(g, g.vs["rua"].index("Green Distribution")))
-
-#TRUE: USA HEURISTICA EUCLIDEANA
-#FALSE: USA HEURISTICA DO MAIS PROXIMO DOS VIZINHOS
-path= greedy_search("Green Distribution",name, False)
-aux_lst = [name]
-load_search_graph(path,aux_lst)
-
-#print(g)
-#print(graph_as_adjacency_list(g))
-
-
-##[630, 125, 111, 39, 505, 203]
-##[630, 125, 111, 39, 505, 203]
-##434
-
-#nomes = [name2, name, name3]
-##nomes = [name2, name, name3, name4, name5, name6,name7,name8,name9,name10,name11,name12,name13,name14,name15,name16,name17,name18]
-#nomes_aux = nomes[:]
-#
-#path,tempo = ecologic_on_time_path(nomes, "Breadth-first", estafetas_final[3], 2)
-#
-##path = travessia_varias_encomendas_distancia_uma(nomes, "Breadth-first", estafetas_final[3])
-#load_search_graph(path, nomes_aux)
-
-#lista = []
-#lista.append([1])
-#lista.append([2,3])
-#print(lista)
-#path = travessia_varias_encomendas_distancia_a_star(nomes)
-##path = travessia_varias_encomendas_distancia_bfs(nomes)
-#load_search_graph(path, nomes_aux)

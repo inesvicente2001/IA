@@ -126,12 +126,12 @@ def query10(estafetas):
     time_end = time(23,59)
     peso_por_estafeta = []
     peso = 0
-    for x in estafetas:
-        for y in x.servicos:
-            if (time_start <= y.hora_de_entrega <= time_end):
-                peso = peso + y.peso
+    for estafeta in estafetas:
+        for servico in estafeta.servicos:
+            if (time_start <= servico.hora_de_entrega <= time_end):
+                peso = peso + servico.peso
             continue
-        peso_por_estafeta.append((x,peso))
+        peso_por_estafeta.append((estafeta,peso))
         continue
     return peso_por_estafeta
 

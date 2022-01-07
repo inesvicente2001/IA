@@ -1,7 +1,2 @@
-id,nome,rua,classificacao,hora_da_entrega,chegada_a_tempo,transporte,dinheiro
-0,nsei,Avenida Conde Vizela,1,21;30,False,mota,100.0
-3,Lâmpada,Rua António Aleixo,2,15;16,True,carro,12.0
-7,Cilindro de Gás,Rua do Bacelo,3,1;59,True,carro,13050.0
-5,Besta,Travessa de Santa Eulália,3,8;22,True,carro,450.0
-2,Candeeiro,Rua António Aleixo,1,23;27,False,carro,72.0
-4,Mesa,Rua da Gandra,4,6;44,True,carro,16200.0
+id,nome,rua,classificacao,hora_da_entrega,chegada_a_tempo,peso,transporte,dinheiro
+0,nsei,Avenida Conde Vizela,1,21;30,False,20,mota,100.0
