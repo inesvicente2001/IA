@@ -1,11 +1,23 @@
 from datetime import datetime, timedelta, time
 from tkinter.constants import N, NE
 import db as db
-from dl.db import Transporte, db
+from dl.db import Estafeta, Transporte, db
+from collections import Counter
 
-#No transporte in estafetas, só em servicos
 def query1(estafetas):
-    
+    estafeta_mais_ecologico = None
+    fator_ecologico = 0
+    maior_fator_ecologico = 0
+    for x in estafetas:
+        fator_ecologico = 0
+        for y in x.servicos:
+            fator_ecologico = fator_ecologico + y.transporte
+            continue
+        if (fator_ecologico > maior_fator_ecologico):
+            maior_fator_ecologico = fator_ecologico
+            estafeta_mais_ecologico = x
+        continue
+    return estafeta_mais_ecologico
 
 def query2(cliente,estafetas):
     list_estafetas = []
@@ -39,8 +51,19 @@ def query4(estafetas,day):
         continue
     return rendimento
 
-#Zonas? Múltiplas?
 def query5(estafetas):
+    lista_de_ruas = []
+    for x in estafetas:
+        for y in x.servicos:
+            lista_de_ruas.append(y.rua)
+            continue
+        continue
+    return most_frequent(lista_de_ruas)
+    
+
+def most_frequent(List):
+    occurence_count = Counter(List)
+    return occurence_count.most_common(1)[0][0]
 
 
 def query6(estafeta):
