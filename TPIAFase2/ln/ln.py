@@ -287,6 +287,8 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
         elif procura == "Iterativa":
             print(rua)
             path = bilp("Green Distribution", rua, int(profundidade))
+        elif procura == "Gulosa":
+            path = greedy_search("Green Distribution", rua, False)
 
         inverse_path = path[:]
         inverse_path.reverse()
@@ -327,13 +329,15 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta, p
                 path = a_star_algorithm(nome, encomenda_nome)
             elif procura == "Iterativa":
                 path = bilp(nome, encomenda_nome, int(profundidade))
+            elif procura == "Gulosa":
+                path = greedy_search(nome, encomenda_nome, False)
             paths.append(path)
             custo = calcula_custo(path)
             custos.append(custo)
             path = []
         id_menor_custo = custos.index(min(custos))
         nome = encomendas_nomes.pop(id_menor_custo)
-        estafeta.encomendas.pop(id_menor_custo)
+        servico = estafeta.encomendas.pop(id_menor_custo)
         path_completo += paths[id_menor_custo]
         #print(paths[id_menor_custo])
         custo_total += min(custos)

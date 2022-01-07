@@ -225,6 +225,11 @@ def get_estafetas_names():
         nomes.append(e.nome)
     return nomes
 
+def get_estafeta_by_name(name):
+    for e in estafetas_final:
+        if e.nome == name:
+            return e
+
 def get_client_names():
     nomes = []
     for c in clientes_final:

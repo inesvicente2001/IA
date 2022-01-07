@@ -3,6 +3,8 @@ sys.path.insert(0,'dl')
 from db import *
 from datetime import datetime, timedelta, time
 from tkinter.constants import N, NE
+from db import Estafeta, Transporte
+#from dl.db import Estafeta, Transporte, db
 from collections import Counter
 
 def query1(estafetas):
