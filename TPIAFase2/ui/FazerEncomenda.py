@@ -137,6 +137,11 @@ def calcula_caminho(ruas, procura, criterio, opcao, estafeta):
         (path, tempo_e) = travessia_varias_encomendas_distancia(ruas, procura, estafeta, profundidade)
         tempo_r = (time_.time() - start_time)
         return (path, tempo_e, tempo_r)
+    if criterio == "ecológico (tempo)" and opcao == "Nao":
+        start_time = time_.time()
+        (path, tempo_e) = ecologic_on_time_path(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
+        return (path, tempo_e, tempo_r)
 
     #TODO acabar isto com as outras procuras
     

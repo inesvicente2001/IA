@@ -58,7 +58,7 @@ def create_servicos(s):
         tempoAux = row[4] 
         tempo = tempoAux.split(";") 
         tempo_final = time(int(tempo[0]), int(tempo[1]))
-        if row[5] == "true":
+        if row[5] == "True":
             c = True
         else:
             c = False        
@@ -304,7 +304,10 @@ def add_encomenda_to_estafeta(encomenda):
     df.to_csv('DB/Estafetas.csv', index=False)
     
         
-    
+def get_prazo_encomenda(estafeta, encomenda_rua_nome):
+    for encomenda_it in estafeta.encomendas:
+        if encomenda_it.rua == encomenda_rua_nome:
+            return encomenda_it.prazo    
     
         
 def convert_encomendas(encomendas):

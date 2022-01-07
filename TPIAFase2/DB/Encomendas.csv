@@ -10,3 +10,4 @@ id,nome,peso,volume,rua,cliente,prazo,urgencia
 8,Arvóre de Natal,12,60,Rua do Rio Vizela,Miguel,18;30,6
 9,Televisao,35,25,Rua APPACDM,Joca,18;30,1
 10,Cerveja,1,4,Rua Adelino Francisco de Araújo,Guilherme,13;30,0
+11,Kayak,25,5,Rua Além Rio,Miguel,5;10,0
