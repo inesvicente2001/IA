@@ -15,6 +15,8 @@ from queue import Queue
 from itertools import groupby 
 from queue import PriorityQueue
 import numpy as np
+import datetime
+from datetime import *
 ####################################################################################################
 
 
@@ -302,8 +304,64 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
     print(tempo)
     #print(path_completo)
     return (path_completo, tempo)
-        
 
+def calcula_dinheiro(encomenda, hora_entrega, veiculo):
+    dinheiro = encomenda.peso * encomenda.volume
+    if encomenda.prazo < hora_entrega:
+        dinheiro = dinheiro * 0.8
+    if veiculo == Transporte.Carro:
+        dinheiro = dinheiro * 1.2
+    elif veiculo == Transporte.Mota:
+        dinheiro = dinheiro * 1.1
+    return dinheiro
+    
+
+def calcula_classificacao(tempo_atual, tempo_destino, estafeta, veiculo):
+    tempo_atual_minutos = tempo_atual.hour * 60 + tempo_atual.minute
+    tempo_destino_minutos = tempo_destino.hour * 60 + tempo_destino.minute
+    if (tempo_destino_minutos / tempo_atual_minutos) >= 1.5:
+        estafeta.castigo -= 1
+        return random.randint(3,5)
+    
+    if (tempo_destino_minutos / tempo_atual_minutos) <= 1.5:
+        estafeta.castigo += 2
+        return random.randint(1,3)
+    else:
+        return random.randint(2,4)
+
+        
+def criar_servico(estafeta, encomenda, tempo, veiculo):
+    tempo_atual = datetime.combine(date.today(), time(0,0)) + timedelta(hours = tempo)
+    tempo_destino = encomenda.prazo
+    
+    #atualizar classificacao
+    classificacao = calcula_classificacao(tempo_atual, tempo_destino, estafeta, veiculo)
+    media_classificacao = (classificacao + (estafeta.classificacao) * estafeta.nr_classificacoes) / (estafeta.nr_classificacoes + 1)
+    estafeta.classificacao = media_classificacao
+    estafeta.nr_classificacoes  += 1
+    
+    #criar servico
+    hora_da_entrega = time(tempo_atual.hour, tempo_atual.minute)
+    if hora_da_entrega > tempo_destino:
+        a_tempo = False
+    else:
+        a_tempo = True
+    print("////////////////////////////")
+    print(classificacao)
+    print(a_tempo)
+    print("////////////////////////////////////")
+        
+    dinheiro = calcula_dinheiro(encomenda, hora_da_entrega, veiculo)
+        
+    servico = Servico(encomenda.id, encomenda.nome, encomenda.rua, classificacao, hora_da_entrega, a_tempo, encomenda.peso, veiculo, dinheiro)
+    estafeta.servicos.append(servico)
+    lista_estafetas = convert_estafetas(estafetas_final)
+    add_servico(servico)
+    df = pd.DataFrame(lista_estafetas, columns=['nome','classificacao','nr_classificacao','encomendas','servicos','castigo'])
+    df.to_csv('DB/Estafetas.csv', index=False)
+    
+    
+    
 
 def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta, profundidade):
     veiculo = escolhe_veiculo_velocidade(estafeta)
@@ -342,6 +400,7 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta, p
         #print(paths[id_menor_custo])
         custo_total += min(custos)
         tempo += calcula_tempo(min(custos), vel)
+        criar_servico(estafeta, servico, tempo, veiculo)
         custos = []
         paths = []
     if procura == "Depth-first" :

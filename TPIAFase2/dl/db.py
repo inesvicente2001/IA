@@ -8,7 +8,6 @@ import random
 import tkinter as tk
 import networkx
 from datetime import time
-#from pyvis.network import Network
 
 ruas = pd.read_csv("DB/SantoTirsoStreetsFinal.csv")
 conexoes = pd.read_csv("DB/ConexoesRuas.csv")
@@ -17,14 +16,12 @@ encomendas = pd.read_csv("DB/Encomendas.csv")
 estafetas = pd.read_csv("DB/Estafetas.csv")
 servicos = pd.read_csv("DB/Servicos.csv")
 
-
 clientes_lst = clientes['nome'].tolist()
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
 coordenadas_lst_with_quotes = ruas['coordenadas'].tolist()
 conexoes_lst_with_quotes = conexoes['Arestas'].tolist()
 distancias_lst = conexoes['Distancias'].tolist()
-
 
 conexoes_lst = [make_tuple(x.strip()) for x in conexoes_lst_with_quotes]
 coordenadas_lst = [make_tuple(y.strip()) for y in coordenadas_lst_with_quotes]
@@ -65,13 +62,13 @@ def create_servicos(s):
             c = True
         else:
             c = False        
-        if row[6] == "carro":
+        if row[7] == "carro":
             t = Transporte.Carro
-        elif row[6] == "mota":
+        elif row[7] == "mota":
             t = Transporte.Mota
         else:
             t = Transporte.Bicicleta
-        lista.append(Servico(row[0],row[1],row[2],row[3],tempo_final,c, t, row[7]))
+        lista.append(Servico(row[0],row[1],row[2],row[3],tempo_final,c,row[6], t, row[8]))
     return lista
 
 def get_encomenda_by_id(i):
@@ -134,13 +131,14 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, transporte, dinheiro):
+    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, peso, transporte, dinheiro):
         self.id = index
         self.nome = nome
+        self.peso = peso
         self.rua = rua
         self.classificacao = classificacao
         self.hora_de_entrega = hora_de_entrega
-        self.a_tempo = chegada_a_tempo
+        self.chegada_a_tempo = chegada_a_tempo
         self.transporte = transporte
         self.dinheiro = dinheiro
 
@@ -184,7 +182,7 @@ def convert_servicos(servicos):
         string = ""
         string = str(s.hora_de_entrega.hour) + ";" + str(s.hora_de_entrega.minute)
         s_aux.append(string)
-        s_aux.append(s.a_tempo)
+        s_aux.append(s.chegada_a_tempo)
         string = ""
         if s.transporte == Transporte.Carro:
             string = "carro"
