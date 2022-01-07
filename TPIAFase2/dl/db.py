@@ -8,7 +8,6 @@ import random
 import tkinter as tk
 import networkx
 from datetime import time
-#from pyvis.network import Network
 
 ruas = pd.read_csv("DB/SantoTirsoStreetsFinal.csv")
 conexoes = pd.read_csv("DB/ConexoesRuas.csv")
@@ -17,14 +16,12 @@ encomendas = pd.read_csv("DB/Encomendas.csv")
 estafetas = pd.read_csv("DB/Estafetas.csv")
 servicos = pd.read_csv("DB/Servicos.csv")
 
-
 clientes_lst = clientes['nome'].tolist()
 ruas_lst = ruas['rua'].tolist()
 freguesias_lst = ruas['freguesia'].tolist()
 coordenadas_lst_with_quotes = ruas['coordenadas'].tolist()
 conexoes_lst_with_quotes = conexoes['Arestas'].tolist()
 distancias_lst = conexoes['Distancias'].tolist()
-
 
 conexoes_lst = [make_tuple(x.strip()) for x in conexoes_lst_with_quotes]
 coordenadas_lst = [make_tuple(y.strip()) for y in coordenadas_lst_with_quotes]
@@ -172,7 +169,6 @@ clientes_final = create_clientes(clientes_lst)
 encomendas_final = create_encomendas(encomendas)
 servicos_final = create_servicos(servicos)
 estafetas_final = create_estafetas(estafetas)
-
     
 def get_client_names():
     nomes = []

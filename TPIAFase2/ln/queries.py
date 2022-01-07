@@ -1,20 +1,18 @@
 import sys
-sys.path.insert(1, 'dl')
+sys.path.insert(0,'dl')
+from db import *
 from datetime import datetime, timedelta, time
 from tkinter.constants import N, NE
-import db 
-from db import Estafeta, Transporte
-#from dl.db import Estafeta, Transporte, db
 from collections import Counter
 
 def query1(estafetas):
-    estafeta_mais_ecologico = None
+    estafeta_mais_ecologico = Estafeta("",0,0,[],[],0)
     fator_ecologico = 0
     maior_fator_ecologico = 0
     for x in estafetas:
         fator_ecologico = 0
         for y in x.servicos:
-            fator_ecologico = fator_ecologico + y.transporte
+            fator_ecologico = fator_ecologico + y.transporte.value
             continue
         if (fator_ecologico > maior_fator_ecologico):
             maior_fator_ecologico = fator_ecologico
@@ -134,3 +132,6 @@ def query10(estafetas,day):
         peso_por_estafeta.append((x,peso))
         continue
     return peso_por_estafeta
+
+estafeta = query1(estafetas_final)
+print(estafeta.nome)
