@@ -134,6 +134,3 @@ def query10(estafetas):
         peso_por_estafeta.append((x,peso))
         continue
     return peso_por_estafeta
-
-estafe = query10(estafetas_final)
-print(estafe)

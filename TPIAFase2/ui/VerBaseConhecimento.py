@@ -246,8 +246,8 @@ class VerServico(tk.Frame):
         string += "nome: " + s.nome + "\n"
         string += "rua que foi entregue: " + s.rua + "\n"
         string += "classificacao: " + str(s.classificacao) + "\n"
-        string += "Chegou a tempo? " + str(s.chegada) + "\n"
-        string += "penalização: " + str(s.penalizacao) + "\n"
+        string += "Chegou a tempo? " + str(s.chegada_a_tempo) + "\n"
+        string += "peso: " + str(s.peso) + "\n"
         string += "transporte usado: " + str(s.transporte)
         return string
     

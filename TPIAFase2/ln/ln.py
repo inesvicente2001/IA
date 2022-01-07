@@ -268,7 +268,7 @@ def travessia_varias_encomendas_distancia_uma(encomendas_nomes, procura, estafet
             print(rua)
             path = bilp("Green Distribution", rua, int(profundidade))
         elif procura == "Gulosa":
-            path = greedy_search("Green Distribution", rua, False)
+            path = greedy_search("Green Distribution", rua, True)
 
         inverse_path = path[:]
         inverse_path.reverse()
@@ -364,7 +364,7 @@ def travessia_varias_encomendas_distancia(encomendas_nomes, procura, estafeta, p
             elif procura == "Iterativa":
                 path = bilp(nome, encomenda_nome, int(profundidade))
             elif procura == "Gulosa":
-                path = greedy_search(nome, encomenda_nome, False)
+                path = greedy_search(nome, encomenda_nome, True)
             paths.append(path)
             custo = calcula_custo(path)
             custos.append(custo)

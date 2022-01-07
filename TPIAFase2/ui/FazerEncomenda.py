@@ -49,6 +49,16 @@ def calcula_caminho_bilp(root, ruas, procura, criterio, opcao, estafeta, profund
         start_time = time_.time()
         (path, tempo) = travessia_varias_encomendas_distancia(ruas, procura, estafeta, profundidade)
         tempo_r = (time_.time() - start_time)
+    if criterio == "ecológico (tempo)" and opcao == "Sim":
+        start_time = time_.time()
+        (path, tempo) = travessia_varias_encomendas_distancia_uma(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
+    if criterio == "ecológico (tempo)" and opcao == "Nao":
+        start_time = time_.time()
+        (path, tempo) = travessia_varias_encomendas_distancia(ruas, procura, estafeta, profundidade)
+        tempo_r = (time_.time() - start_time)
+
+    
     #TODO acabar com as outras opções
     search_window = tk.Tk()
     tk.Label(
