@@ -58,7 +58,7 @@ def create_servicos(s):
         tempoAux = row[4] 
         tempo = tempoAux.split(";") 
         tempo_final = time(int(tempo[0]), int(tempo[1]))
-        if row[5] == "true":
+        if row[5] == "True":
             c = True
         else:
             c = False        
