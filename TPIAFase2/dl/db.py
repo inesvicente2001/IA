@@ -299,6 +299,14 @@ def add_encomenda(nome, peso, volume, rua, client_nome, horas, minutos, urgencia
     df.to_csv('DB/Encomendas.csv', index=False)
     
 
+#TODO fazer isto depois de ver diferença de tempos
+#def add_servico(encomendas):
+    
+    
+def add_servicos(encomendas):
+    for e in encomendas:
+        add_servico(e)
+    
     
 #TODO fazer o add_encomenda e o add_servico 
 #estafeta1 = Estafeta("Jorge")
