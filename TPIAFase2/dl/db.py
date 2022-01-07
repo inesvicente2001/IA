@@ -131,7 +131,7 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, peso, transporte, dinheiro):
+    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, peso  , transporte, dinheiro):
         self.id = index
         self.nome = nome
         self.peso = peso
