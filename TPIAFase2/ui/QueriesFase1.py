@@ -45,6 +45,12 @@ def entregues_e_nao_to_string(entregues_e_nao):
     string += "Encomendas entregues: " + str(entregues_e_nao[0]) + "\n"
     string += "Encomendas não entregues: " + str(entregues_e_nao[1])
     return string
+
+def q10_to_string(estafetas):
+    string = ""
+    for (e, a) in estafetas:
+        string += e.nome + ": " + str(a) + "\n"
+    return string
     
 
 class QueriesFase1(tk.Frame):
@@ -63,7 +69,7 @@ class QueriesFase1(tk.Frame):
         tk.Label(self, text = "Query 2 - identificar que estafetas entregaram determinada(s) encomenda(s) a um determinado cliente").pack()
         tk.Label(self, text = "Query 3 - identificar os clientes servidos por um determinado estafeta").pack()
         tk.Label(self, text = "Query 4 - calcular o valor faturado pela Green Distribution num determinado dia").pack()
-        tk.Label(self, text = "Query 5 - identificar  quais  as  zonas  (e.g.,  rua  ou  freguesia)  com  maior  volume  de entregas por parte da Green Distribution").pack()
+        tk.Label(self, text = "Query 5 - identificar  qual  a rua com  maior  volume  de entregas por parte da Green Distribution").pack()
         tk.Label(self, text = "Query 6 - calcular a classificação média de satisfação de cliente para um determinado estafeta").pack()
         tk.Label(self, text = "Query 7 - identificar o número total de entregas pelos diferentes meios de transporte, num determinado intervalo de tempo; ").pack()
         tk.Label(self, text = "Query 8 - identificar  o  número  total  de  entregas  pelos  estafetas,  num  determinado intervalo de tempo").pack()
@@ -108,9 +114,10 @@ class QueriesFase1(tk.Frame):
         
         #TODO n ter dia como argumento maybe e só fazer o rendimento total
         if query=="4":
+            e = query4(estafetas)
             frame.config(text = "Query 4")
             frame.pack()
-            msg.config(text = "Olá2!")
+            msg.config(text = e)
             msg.pack()        
 
         if query=="5":
@@ -134,9 +141,10 @@ class QueriesFase1(tk.Frame):
             self.query9()
         
         if query=="10":
+            e = query10(estafetas)
             frame.config(text = "Query 10")
             frame.pack()
-            msg.config(text = "Olá2!")
+            msg.config(text = q10_to_string(e))
             msg.pack()
             
             
