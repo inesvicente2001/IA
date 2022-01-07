@@ -65,13 +65,13 @@ def create_servicos(s):
             c = True
         else:
             c = False        
-        if row[7] == "carro":
+        if row[6] == "carro":
             t = Transporte.Carro
-        elif row[7] == "mota":
+        elif row[6] == "mota":
             t = Transporte.Mota
         else:
             t = Transporte.Bicicleta
-        lista.append(Servico(row[0],row[1],row[2],row[3],tempo_final,c,row[6], t, row[8]))
+        lista.append(Servico(row[0],row[1],row[2],row[3],tempo_final,c, t, row[7]))
     return lista
 
 def get_encomenda_by_id(i):
@@ -134,14 +134,13 @@ class Transporte(Enum):
     Bicicleta = 2
 
 class Servico :
-    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, penalizacao, transporte, dinheiro):
+    def __init__(self, index, nome, rua ,classificacao ,hora_de_entrega ,chegada_a_tempo, transporte, dinheiro):
         self.id = index
         self.nome = nome
         self.rua = rua
         self.classificacao = classificacao
         self.hora_de_entrega = hora_de_entrega
         self.a_tempo = chegada_a_tempo
-        self.penalizacao = penalizacao
         self.transporte = transporte
         self.dinheiro = dinheiro
 
@@ -173,6 +172,39 @@ encomendas_final = create_encomendas(encomendas)
 servicos_final = create_servicos(servicos)
 estafetas_final = create_estafetas(estafetas)
 
+
+def convert_servicos(servicos):
+    lista = []
+    for s in servicos:
+        s_aux = []
+        s_aux.append(s.id)
+        s_aux.append(s.nome)
+        s_aux.append(s.rua)
+        s_aux.append(s.classificacao)
+        string = ""
+        string = str(s.hora_de_entrega.hour) + ";" + str(s.hora_de_entrega.minute)
+        s_aux.append(string)
+        s_aux.append(s.a_tempo)
+        string = ""
+        if s.transporte == Transporte.Carro:
+            string = "carro"
+        if s.transporte == Transporte.Mota:
+            string = "mota"
+        if s.transporte == Transporte.Bicicleta:
+            string = "bicicleta"
+        s_aux.append(string)
+        s_aux.append(s.dinheiro)
+        lista.append(s_aux)
+    return lista
+        
+
+def add_servico(servico):
+    servicos_final.append(servico)
+    lista_servicos = convert_servicos(servicos_final)
+    df = pd.DataFrame(lista_servicos, columns=['id', 'nome', 'rua', 'classificacao', 'hora_da_entrega','chegada_a_tempo','transporte','dinheiro'])
+    df.to_csv('DB/Servicos.csv', index=False)
+    
+    
     
 def get_client_names():
     nomes = []
