@@ -88,6 +88,14 @@ class QueriesFase1(tk.Frame):
             height=5,
             command = lambda: self.fazer_queries(comboP.get(), frame, msg)
         ).pack()
+
+        tk.buttonVoltar = tk.Button(
+            self,
+            text="Voltar",
+            width=25,
+            height=5,
+            command = lambda: master.switch_frame(PaginaInicial)
+        ).pack() 
        
        
     def fazer_queries(self, query, frame, msg):
@@ -324,3 +332,7 @@ class QueriesFase1(tk.Frame):
         frame.pack()
         msg.config(text = entregues_e_nao_to_string(entregues_e_nao))
         msg.pack()
+
+
+
+from PaginaInicial import *
